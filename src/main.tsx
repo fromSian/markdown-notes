@@ -1,10 +1,11 @@
+import LanguageSwitch from "@/components/common/LanguageSwitch";
+import ThemeSwitch from "@/components/common/ThemeSwitch";
 import { store } from "@/states/store";
 import { ThemeProvider } from "next-themes";
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ThemeSwitch from "./components/common/ThemeSwitch";
 import "./global.css";
 const lazyLoad = (path: string) => {
   if (path.startsWith("@/")) {
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider attribute="class">
         <ThemeSwitch />
+        <LanguageSwitch />
         <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>
