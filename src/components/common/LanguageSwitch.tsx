@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { ChangeEvent, useEffect, useState, useTransition } from "react";
 
 import { languages } from "@/i18";
-const ThemeSwitch = () => {
+const LanguageSwitch = () => {
   const [mounted, setMounted] = useState(false);
 
   const { t, i18n } = useTranslation();
@@ -41,4 +41,4 @@ const ThemeSwitch = () => {
   );
 };
 
-export default ThemeSwitch;
+export default LanguageSwitch;
