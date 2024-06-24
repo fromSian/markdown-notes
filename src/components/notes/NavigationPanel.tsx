@@ -14,6 +14,7 @@ const LeftPanel = () => {
       )}
       style={{
         width: showNavigation ? UIVariable.navigationWidth : 0,
+        padding: showNavigation ? "1rem" : 0,
       }}
     ></section>
   );

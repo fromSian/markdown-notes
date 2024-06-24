@@ -7,7 +7,7 @@ const MainContent = () => {
 
   return (
     <section
-      className="bg-blue-900 transition-all h-full"
+      className="bg-blue-900 transition-all h-full p-4"
       style={{
         width: `calc(100vw - ${
           showNavigation ? UIVariable.navigationWidth : "0rem"

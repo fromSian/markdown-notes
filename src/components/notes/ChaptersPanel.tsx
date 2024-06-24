@@ -24,6 +24,7 @@ const ChaptersPanel = () => {
         width: showChapters
           ? UIVariable.chaptersWidth
           : UIVariable.chaptersWidthFold,
+        padding: showChapters ? "1rem" : "0rem",
       }}
       onClick={onPanelClick}
     >
