@@ -5,7 +5,9 @@ import { Link, useLocation } from "react-router-dom";
 import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 const Header = () => {
-  const { headerDocked, headerExpanded } = useAppSelector((state) => state.ui);
+  const { headerDocked, headerExpanded, showNavigation } = useAppSelector(
+    (state) => state.ui
+  );
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
 
@@ -62,7 +64,7 @@ const Header = () => {
                 });
               }}
             >
-              show/hide catalog
+              {showNavigation ? "hide" : "show"}
             </button>
             <button>add new note</button>
             <button>search</button>

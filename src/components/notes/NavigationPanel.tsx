@@ -1,14 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { useRef } from "react";
+import NavigationVirtualList from "./NavigationVirtualList";
 const LeftPanel = () => {
-  const parentRef = useRef<HTMLDivElement>(null);
   return (
-    <ScrollArea
-      ref={parentRef}
-      className={cn("bg-gray-400 transition-all h-full w-full")}
-    >
-      {/* <NavigationVirtualList parentRef={parentRef} /> */}
+    <ScrollArea className={cn("bg-gray-400 transition-all h-full w-full p-4")}>
+      <NavigationVirtualList />
     </ScrollArea>
   );
 };

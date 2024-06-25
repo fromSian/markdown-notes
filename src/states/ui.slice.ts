@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UIState {
   showNavigation: boolean;
@@ -18,8 +18,14 @@ export const UISlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
+    setShowNavigation: (state, action: PayloadAction<boolean>) => {
+      state.showNavigation = action.payload;
+    },
     toggleShowNavigation: (state) => {
       state.showNavigation = !state.showNavigation;
+    },
+    setShowChapters: (state, action: PayloadAction<boolean>) => {
+      state.showChapters = action.payload;
     },
     toggleShowChapters: (state) => {
       state.showChapters = !state.showChapters;

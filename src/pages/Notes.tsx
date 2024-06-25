@@ -7,9 +7,16 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import * as UIVariable from "@/lib/ui";
-import { useAppSelector } from "@/states/hooks";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { useEffect, useRef } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
+
+const initialPanelSize = {
+  navigation: 25,
+  main: 60,
+  chapters: 15,
+};
+
 const Notes = () => {
   const { headerExpanded, showNavigation, showChapters } = useAppSelector(
     (state) => state.ui
@@ -17,20 +24,33 @@ const Notes = () => {
 
   const navigationRef = useRef<ImperativePanelHandle>(null);
   const chaptersRef = useRef<ImperativePanelHandle>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (navigationRef.current) {
-      showNavigation
-        ? navigationRef.current?.expand()
-        : navigationRef.current?.collapse();
+    if (!navigationRef.current) {
+      return;
+    }
+
+    if (showNavigation && navigationRef.current.isCollapsed()) {
+      navigationRef.current?.expand();
+    }
+
+    if (!showNavigation && navigationRef.current.isExpanded()) {
+      navigationRef.current?.collapse();
     }
   }, [showNavigation]);
 
   useEffect(() => {
-    if (chaptersRef.current) {
-      showChapters
-        ? chaptersRef.current?.expand()
-        : chaptersRef.current?.collapse();
+    if (!chaptersRef.current) {
+      return;
+    }
+
+    if (showChapters && chaptersRef.current.isCollapsed()) {
+      chaptersRef.current?.resize(initialPanelSize.chapters);
+    }
+
+    if (!showChapters && chaptersRef.current.isExpanded()) {
+      chaptersRef.current?.collapse();
     }
   }, [showChapters]);
 
@@ -48,15 +68,28 @@ const Notes = () => {
         order={1}
         ref={navigationRef}
         collapsible={true}
-        defaultSize={25}
+        defaultSize={initialPanelSize.navigation}
+        minSize={2}
         className="transition-[flex]"
+        onCollapse={() => {
+          dispatch({
+            type: "ui/setShowNavigation",
+            payload: false,
+          });
+        }}
+        onExpand={() => {
+          dispatch({
+            type: "ui/setShowNavigation",
+            payload: true,
+          });
+        }}
       >
         <NavigationPanel />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel
         order={2}
-        defaultSize={80}
+        defaultSize={initialPanelSize.main}
         minSize={20}
         className="transition-[flex]"
       >
@@ -66,11 +99,24 @@ const Notes = () => {
       <ResizablePanel
         order={3}
         ref={chaptersRef}
-        defaultSize={15}
+        defaultSize={initialPanelSize.chapters}
         minSize={2}
         collapsedSize={2}
         collapsible={true}
         className="transition-[flex]"
+        onCollapse={() => {
+          console.log(12);
+          dispatch({
+            type: "ui/setShowChapters",
+            payload: false,
+          });
+        }}
+        onExpand={() => {
+          dispatch({
+            type: "ui/setShowChapters",
+            payload: true,
+          });
+        }}
       >
         <ChaptersPanel />
       </ResizablePanel>
