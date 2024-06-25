@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.1.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "@tanstack/react-virtual": "^3.7.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "i18next-browser-languagedetector": "^8.0.0",
@@ -23,6 +25,7 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^14.1.2",
     "react-redux": "^9.1.2",
+    "react-resizable-panels": "^2.0.19",
     "react-router": "^6.23.1",
     "react-router-dom": "^6.23.1",
     "tailwind-merge": "^2.3.0",

@@ -1,4 +1,3 @@
-import * as UIVariable from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { useCallback } from "react";
@@ -20,12 +19,6 @@ const ChaptersPanel = () => {
         "transition-all h-full bg-yellow-200 overflow-x-hidden",
         showChapters ? "" : "cursor-pointer"
       )}
-      style={{
-        width: showChapters
-          ? UIVariable.chaptersWidth
-          : UIVariable.chaptersWidthFold,
-        padding: showChapters ? "1rem" : "0rem",
-      }}
       onClick={onPanelClick}
     >
       {showChapters && (

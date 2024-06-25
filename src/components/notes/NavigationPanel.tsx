@@ -1,22 +1,15 @@
-import * as UIVariable from "@/lib/ui";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { useAppSelector } from "@/states/hooks";
-
+import { useRef } from "react";
 const LeftPanel = () => {
-  const { showNavigation, headerExpanded } = useAppSelector(
-    (state) => state.ui
-  );
+  const parentRef = useRef<HTMLDivElement>(null);
   return (
-    <section
-      className={cn(
-        showNavigation ? "w-[100px]" : "w-0",
-        "bg-gray-900 transition-all h-full"
-      )}
-      style={{
-        width: showNavigation ? UIVariable.navigationWidth : 0,
-        padding: showNavigation ? "1rem" : 0,
-      }}
-    ></section>
+    <ScrollArea
+      ref={parentRef}
+      className={cn("bg-gray-400 transition-all h-full w-full")}
+    >
+      {/* <NavigationVirtualList parentRef={parentRef} /> */}
+    </ScrollArea>
   );
 };
 
