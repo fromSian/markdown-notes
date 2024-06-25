@@ -19,6 +19,9 @@ i18n
   .init({
     fallbackLng: "en",
     debug: true,
+    detection: {
+      caches: ["cookie"],
+    },
   });
 
 export default i18n;
