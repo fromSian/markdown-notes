@@ -2,6 +2,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { memo, useEffect } from "react";
+import NoteDate from "./NoteDate";
 
 const FocusHandler = memo(({ focus }: { focus: boolean }) => {
   const { editor } = useCurrentEditor();
@@ -38,7 +39,6 @@ const ContentEditor = memo(
   ({ onSave, autoFocus = false, content = "" }: ContentEditorProps) => {
     return (
       <div>
-        <p className="text-sm text-ttertiary text-right">update time</p>
         <EditorProvider
           onBlur={({ editor, transaction }) => {
             // save if blank then delete this part
@@ -56,13 +56,16 @@ const ContentEditor = memo(
           content={content}
           editorProps={{
             attributes: {
-              class:
-                "prose-sm dark:prose-invert sm:prose focus:outline-none border",
+              class: "prose-sm dark:prose-invert sm:prose focus:outline-none",
             },
           }}
         >
           <FocusHandler focus={autoFocus} />
         </EditorProvider>
+        <div className="divider w-full border my-2"></div>
+        <p className="mb-6 opacity-50">
+          <NoteDate updated="2018-4-3" created="2014-3-2" />
+        </p>
       </div>
     );
   }
