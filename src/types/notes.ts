@@ -5,3 +5,24 @@ export type NoteNavigationType = {
   updated: string;
   summary: string;
 };
+
+export type NoteContentType = {
+  id: string | number;
+  content: string;
+  created: string;
+  updated: string;
+};
+
+export enum NoteChaptersStatusType {
+  "nochanges",
+  "new",
+  "saved",
+  "saving",
+  "saveFailed",
+}
+
+export type NoteChaptersType = {
+  id: string | number;
+  summary: string;
+  status: NoteChaptersStatusType;
+};

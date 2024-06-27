@@ -17,6 +17,32 @@ module.exports = {
       },
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            p: {
+              marginTop: "0.2rem",
+              marginBottom: "0.2rem",
+            },
+            ul: {
+              li: {
+                p: {
+                  marginTop: "0.2rem",
+                  marginBottom: "0.2rem",
+                },
+              },
+            },
+          },
+        },
+        sm: {
+          css: {
+            p: {
+              marginTop: "0",
+              marginBottom: "0",
+            },
+          },
+        },
+      },
       colors: {
         test: "red",
         border: "var(--border)",
@@ -77,5 +103,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };

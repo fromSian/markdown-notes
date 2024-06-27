@@ -1,13 +1,13 @@
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { SquareChevronLeft, SquareChevronRight } from "lucide-react";
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 const Header = () => {
-  const { headerDocked, headerExpanded, showNavigation } = useAppSelector(
-    (state) => state.ui
-  );
+  const { headerDocked, headerExpanded, showNavigation, showChapters } =
+    useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
 
@@ -43,7 +43,7 @@ const Header = () => {
     <>
       {!headerExpanded && (
         <div
-          className="fixed top-0 w-screen h-[2vh] opacity-0 bg-red-200 cursor-pointer"
+          className="fixed top-0 w-screen h-[2vh] opacity-0 bg-red-200 cursor-pointer z-10"
           onMouseEnter={onMouseEnter}
         ></div>
       )}
@@ -93,6 +93,15 @@ const Header = () => {
         >
           {headerDocked ? "undocked" : "docked"}
         </button>
+        <div
+          onClick={() => {
+            dispatch({
+              type: "ui/toggleShowChapters",
+            });
+          }}
+        >
+          {showChapters ? <SquareChevronRight /> : <SquareChevronLeft />}
+        </div>
       </header>
     </>
   );

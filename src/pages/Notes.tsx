@@ -12,8 +12,8 @@ import { useEffect, useRef } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
 
 const initialPanelSize = {
-  navigation: 25,
-  main: 60,
+  navigation: 20,
+  main: 65,
   chapters: 15,
 };
 
@@ -101,7 +101,7 @@ const Notes = () => {
         ref={chaptersRef}
         defaultSize={initialPanelSize.chapters}
         minSize={2}
-        collapsedSize={2}
+        collapsedSize={1}
         collapsible={true}
         className="transition-[flex]"
         onCollapse={() => {
