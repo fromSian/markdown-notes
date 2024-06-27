@@ -1,12 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { NoteContentType } from "@/types/notes";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { Skeleton } from "../ui/skeleton";
 import ContentEditor from "./components/content/ContentEditor";
 import ContentNewTriggle from "./components/content/ContentNewTriggle";
@@ -41,10 +35,6 @@ const MainContent = () => {
     fetchData();
   }, []);
 
-  const titleNextFocus = useMemo(
-    () => (data.length ? "list" : "new"),
-    [[data]]
-  );
   const [isPending, startTransition] = useTransition();
   /**
    *
@@ -88,8 +78,10 @@ const MainContent = () => {
 
   const onNext = useCallback(() => {
     setFocus(true);
-    console.log(titleNextFocus);
-  }, [titleNextFocus]);
+    setTimeout(() => {
+      setFocus(false);
+    }, 200);
+  }, []);
 
   return (
     <div className="transition-all h-full w-full p-4">

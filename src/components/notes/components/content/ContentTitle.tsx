@@ -1,5 +1,4 @@
-import GrowTextarea from "@/components/common/GrowTextarea";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 interface ContentTitleProps {
   onNext: () => void;
@@ -7,20 +6,20 @@ interface ContentTitleProps {
 }
 
 const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const [value, setValue] = useState(initialValue);
 
   return (
     <div>
-      <GrowTextarea
-        ref={textareaRef}
-        wrapClassName="text-3xl font-bold"
-        className="text-2xl font-bold"
-        rows={1}
-        maxLength={50}
+      <textarea
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none"
+        rows={1}
+        onChange={(e) => {
+          setValue(e.target.value);
+          e.target.style.height = "0px";
+          e.target.style.height = e.target.scrollHeight + "px";
+        }}
+        maxLength={50}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             const target = e.target as HTMLTextAreaElement;
@@ -36,7 +35,7 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
           }
         }}
       />
-      <div className="bg-current w-48 h-[0.1rem] my-2 opacity-60"></div>
+      <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
     </div>
   );
 };
