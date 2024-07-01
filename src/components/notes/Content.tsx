@@ -40,7 +40,8 @@ const Content = memo(
 
     const onTitleNext = () => {
       if (firstContentRef.current) {
-        firstContentRef.current.focus("end");
+        const isFocus = firstContentRef.current.focus("end");
+        return isFocus;
       }
     };
 

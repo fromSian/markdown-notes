@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface ContentTitleProps {
-  onNext: () => void;
+  onNext: () => boolean;
   initialValue: string;
 }
 
@@ -24,15 +24,24 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
           if (e.key === "Enter") {
             const target = e.target as HTMLTextAreaElement;
             const value = target.value;
-            const splits = value.split("\n");
+            let splits = value.split("\n");
             const length = splits.length - 1;
             if (length) {
-              target.value = splits.slice(0, length + 1).join("\n");
-              target.blur();
-              onNext();
+              splits = splits.filter((v) => v);
+              target.value = splits.slice(0, splits.length).join("\n");
+
+              const flag = onNext();
+              if (flag) {
+                target.blur();
+              }
             }
             // go to next one textarea
           }
+        }}
+        onBlur={(e) => {
+          setValue(e.target.value);
+          e.target.style.height = "0px";
+          e.target.style.height = e.target.scrollHeight + "px";
         }}
       />
       <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
