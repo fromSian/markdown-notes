@@ -1,16 +1,23 @@
 import Placeholder from "@tiptap/extension-placeholder";
-import { EditorProvider, useCurrentEditor } from "@tiptap/react";
+import {
+  EditorProvider,
+  FocusPosition,
+  SingleCommands,
+  useCurrentEditor,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { memo, useEffect } from "react";
+import { MutableRefObject, forwardRef, memo, useImperativeHandle } from "react";
 import NoteDate from "./NoteDate";
 
-const FocusHandler = memo(({ focus }: { focus: boolean }) => {
+const FocusHandler = forwardRef((props, ref) => {
   const { editor } = useCurrentEditor();
-  useEffect(() => {
-    if (focus) {
-      editor?.commands.focus("end");
-    }
-  }, [focus]);
+  useImperativeHandle(ref, () => {
+    return {
+      focus(position: FocusPosition = "start") {
+        editor?.commands.focus(position);
+      },
+    };
+  });
   return <></>;
 });
 
@@ -35,9 +42,16 @@ interface ContentEditorProps {
   autoFocus?: boolean;
   content?: string;
   onSave: (text: string) => void;
+  editorRef?: MutableRefObject<SingleCommands | undefined>;
 }
 const ContentEditor = memo(
-  ({ index, onSave, autoFocus = false, content = "" }: ContentEditorProps) => {
+  ({
+    editorRef,
+    index,
+    onSave,
+    autoFocus = false,
+    content = "",
+  }: ContentEditorProps) => {
     return (
       <div>
         <EditorProvider
@@ -52,7 +66,7 @@ const ContentEditor = memo(
             },
           }}
         >
-          <FocusHandler focus={autoFocus} />
+          <FocusHandler ref={editorRef} />
         </EditorProvider>
         <div className="divider w-full border my-2"></div>
         <div className="mb-6 opacity-50">

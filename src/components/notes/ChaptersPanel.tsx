@@ -1,23 +1,19 @@
 import { cn } from "@/lib/utils";
+import { NoteChaptersType } from "@/types/notes";
 import { memo, useCallback, useRef, useState } from "react";
 import Empty from "../ui/Empty";
 import InfiniteVirtual from "../ui/InfiniteVirtual";
 import ChaptersRenderItem from "./components/ChaptersRenderItem";
 
 interface ChaptersPanelProps {
-  activeChapterIndex: number;
+  chapters: NoteChaptersType[];
+  setChapters: (chapters: NoteChaptersType[]) => void;
   onChapterClick: (index: number) => void;
-  setActiveChapterIndex: (v: number) => void;
 }
 
 const ChaptersPanel = memo(
-  ({
-    activeChapterIndex,
-    onChapterClick,
-    setActiveChapterIndex,
-  }: ChaptersPanelProps) => {
+  ({ chapters, setChapters, onChapterClick }: ChaptersPanelProps) => {
     const [hasNextPage, setHasNextPage] = useState(true);
-    const [data, setData] = useState<string[]>([]);
     const [fetching, setFetching] = useState(false);
     const pageRef = useRef(0);
     const fetchData = useCallback(() => {
@@ -26,12 +22,16 @@ const ChaptersPanel = memo(
         setTimeout(() => {
           pageRef.current = pageRef.current + 1;
 
-          // if (pageRef.current === 3) {
-          //   setHasNextPage(false);
-          // }
-          setData((v) => [
+          if (pageRef.current === 2) {
+            setHasNextPage(false);
+          }
+          setChapters((v) => [
             ...v,
-            ...Array.from({ length: 10 }).map((_, i) => "chapters"),
+            ...Array.from({ length: 10 }).map((_, i) => ({
+              id: i,
+              summary: "summary what is this",
+              status: "nochanges",
+            })),
           ]);
           setFetching(false);
         }, 1000);
@@ -47,12 +47,12 @@ const ChaptersPanel = memo(
         <p className="text-tprimary font-bold italic text-center mb-2">
           NAVIGATION
         </p>
-        {!data.length && <Empty />}
+        {!chapters.length && <Empty />}
         <InfiniteVirtual
           estimateSize={24}
           fetching={fetching}
           hasNextPage={hasNextPage}
-          data={data}
+          data={chapters}
           fetchData={fetchData}
           style={{
             height: "calc(100% - 2.5rem)",

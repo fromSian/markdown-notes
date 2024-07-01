@@ -25,5 +25,5 @@ export enum NoteChaptersStatusType {
 export type NoteChaptersType = {
   id: string | number;
   summary: string;
-  status: NoteChaptersStatusType;
+  status: keyof typeof NoteChaptersStatusType;
 };

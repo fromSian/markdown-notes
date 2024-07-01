@@ -3,6 +3,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { NoteChaptersType } from "@/types/notes";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { MouseEvent, useEffect, useRef, useState, useTransition } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
@@ -15,6 +16,7 @@ const initialPanelSize = {
 
 const Main = () => {
   const [showChapters, setShowChapters] = useState(true);
+  const [chapters, setChapters] = useState<NoteChaptersType>([]);
   const [isPending, startTransition] = useTransition();
 
   const chaptersRef = useRef<ImperativePanelHandle>(null);
@@ -76,7 +78,11 @@ const Main = () => {
           setShowChapters(true);
         }}
       >
-        <ChaptersPanel onChapterClick={onChapterClick} />
+        <ChaptersPanel
+          onChapterClick={onChapterClick}
+          chapters={chapters}
+          setChapters={setChapters}
+        />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

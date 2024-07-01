@@ -1,6 +1,7 @@
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 
+import { ChevronDown } from "lucide-react";
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import LanguageSwitch from "./LanguageSwitch";
@@ -13,7 +14,7 @@ const Header = () => {
 
   const moveRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const onMouseEnter = () => {
+  const drawHeaderDown = () => {
     if (moveRef.current) {
       clearTimeout(moveRef.current);
       moveRef.current = undefined;
@@ -43,9 +44,11 @@ const Header = () => {
     <>
       {!headerExpanded && (
         <div
-          className="fixed top-0 w-screen h-[2vh] opacity-0 bg-red-200 cursor-pointer z-[2]"
-          onMouseEnter={onMouseEnter}
-        ></div>
+          className="fixed top-0 right-[50%] translate-x-[50%] cursor-pointer z-[2] hover:bg-secondary rounded"
+          onClick={drawHeaderDown}
+        >
+          <ChevronDown />
+        </div>
       )}
       <header
         className="flex gap-4 overflow-hidden transition-all"
