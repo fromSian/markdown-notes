@@ -1,0 +1,84 @@
+import { cn } from "@/lib/utils";
+import { ScrollToOptions, useVirtualizer } from "@tanstack/react-virtual";
+import { ReactNode, forwardRef, useImperativeHandle, useRef } from "react";
+
+interface VirtualScrollProps {
+  estimateSize: number;
+  data: any[];
+  RenderItem: (data: any) => ReactNode;
+  className?: string;
+  style?: Object;
+}
+
+const VirtualScroll = forwardRef(
+  (
+    { estimateSize, data, RenderItem, className, style }: VirtualScrollProps,
+    ref
+  ) => {
+    const parentRef = useRef<HTMLDivElement>(null);
+
+    const virtualizer = useVirtualizer({
+      count: data.length,
+      getScrollElement: () => parentRef.current,
+      estimateSize: () => estimateSize,
+    });
+
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          scrollToIndex(index: number, option?: ScrollToOptions) {
+            virtualizer.scrollToIndex(index, option);
+          },
+        };
+      },
+      []
+    );
+
+    const items = virtualizer.getVirtualItems();
+
+    return (
+      <div
+        ref={parentRef}
+        className={cn(
+          "w-full h-full overflow-y-auto contain-strict",
+          className
+        )}
+        style={style}
+      >
+        <div
+          style={{
+            height: virtualizer.getTotalSize(),
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              transform: `translateY(${items[0]?.start ?? 0}px)`,
+            }}
+          >
+            {items.map((virtualRow) => (
+              <div
+                key={virtualRow.key}
+                data-index={virtualRow.index}
+                ref={virtualizer.measureElement}
+              >
+                <RenderItem
+                  data={data[virtualRow.index]}
+                  index={virtualRow.index}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+export default VirtualScroll;

@@ -101,6 +101,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        rainbow:
+          "linear-gradient( 226.4deg,  rgba(255,26,1,0.5) 28.9%, rgba(254,155,1,0.5) 33%, rgba(255,241,0,0.5) 48.6%, rgba(34,218,1,0.5) 65.3%, rgba(0,141,254,0.5) 80.6%, rgba(113,63,254,0.5) 100.1% )",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],

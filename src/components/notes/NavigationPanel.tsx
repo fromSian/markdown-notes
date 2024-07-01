@@ -1,12 +1,11 @@
 import InfiniteVirtual from "@/components/ui/InfiniteVirtual";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { NoteNavigationType } from "@/types/notes";
-import { useCallback, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import NavigationRenderItem from "./components/NavigationRenderItem";
 import RecentDays from "./components/RecentDays";
 const recentFirstIds = ["1-0", "2-6", "3-5"];
-const LeftPanel = () => {
+const NavigationPanel = memo(() => {
   const [hasNextPage, setHasNextPage] = useState(true);
   const [data, setData] = useState<NoteNavigationType[]>([]);
   const [fetching, setFetching] = useState(false);
@@ -35,7 +34,7 @@ const LeftPanel = () => {
     } catch (error) {}
   }, []);
   return (
-    <ScrollArea className={cn("border-r-2 transition-all h-full w-full py-4")}>
+    <div className={cn("border-r-2 transition-all h-full w-full py-4")}>
       <InfiniteVirtual
         estimateSize={24}
         fetching={fetching}
@@ -55,8 +54,8 @@ const LeftPanel = () => {
           </>
         )}
       />
-    </ScrollArea>
+    </div>
   );
-};
+});
 
-export default LeftPanel;
+export default NavigationPanel;

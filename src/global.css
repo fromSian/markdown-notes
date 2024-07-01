@@ -77,6 +77,17 @@
 @layer base {
   * {
     @apply border-border;
+    scrollbar-color: var(--border) transparent;
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 4px;
   }
   body {
     @apply bg-background text-foreground;

@@ -31,25 +31,17 @@ const extensions = [
 ];
 
 interface ContentEditorProps {
+  index: number;
   autoFocus?: boolean;
   content?: string;
   onSave: (text: string) => void;
 }
 const ContentEditor = memo(
-  ({ onSave, autoFocus = false, content = "" }: ContentEditorProps) => {
+  ({ index, onSave, autoFocus = false, content = "" }: ContentEditorProps) => {
     return (
       <div>
         <EditorProvider
           onBlur={({ editor, transaction }) => {
-            // save if blank then delete this part
-            //   console.log(editor);
-            //   console.log(editor.getText());
-            console.log(
-              editor.getText(),
-              editor.getHTML(),
-              editor.getJSON(),
-              editor.getText({ blockSeparator: "\n" })
-            );
             onSave(editor.getHTML());
           }}
           extensions={extensions}
@@ -63,9 +55,9 @@ const ContentEditor = memo(
           <FocusHandler focus={autoFocus} />
         </EditorProvider>
         <div className="divider w-full border my-2"></div>
-        <p className="mb-6 opacity-50">
+        <div className="mb-6 opacity-50">
           <NoteDate updated="2018-4-3" created="2014-3-2" />
-        </p>
+        </div>
       </div>
     );
   }

@@ -9,10 +9,10 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
 
   return (
-    <div>
+    <>
       <textarea
         value={value}
-        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none"
+        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none pr-4"
         rows={1}
         onChange={(e) => {
           setValue(e.target.value);
@@ -36,7 +36,7 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
         }}
       />
       <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
-    </div>
+    </>
   );
 };
 
