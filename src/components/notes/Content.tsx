@@ -6,6 +6,7 @@ import {
   MouseEvent,
   MutableRefObject,
   memo,
+  useEffect,
   useRef,
   useState,
   useTransition,
@@ -14,7 +15,23 @@ import VirtualScroll from "../ui/VirtualScroll";
 import ContentFooter from "./components/content/ContentFooter";
 import ContentItem from "./components/content/ContentItem";
 import ContentTitle from "./components/content/ContentTitle";
-import NoteDate from "./components/content/NoteDate";
+
+type NoteInfoType = {
+  id: number;
+  title: string;
+  itemLength: number;
+  itemIds: number[];
+  updated: string;
+  created: string;
+};
+type NoteItemInfoType = {
+  id: number;
+  content: string;
+  updated: string;
+  created: string;
+  type: "exist" | "new";
+  loaded: boolean;
+};
 
 interface MainContentProps {
   virtualizerRef: MutableRefObject<Virtualizer<HTMLDivElement, Element> | null>;
@@ -24,24 +41,53 @@ interface MainContentProps {
 
 const Content = memo(
   ({ virtualizerRef, showChapters, toggleChaptersPanel }: MainContentProps) => {
-    const [datas, setDatas] = useState<NoteContentType[]>(
-      Array.from({ length: 100 }).map((_, i) => ({
-        id: i,
-        content: "",
-        updated: "",
-        created: "",
-        type: "exist",
-        loaded: false,
-      }))
-    );
+    const [noteInfo, setNoteInfo] = useState<NoteInfoType>({
+      id: 0,
+      title: "first note title",
+      itemLength: 100,
+      itemIds: [],
+      updated: "",
+      created: "",
+    });
 
+    const [datas, setDatas] = useState<NoteContentType[]>([]);
     const [isPending, startTransition] = useTransition();
+    useEffect(() => {
+      if (!noteInfo.itemLength) {
+        startTransition(() => {
+          setDatas([
+            {
+              id: 0,
+              content: "",
+              updated: "",
+              created: "",
+              type: "new",
+              loaded: true,
+            },
+          ]);
+        });
+      } else {
+        startTransition(() => {
+          setDatas((v) =>
+            Array.from({ length: noteInfo.itemLength }).map((_, i) => ({
+              id: i,
+              content: "",
+              updated: "",
+              created: "",
+              type: "exist",
+              loaded: false,
+            }))
+          );
+        });
+      }
+    }, [noteInfo]);
+
     const firstContentRef = useRef<SingleCommands>();
 
     const onTitleNext = () => {
       if (firstContentRef.current) {
-        const isFocus = firstContentRef.current.focus("end");
-        return isFocus;
+        firstContentRef.current.focus();
+        return true;
       }
     };
 
@@ -58,13 +104,15 @@ const Content = memo(
           )}
         </div>
         <div className="">
-          <ContentTitle onNext={onTitleNext} initialValue="title" />
-          <NoteDate
-            created="2012-2-3"
-            updated="2014-2-3"
-            extra={<span className="ml-2">30 total</span>}
+          <ContentTitle
+            created={noteInfo.created}
+            updated={noteInfo.updated}
+            count={noteInfo.itemLength}
+            initialValue={noteInfo.title}
+            onNext={onTitleNext}
           />
         </div>
+
         <VirtualScroll
           ref={virtualizerRef}
           data={datas}

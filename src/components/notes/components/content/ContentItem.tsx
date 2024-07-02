@@ -29,25 +29,22 @@ const ContentItem = memo(
               {
                 ...item,
                 loaded: true,
-                content: "already loaded",
+                content: "already loaded" + index,
+                updated: "123213",
+                created: "123213",
               },
               item.id
             );
             setLoaded(true);
-            setContent("already loaded");
-            console.log(item.id);
+            setContent("already loaded" + index);
           });
-        }, 2000);
+        }, 1000);
       } else {
-        console.log(item.id, "loaded");
       }
     }, []);
 
     return (
-      <div
-        className="
-  "
-      >
+      <>
         {!loaded ? (
           <ContentLoader />
         ) : (
@@ -55,10 +52,14 @@ const ContentItem = memo(
             editorRef={editorRef}
             key={"fd" + index}
             index={index}
-            content={"" + index}
+            id={item.id}
+            content={content}
+            updated={item.updated}
+            created={item.created}
+            onSave={() => {}}
           />
         )}
-      </div>
+      </>
     );
   }
 );

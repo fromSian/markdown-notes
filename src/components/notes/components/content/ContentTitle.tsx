@@ -1,11 +1,20 @@
 import { useState } from "react";
 
 interface ContentTitleProps {
-  onNext: () => boolean;
   initialValue: string;
+  updated: string;
+  created: string;
+  count: number;
+  onNext: () => boolean | undefined;
 }
 
-const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
+const ContentTitle = ({
+  updated,
+  created,
+  count,
+  onNext,
+  initialValue,
+}: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
 
   return (
@@ -31,6 +40,7 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
               target.value = splits.slice(0, splits.length).join("\n");
 
               const flag = onNext();
+              console.log(flag);
               if (flag) {
                 target.blur();
               }
@@ -45,6 +55,11 @@ const ContentTitle = ({ onNext, initialValue }: ContentTitleProps) => {
         }}
       />
       <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
+      <div className="flex gap-4 text-xs text-ttertiary mb-4">
+        {updated && <p>{updated}</p>}
+        {created && <p>{created}</p>}
+        <p>{count || 0} items</p>
+      </div>
     </>
   );
 };

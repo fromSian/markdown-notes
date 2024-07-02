@@ -45,7 +45,6 @@ const Main = () => {
     startTransition(() => {
       virtualizerRef.current?.scrollToIndex(index, {
         align: "start",
-        behavior: "smooth",
       });
     });
   };

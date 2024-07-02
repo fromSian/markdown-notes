@@ -7,14 +7,12 @@ const ContentNewTriggle = ({
   onClick: (e: MouseEvent) => void;
 }) => {
   return (
-    <button
-      className="cursor-pointer active:scale-95 transition-transform"
-      onClick={onClick}
-    >
-      <TooltipSimple content={"add new item"}>
-        <NotebookPen className="inline" />
-      </TooltipSimple>
-    </button>
+    <TooltipSimple content={"add new item"}>
+      <NotebookPen
+        className="inline cursor-pointer active:scale-95 transition-transform"
+        onClick={onClick}
+      />
+    </TooltipSimple>
   );
 };
 

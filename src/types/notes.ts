@@ -12,6 +12,7 @@ export type NoteContentType = {
   created: string;
   updated: string;
   type: "new" | "exist";
+  loaded: boolean;
 };
 
 export enum NoteChaptersStatusType {

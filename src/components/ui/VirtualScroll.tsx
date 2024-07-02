@@ -28,13 +28,15 @@ const VirtualScroll = forwardRef(
       () => {
         return {
           scrollToIndex(index: number, option?: ScrollToOptions) {
+            if (index >= data.length - 1) {
+              return;
+            }
             virtualizer.scrollToIndex(index, option);
           },
         };
       },
-      []
+      [data]
     );
-
     const items = virtualizer.getVirtualItems();
 
     return (

@@ -38,22 +38,26 @@ const extensions = [
 ];
 
 interface ContentEditorProps {
+  id: string | number;
   index: number;
-  autoFocus?: boolean;
   content?: string;
+  created: string;
+  updated: string;
   onSave: (text: string) => void;
   editorRef?: MutableRefObject<SingleCommands | undefined>;
 }
 const ContentEditor = memo(
   ({
+    id,
+    created,
+    updated,
     editorRef,
     index,
     onSave,
-    autoFocus = false,
     content = "",
   }: ContentEditorProps) => {
     return (
-      <div>
+      <>
         <EditorProvider
           onBlur={({ editor, transaction }) => {
             onSave(editor.getHTML());
@@ -69,10 +73,10 @@ const ContentEditor = memo(
           <FocusHandler ref={editorRef} />
         </EditorProvider>
         <div className="divider w-full border my-2"></div>
-        <div className="mb-6 opacity-50">
-          <NoteDate updated="2018-4-3" created="2014-3-2" />
+        <div className="opacity-50">
+          <NoteDate updated={updated || "-"} created={created || "-"} />
         </div>
-      </div>
+      </>
     );
   }
 );
