@@ -92,7 +92,6 @@ const BothSideScroll = forwardRef(
         return;
       }
       setNowLastDataIndex((v) => {
-        console.log(v, end);
         if (v === end) {
           const [lastItem] = [...items].reverse();
           if (lastItem.index > end) {

@@ -13,7 +13,6 @@ type noteInfoType = {
 
 type noteItemInfoType = {
   id: string | number;
-  index: number;
   loaded: boolean;
   content: string;
   summary: string;
@@ -27,7 +26,7 @@ interface NoteState {
   count: number;
   notes: noteInfoType[];
   currentNoteId: string | number | undefined;
-  cuurentNoteItemInfo: noteItemInfoType[];
+  currentNoteItemInfo: noteItemInfoType[];
 }
 
 const initialState: NoteState = {
@@ -36,7 +35,7 @@ const initialState: NoteState = {
   count: 0,
   notes: [],
   currentNoteId: undefined,
-  cuurentNoteItemInfo: [],
+  currentNoteItemInfo: [],
 };
 
 export const query = createAsyncThunk("notes/query", async () => {
@@ -58,6 +57,8 @@ export const query = createAsyncThunk("notes/query", async () => {
       created: "created",
       updated: "updated",
       summary: "summary",
+      noteItemIds: [0, 1, 2, 3, 4, 5, 6],
+      count: 6,
     }));
     return response;
   } catch (error) {}
@@ -74,6 +75,8 @@ export const queryBefore = createAsyncThunk(
         created: "created",
         updated: "updated",
         summary: "summary",
+        noteItemIds: [0, 1, 2, 3, 4, 5, 6],
+        count: 6,
       }));
       return {
         notes: extra,
@@ -94,6 +97,8 @@ export const queryAfter = createAsyncThunk(
         created: "created",
         updated: "updated",
         summary: "summary",
+        noteItemIds: [0, 1, 2, 3, 4, 5, 6],
+        count: 6,
       }));
       return {
         notes: extra,
@@ -112,6 +117,23 @@ export const deleteNote = createAsyncThunk(
   }
 );
 
+export const queryNoteItemDetail = createAsyncThunk(
+  "notes/queryNoteItemDetail",
+  async ({ id }) => {
+    try {
+      const response = {
+        id: id,
+        loaded: true,
+        content: "string maybe this is the last day of thise monther",
+        summary: "summary",
+        created: "created",
+        updated: "updated",
+      };
+      return response;
+    } catch (error) {}
+  }
+);
+
 export const noteSlice = createSlice({
   name: "note",
   initialState,
@@ -123,7 +145,7 @@ export const noteSlice = createSlice({
       state,
       action: PayloadAction<noteItemInfoType[]>
     ) => {
-      state.cuurentNoteItemInfo = action.payload;
+      state.currentNoteItemInfo = action.payload;
     },
     updateOneNoteInfo: (
       state,
@@ -140,11 +162,11 @@ export const noteSlice = createSlice({
       action: PayloadAction<{ id: string | number; item: noteItemInfoType }>
     ) => {
       const { id, item } = action.payload;
-      const index = state.cuurentNoteItemInfo.findIndex(
+      const index = state.currentNoteItemInfo.findIndex(
         (item) => item.id === id
       );
       if (index !== -1) {
-        state.cuurentNoteItemInfo[index] = item;
+        state.currentNoteItemInfo[index] = item;
       }
     },
     deleteOneNote: (state, action: PayloadAction<string | number>) => {
@@ -154,11 +176,11 @@ export const noteSlice = createSlice({
       }
     },
     deleteOneNoteItem: (state, action: PayloadAction<string | number>) => {
-      const index = state.cuurentNoteItemInfo.findIndex(
+      const index = state.currentNoteItemInfo.findIndex(
         (item) => item.id === action.payload
       );
       if (index !== -1) {
-        state.cuurentNoteItemInfo.splice(index, 1);
+        state.currentNoteItemInfo.splice(index, 1);
       }
     },
   },
@@ -210,9 +232,25 @@ export const noteSlice = createSlice({
         });
         state.count = state.count - 1;
         state.end = state.end - 1;
+
+        if (state.currentNoteId === id) {
+          state.currentNoteId = undefined;
+          state.currentNoteItemInfo = [];
+        }
         state.notes = out;
       })
       .addCase(deleteNote.rejected, (state) => {});
+
+    builder
+      .addCase(queryNoteItemDetail.fulfilled, (state, action) => {
+        const response = action.payload;
+        const index = state.currentNoteItemInfo.findIndex(
+          (item) => item.id === response.id
+        );
+
+        state.currentNoteItemInfo[index] = response;
+      })
+      .addCase(queryNoteItemDetail.rejected, (state) => {});
   },
 });
 

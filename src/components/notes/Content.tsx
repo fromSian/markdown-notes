@@ -1,16 +1,18 @@
 import { Accordion } from "@/components/ui/accordion";
-import { NoteContentType } from "@/types/notes";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { SingleCommands } from "@tiptap/react";
 import {
   MutableRefObject,
   memo,
   useEffect,
+  useMemo,
   useRef,
   useState,
   useTransition,
 } from "react";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../ui/Empty";
 import VirtualScroll from "../ui/VirtualScroll";
 import ContentFooter from "./components/content/ContentFooter";
 import ContentItem from "./components/content/ContentItem";
@@ -39,48 +41,40 @@ interface MainContentProps {
 }
 
 const Content = memo(({ virtualizerRef, chapterIndex }: MainContentProps) => {
-  let [searchParams, setSearchParams] = useSearchParams();
-  const [noteInfo, setNoteInfo] = useState<NoteInfoType>({
-    id: 0,
-    title: "first note title",
-    itemLength: 100,
-    itemIds: [],
-    updated: "",
-    created: "",
-  });
+  const { notes, currentNoteId, currentNoteItemInfo } = useAppSelector(
+    (state) => state.note
+  );
+  const dispatch = useAppDispatch();
+  const noteInfo = useMemo(
+    () => notes.find((item) => item.id === currentNoteId),
+    [notes, currentNoteId]
+  );
 
-  const [datas, setDatas] = useState<NoteContentType[]>([]);
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const [expandedValue, setExpandedValue] = useState(
     Array.from({ length: 100 }).map((item, index) => `${index}`)
   );
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
-    if (!noteInfo.itemLength) {
-      startTransition(() => {
-        setDatas([
-          {
-            id: 0,
-            content: "",
-            updated: "",
-            created: "",
-            type: "new",
-            loaded: true,
-          },
-        ]);
-      });
+    if (!noteInfo) {
+      return;
+    }
+    if (!noteInfo.count) {
     } else {
       startTransition(() => {
-        setDatas((v) =>
-          Array.from({ length: noteInfo.itemLength }).map((_, i) => ({
-            id: i,
-            content: "",
-            updated: "",
-            created: "",
-            type: "exist",
-            loaded: false,
-          }))
-        );
+        const noteItems = noteInfo.noteItemIds.map((id) => ({
+          id: id,
+          content: "",
+          updated: "",
+          created: "",
+          type: "exist",
+          loaded: false,
+        }));
+        dispatch({
+          type: "note/setCurrentNoteItemInfo",
+          payload: noteItems,
+        });
       });
       setTimeout(() => {
         virtualizerRef.current?.scrollToIndex(chapterIndex, {
@@ -106,52 +100,51 @@ const Content = memo(({ virtualizerRef, chapterIndex }: MainContentProps) => {
     }
   };
 
-  const updateItem = (item, index) => {
-    console.log(321);
-    setDatas((v) => {
-      v[index] = item;
-      return v;
-    });
-  };
+  const updateItem = (item, index) => {};
   return (
     <div className="relative transition-all h-full w-full pl-4 pt-4 pb-4">
-      <div className="">
-        <ContentTitle
-          created={noteInfo.created}
-          updated={noteInfo.updated}
-          count={noteInfo.itemLength}
-          initialValue={noteInfo.title}
-          onNext={onTitleNext}
-        />
-      </div>
-
-      <VirtualScroll
-        ref={virtualizerRef}
-        data={datas}
-        style={{
-          height: "calc(100% - 110px)",
-        }}
-        className="pr-4"
-        estimateSize={60}
-        ParentItem={({ children }) => (
-          <Accordion type="multiple" defaultValue={expandedValue}>
-            {children}
-          </Accordion>
-        )}
-        RenderItem={({ item, index }) =>
-          index === 0 ? (
-            <ContentItem
-              index={index}
-              item={item}
-              editorRef={firstContentRef}
-              updateItem={updateItem}
+      {currentNoteId && currentNoteItemInfo?.length ? (
+        <>
+          <div className="">
+            <ContentTitle
+              created={noteInfo.created}
+              updated={noteInfo.updated}
+              count={noteInfo.itemLength}
+              initialValue={noteInfo.title}
+              onNext={onTitleNext}
             />
-          ) : (
-            <ContentItem index={index} item={item} updateItem={updateItem} />
-          )
-        }
-      />
-      <ContentFooter />
+          </div>
+
+          <VirtualScroll
+            ref={virtualizerRef}
+            data={currentNoteItemInfo}
+            style={{
+              height: "calc(100% - 110px)",
+            }}
+            className="pr-4"
+            estimateSize={60}
+            ParentItem={({ children }) => (
+              <Accordion type="multiple" defaultValue={expandedValue}>
+                {children}
+              </Accordion>
+            )}
+            RenderItem={({ item, index }) =>
+              index === 0 ? (
+                <ContentItem
+                  index={index}
+                  item={item}
+                  editorRef={firstContentRef}
+                />
+              ) : (
+                <ContentItem index={index} item={item} />
+              )
+            }
+          />
+          <ContentFooter />
+        </>
+      ) : (
+        <Empty />
+      )}
     </div>
   );
 });

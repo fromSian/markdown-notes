@@ -74,7 +74,6 @@ const NavigationPanel = memo(() => {
         return;
       }
       setLoadingInfo("after");
-      console.log("after");
       setTimeout(async () => {
         let length = defaultLength;
         if (base > count - length) {

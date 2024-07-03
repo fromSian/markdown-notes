@@ -84,7 +84,7 @@ const VirtualScroll = forwardRef(
                     index={virtualRow.index}
                   />
                 </div>
-              ))}{" "}
+              ))}
             </ParentItem>
           </div>
         </div>
