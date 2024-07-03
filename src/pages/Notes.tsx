@@ -1,4 +1,4 @@
-import Main from "@/components/notes/Main";
+import Content from "@/components/notes/Content";
 import NavigationPanel from "@/components/notes/NavigationPanel";
 import {
   ResizableHandle,
@@ -7,39 +7,32 @@ import {
 } from "@/components/ui/resizable";
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { createContext, useEffect, useRef, useState } from "react";
+import { Virtualizer } from "@tanstack/react-virtual";
+import { useEffect, useRef, useState } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
 
 const initialPanelSize = {
-  navigation: 20,
-  main: 65,
-  chapters: 15,
+  navigation: 18,
+  content: 82,
 };
 
-export const Context = createContext({
-  showChapters: true,
-  activeNavigationIndex: 0,
-  activeChapterIndex: 0,
-  setActiveChapterIndex: (index: number) => {},
-  setActiveNavigationIndex: (index: number) => {},
-});
-
 const Notes = () => {
-  const { headerExpanded, showNavigation, showChapters } = useAppSelector(
+  const { headerExpanded, showNavigation } = useAppSelector(
     (state) => state.ui
   );
 
   const navigationRef = useRef<ImperativePanelHandle>(null);
 
   const dispatch = useAppDispatch();
+  const contentVirtualizerRef =
+    useRef<Virtualizer<HTMLDivElement, Element>>(null);
 
   /**
    * finish this
    * and change the uistate using the useContext
    *
    */
-  const [activeChapterIndex, setActiveChapterIndex] = useState(-1);
-  const [activeNavigationIndex, setActiveNavigationIndex] = useState(0);
+  const [activeNavigationIndex, setActiveNavigationIndex] = useState(-1);
 
   useEffect(() => {
     if (!navigationRef.current) {
@@ -90,8 +83,8 @@ const Notes = () => {
           <NavigationPanel />
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel order={2}>
-          <Main />
+        <ResizablePanel order={2} defaultSize={initialPanelSize.content}>
+          <Content virtualizerRef={contentVirtualizerRef} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </>

@@ -5,14 +5,22 @@ import { ReactNode, forwardRef, useImperativeHandle, useRef } from "react";
 interface VirtualScrollProps {
   estimateSize: number;
   data: any[];
-  RenderItem: (data: any) => ReactNode;
+  RenderItem: ({ item: any, index: number }) => ReactNode;
+  ParentItem?: ({ children: ReactNode }) => ReactNode;
   className?: string;
   style?: Object;
 }
 
 const VirtualScroll = forwardRef(
   (
-    { estimateSize, data, RenderItem, className, style }: VirtualScrollProps,
+    {
+      estimateSize,
+      data,
+      RenderItem,
+      ParentItem = () => <></>,
+      className,
+      style,
+    }: VirtualScrollProps,
     ref
   ) => {
     const parentRef = useRef<HTMLDivElement>(null);
@@ -64,18 +72,20 @@ const VirtualScroll = forwardRef(
               transform: `translateY(${items[0]?.start ?? 0}px)`,
             }}
           >
-            {items.map((virtualRow) => (
-              <div
-                key={virtualRow.key}
-                data-index={virtualRow.index}
-                ref={virtualizer.measureElement}
-              >
-                <RenderItem
-                  data={data[virtualRow.index]}
-                  index={virtualRow.index}
-                />
-              </div>
-            ))}
+            <ParentItem>
+              {items.map((virtualRow) => (
+                <div
+                  key={virtualRow.key}
+                  data-index={virtualRow.index}
+                  ref={virtualizer.measureElement}
+                >
+                  <RenderItem
+                    item={data[virtualRow.index]}
+                    index={virtualRow.index}
+                  />
+                </div>
+              ))}{" "}
+            </ParentItem>
           </div>
         </div>
       </div>

@@ -1,11 +1,13 @@
 import { configureStore, Store } from "@reduxjs/toolkit";
 import account from "./account.slice";
+import note from "./note.slice";
 import ui from "./ui.slice";
 
 export const store: Store = configureStore({
   reducer: {
     account: account,
     ui: ui,
+    note: note,
   },
 });
 

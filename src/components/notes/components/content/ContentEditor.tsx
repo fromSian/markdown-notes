@@ -7,7 +7,6 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { MutableRefObject, forwardRef, memo, useImperativeHandle } from "react";
-import NoteDate from "./NoteDate";
 
 const FocusHandler = forwardRef((props, ref) => {
   const { editor } = useCurrentEditor();
@@ -41,21 +40,11 @@ interface ContentEditorProps {
   id: string | number;
   index: number;
   content?: string;
-  created: string;
-  updated: string;
   onSave: (text: string) => void;
   editorRef?: MutableRefObject<SingleCommands | undefined>;
 }
 const ContentEditor = memo(
-  ({
-    id,
-    created,
-    updated,
-    editorRef,
-    index,
-    onSave,
-    content = "",
-  }: ContentEditorProps) => {
+  ({ id, editorRef, index, onSave, content = "" }: ContentEditorProps) => {
     return (
       <>
         <EditorProvider
@@ -72,10 +61,6 @@ const ContentEditor = memo(
         >
           <FocusHandler ref={editorRef} />
         </EditorProvider>
-        <div className="divider w-full border my-2"></div>
-        <div className="opacity-50">
-          <NoteDate updated={updated || "-"} created={created || "-"} />
-        </div>
       </>
     );
   }

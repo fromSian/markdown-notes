@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { store } from "@/states/store";
 import { ThemeProvider } from "next-themes";
 import React, { lazy, Suspense } from "react";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     path: "/introduction",
     element: lazyLoad("@/pages/Notes"),
   },
+  {
+    path: "/test",
+    element: lazyLoad("@/pages/test"),
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -41,5 +46,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>
+    <Toaster />
   </React.StrictMode>
 );
