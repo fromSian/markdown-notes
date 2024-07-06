@@ -1,9 +1,17 @@
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 
-import { ChevronDown } from "lucide-react";
+import {
+  ChevronDown,
+  Info,
+  NotebookPen,
+  PanelLeftClose,
+  PanelRightOpen,
+  Search,
+} from "lucide-react";
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../svgs/logo";
 import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 const Header = () => {
@@ -51,46 +59,52 @@ const Header = () => {
         </div>
       )}
       <header
-        className="flex gap-4 overflow-hidden transition-all"
+        className="flex px-4 gap-4 overflow-hidden transition-all items-center justify-between"
         style={{ height: headerExpanded ? UIVariable.headerHeight : 0 }}
         onMouseLeave={onMouseLeave}
       >
-        <Link className="text-3xl" to="/">
-          logo
-        </Link>
-        <Link className="text-3xl" to="/notes">
-          notes
-        </Link>
-        {pathname === "/notes" && (
-          <>
-            <button
-              onClick={() => {
-                dispatch({
-                  type: "ui/toggleShowNavigation",
-                });
-              }}
-            >
-              {showNavigation ? "hide" : "show"}
-            </button>
-            <button>add new note</button>
-            <button>search</button>
-          </>
-        )}
+        <div className="flex-1 flex">
+          <Link to="/">
+            <Logo />
+          </Link>
+          {pathname === "/notes" && (
+            <>
+              <button
+                onClick={() => {
+                  dispatch({
+                    type: "ui/toggleShowNavigation",
+                  });
+                }}
+              >
+                {showNavigation ? <PanelLeftClose /> : <PanelRightOpen />}
+              </button>
+              <button>
+                <NotebookPen />
+              </button>
+              <button>
+                <Search />
+              </button>
+            </>
+          )}
+        </div>
 
-        <Link to="/introduction">introduction</Link>
-        <LanguageSwitch />
-        <ThemeSwitch />
+        <div className="flex">
+          <Link to="/introduction">
+            <Info />
+          </Link>
+          <LanguageSwitch />
+          <ThemeSwitch />
 
-        {pathname === "/welcome" && (
-          <>
-            <button>sign up</button>
-            <button>sign in</button>
-            <button>sign in with google</button>
-            <button>enter as vistor</button>
-          </>
-        )}
+          {pathname === "/test" && (
+            <>
+              <button className="black_btn">sign up</button>
+              <button className="black_btn">sign in</button>
+              <button className="black_btn">sign in with google</button>
+            </>
+          )}
+        </div>
 
-        <button
+        {/* <button
           onClick={() => {
             dispatch({
               type: "ui/toggleHeaderDocked",
@@ -98,7 +112,7 @@ const Header = () => {
           }}
         >
           {headerDocked ? "undocked" : "docked"}
-        </button>
+        </button> */}
       </header>
     </>
   );

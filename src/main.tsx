@@ -5,7 +5,7 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Header from "./components/common/Header";
+import Header from "./components/header/Header";
 import "./global.css";
 const lazyLoad = (path: string) => {
   if (path.startsWith("@/")) {
