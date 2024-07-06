@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { v4 as uuid4 } from "uuid";
 type noteInfoType = {
   id: string | number;
   index: number;
@@ -11,20 +11,12 @@ type noteInfoType = {
   noteItemIds: (string | number)[];
 };
 
-type noteItemInfoType = {
-  id: string | number;
-  loaded: boolean;
-  content: string;
-  summary: string;
-  created: string;
-  updated: string;
-};
-
 interface NoteState {
   start: number;
   end: number;
   count: number;
   notes: noteInfoType[];
+  currentNodeInfo: noteInfoType | undefined;
   currentNoteId: string | number | undefined;
   currentNoteItemInfo: noteItemInfoType[];
 }
@@ -34,6 +26,7 @@ const initialState: NoteState = {
   end: -1,
   count: 0,
   notes: [],
+  currentNodeInfo: undefined,
   currentNoteId: undefined,
   currentNoteItemInfo: [],
 };
@@ -57,8 +50,11 @@ export const query = createAsyncThunk("notes/query", async () => {
       created: "created",
       updated: "updated",
       summary: "summary",
-      noteItemIds: [0, 1, 2, 3, 4, 5, 6],
-      count: 6,
+      noteItemIds: [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+      ],
+      count: 32,
     }));
     return response;
   } catch (error) {}
@@ -75,8 +71,11 @@ export const queryBefore = createAsyncThunk(
         created: "created",
         updated: "updated",
         summary: "summary",
-        noteItemIds: [0, 1, 2, 3, 4, 5, 6],
-        count: 6,
+        noteItemIds: [
+          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+          20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+        ],
+        count: 32,
       }));
       return {
         notes: extra,
@@ -97,8 +96,11 @@ export const queryAfter = createAsyncThunk(
         created: "created",
         updated: "updated",
         summary: "summary",
-        noteItemIds: [0, 1, 2, 3, 4, 5, 6],
-        count: 6,
+        noteItemIds: [
+          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+          20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+        ],
+        count: 32,
       }));
       return {
         notes: extra,
@@ -119,18 +121,12 @@ export const deleteNote = createAsyncThunk(
 
 export const queryNoteItemDetail = createAsyncThunk(
   "notes/queryNoteItemDetail",
-  async ({ id }) => {
+  async ({ id }, thunkAPI) => {
     try {
-      const response = {
-        id: id,
-        loaded: true,
-        content: "string maybe this is the last day of thise monther",
-        summary: "summary",
-        created: "created",
-        updated: "updated",
-      };
-      return response;
-    } catch (error) {}
+      return { id, content: "this is my new content and i gonna finish it" };
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -139,6 +135,8 @@ export const noteSlice = createSlice({
   initialState,
   reducers: {
     setCurrentNoteId: (state, action: PayloadAction<string | number>) => {
+      const index = state.notes.findIndex((note) => note.id === action.payload);
+      state.currentNodeInfo = state.notes[index];
       state.currentNoteId = action.payload;
     },
     setCurrentNoteItemInfo: (
@@ -182,6 +180,20 @@ export const noteSlice = createSlice({
       if (index !== -1) {
         state.currentNoteItemInfo.splice(index, 1);
       }
+    },
+    addOneNoteItem: (state) => {
+      const exist = [...state.currentNoteItemInfo];
+      state.currentNoteItemInfo = [
+        ...exist,
+        {
+          id: uuid4(),
+          content: "",
+          updated: "",
+          created: "",
+          type: "new",
+          loaded: true,
+        },
+      ];
     },
   },
   extraReducers: (builder) => {
@@ -243,12 +255,13 @@ export const noteSlice = createSlice({
 
     builder
       .addCase(queryNoteItemDetail.fulfilled, (state, action) => {
-        const response = action.payload;
+        const { id, content } = action.payload;
         const index = state.currentNoteItemInfo.findIndex(
-          (item) => item.id === response.id
+          (item) => item.id === id
         );
 
-        state.currentNoteItemInfo[index] = response;
+        state.currentNoteItemInfo[index].content = content;
+        state.currentNoteItemInfo[index].loaded = true;
       })
       .addCase(queryNoteItemDetail.rejected, (state) => {});
   },

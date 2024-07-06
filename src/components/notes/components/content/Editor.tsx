@@ -1,19 +1,23 @@
+import { forwardRef, useImperativeHandle } from "react";
+
 import Placeholder from "@tiptap/extension-placeholder";
 import {
+  EditorEvents,
   EditorProvider,
   FocusPosition,
-  SingleCommands,
   useCurrentEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { MutableRefObject, forwardRef, memo, useImperativeHandle } from "react";
-
 const FocusHandler = forwardRef((props, ref) => {
   const { editor } = useCurrentEditor();
   useImperativeHandle(ref, () => {
     return {
       focus(position: FocusPosition = "start") {
+        console.log(position);
         editor?.commands.focus(position);
+      },
+      getHTMLValue() {
+        return editor?.getHTML();
       },
     };
   });
@@ -36,34 +40,33 @@ const extensions = [
   }),
 ];
 
-interface ContentEditorProps {
-  id: string | number;
-  index: number;
-  content?: string;
-  onSave: (text: string) => void;
-  editorRef?: MutableRefObject<SingleCommands | undefined>;
+interface EditorProps {
+  content: string;
+  onUpdate?: (props: EditorEvents["update"]) => void;
+  onBlur?: (props: EditorEvents["blur"]) => void;
 }
-const ContentEditor = memo(
-  ({ id, editorRef, index, onSave, content = "" }: ContentEditorProps) => {
-    return (
-      <>
-        <EditorProvider
-          onBlur={({ editor, transaction }) => {
-            onSave(editor.getHTML());
-          }}
-          extensions={extensions}
-          content={content}
-          editorProps={{
-            attributes: {
-              class: "prose-sm dark:prose-invert sm:prose focus:outline-none",
-            },
-          }}
-        >
-          <FocusHandler ref={editorRef} />
-        </EditorProvider>
-      </>
-    );
-  }
-);
+const Editor = forwardRef(({ content, onBlur, onUpdate }: EditorProps, ref) => {
+  const onBlurEvent = (props: EditorEvents["blur"]) => {
+    if (onBlur) onBlur(props);
+  };
+  const onUpdateEvent = (props: EditorEvents["update"]) => {
+    if (onUpdate) onUpdate(props);
+  };
+  return (
+    <EditorProvider
+      onBlur={onBlurEvent}
+      onUpdate={onUpdateEvent}
+      extensions={extensions}
+      content={content}
+      editorProps={{
+        attributes: {
+          class: "prose-sm dark:prose-invert sm:prose focus:outline-none",
+        },
+      }}
+    >
+      <FocusHandler ref={ref} />
+    </EditorProvider>
+  );
+});
 
-export default ContentEditor;
+export default Editor;

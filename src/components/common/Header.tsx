@@ -58,6 +58,9 @@ const Header = () => {
         <Link className="text-3xl" to="/">
           logo
         </Link>
+        <Link className="text-3xl" to="/notes">
+          notes
+        </Link>
         {pathname === "/notes" && (
           <>
             <button

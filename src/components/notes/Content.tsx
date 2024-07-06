@@ -1,23 +1,25 @@
-import { Accordion } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import {
+  queryFirstNoteItems,
+  queryRestNoteItems,
+} from "@/states/noteItem.slice.ts";
 import { Virtualizer } from "@tanstack/react-virtual";
-import { SingleCommands } from "@tiptap/react";
 import {
   MutableRefObject,
   memo,
+  useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   useTransition,
 } from "react";
-import { useSearchParams } from "react-router-dom";
 import Empty from "../ui/Empty";
-import VirtualScroll from "../ui/VirtualScroll";
-import ContentFooter from "./components/content/ContentFooter";
-import ContentItem from "./components/content/ContentItem";
 import ContentTitle from "./components/content/ContentTitle";
-
+import Items from "./components/content/Items.tsx";
+import NewEditor from "./components/content/NewEditor.tsx";
+import Operator from "./components/content/operator/index.tsx";
+import Loading from "./Loading.tsx";
 type NoteInfoType = {
   id: number;
   title: string;
@@ -39,112 +41,133 @@ interface MainContentProps {
   virtualizerRef: MutableRefObject<Virtualizer<HTMLDivElement, Element> | null>;
   chapterIndex: number;
 }
-
+/**
+ * 先加第一波然后promise all 其他的
+ */
 const Content = memo(({ virtualizerRef, chapterIndex }: MainContentProps) => {
-  const { notes, currentNoteId, currentNoteItemInfo } = useAppSelector(
-    (state) => state.note
+  const { noteInfo, activeNoteId, noteItems } = useAppSelector(
+    (state) => state.noteItem
   );
   const dispatch = useAppDispatch();
-  const noteInfo = useMemo(
-    () => notes.find((item) => item.id === currentNoteId),
-    [notes, currentNoteId]
-  );
-
-  let [searchParams, setSearchParams] = useSearchParams();
-
-  const [expandedValue, setExpandedValue] = useState(
-    Array.from({ length: 100 }).map((item, index) => `${index}`)
-  );
+  const contentRefs = useRef([]);
+  const newRef = useRef(null);
   const [isPending, startTransition] = useTransition();
-  useEffect(() => {
-    if (!noteInfo) {
-      return;
-    }
-    if (!noteInfo.count) {
+
+  const [restLoading, setRestLoading] = useState(false);
+  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [initialLoaded, setInitialLoaded] = useState(false);
+
+  const onTitleNext = useCallback(() => {
+    if (noteItems.length) {
+      contentRefs.current[0].focus("end");
     } else {
-      startTransition(() => {
-        const noteItems = noteInfo.noteItemIds.map((id) => ({
-          id: id,
-          content: "",
-          updated: "",
-          created: "",
-          type: "exist",
-          loaded: false,
-        }));
-        dispatch({
-          type: "note/setCurrentNoteItemInfo",
-          payload: noteItems,
-        });
-      });
-      setTimeout(() => {
-        virtualizerRef.current?.scrollToIndex(chapterIndex, {
-          align: "start",
-        });
-      }, 1000);
+      newRef.current.focus("end");
     }
-  }, [noteInfo]);
+  }, [noteItems]);
+  /**
+   * 全部加载完然后一起expanded
+   *
+   */
 
-  useEffect(() => {
-    console.log(chapterIndex);
-    virtualizerRef.current?.scrollToIndex(chapterIndex, {
-      align: "start",
-    });
-  }, [chapterIndex]);
+  const fetchRestNoteItems = async (id, restPages) => {
+    try {
+      setRestLoading(true);
+      setTimeout(async () => {
+        const response = await dispatch(
+          queryRestNoteItems({ id, restPages })
+        ).unwrap();
+        setRestLoading(false);
+      }, 3000);
+    } catch (error) {}
+  };
+  const fetchFirstNoteItems = async (id) => {
+    try {
+      const response = await dispatch(queryFirstNoteItems({ id })).unwrap();
+      const { restPages } = response;
 
-  const firstContentRef = useRef<SingleCommands>();
-
-  const onTitleNext = () => {
-    if (firstContentRef.current) {
-      firstContentRef.current.focus("end");
-      return true;
+      if (restPages.length) {
+        fetchRestNoteItems(id, restPages);
+        setInitialLoaded(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const updateItem = (item, index) => {};
+  useEffect(() => {
+    if (!activeNoteId) {
+      return;
+    }
+    setTimeout(() => {
+      fetchFirstNoteItems(activeNoteId);
+      // handleAddNew();
+    }, 3000);
+  }, [activeNoteId]);
+
+  const handleAddNew = useCallback(() => {
+    setIsAddingNew(true);
+  }, [noteItems]);
+
+  const onExistAddNew = () => {
+    setIsAddingNew(false);
+  };
+
+  const onSave = () => {
+    setTimeout(() => {
+      dispatch({
+        type: "save/setSaving",
+        payload: false,
+      });
+    }, 5000);
+  };
+
+  const toggleAllItem = () => {
+    if (!contentRefs.current.length) {
+      return;
+    }
+    const isAllExpanded = contentRefs.current.reduce((prev, cur) => {
+      return prev && cur.open;
+    }, true);
+    contentRefs.current.forEach((item) => {
+      item.setAllState(!isAllExpanded);
+    });
+  };
+
   return (
-    <div className="relative transition-all h-full w-full pl-4 pt-4 pb-4">
-      {currentNoteId && currentNoteItemInfo?.length ? (
+    <div className={cn("relative w-full h-full overflow-auto pb-4")}>
+      {activeNoteId && initialLoaded ? (
         <>
-          <div className="">
+          <Operator
+            restLoading={restLoading}
+            toggleExpand={toggleAllItem}
+            handleAddNew={handleAddNew}
+          />
+          <div className="pl-4 float-left">
             <ContentTitle
-              created={noteInfo.created}
-              updated={noteInfo.updated}
-              count={noteInfo.itemLength}
-              initialValue={noteInfo.title}
+              created={noteInfo?.created}
+              updated={noteInfo?.updated}
+              count={noteInfo?.count}
+              initialValue={noteInfo?.title}
               onNext={onTitleNext}
             />
           </div>
-
-          <VirtualScroll
-            ref={virtualizerRef}
-            data={currentNoteItemInfo}
-            style={{
-              height: "calc(100% - 110px)",
-            }}
-            className="pr-4"
-            estimateSize={60}
-            ParentItem={({ children }) => (
-              <Accordion type="multiple" defaultValue={expandedValue}>
-                {children}
-              </Accordion>
+          <div className="pl-4 clear-both">
+            {noteItems && noteItems.length ? (
+              <Items datas={noteItems} contentRefs={contentRefs} />
+            ) : (
+              ""
             )}
-            RenderItem={({ item, index }) =>
-              index === 0 ? (
-                <ContentItem
-                  index={index}
-                  item={item}
-                  editorRef={firstContentRef}
-                />
-              ) : (
-                <ContentItem index={index} item={item} />
-              )
-            }
-          />
-          <ContentFooter />
+          </div>
+
+          {isAddingNew && (
+            <NewEditor ref={newRef} onExistAddNew={onExistAddNew} />
+          )}
         </>
       ) : (
-        <Empty />
+        ""
       )}
+      {/* <BlockAlert /> */}
+      {!initialLoaded ? <Loading /> : !activeNoteId ? <Empty /> : ""}
     </div>
   );
 });

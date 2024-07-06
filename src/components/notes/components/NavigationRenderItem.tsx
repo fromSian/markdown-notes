@@ -2,6 +2,7 @@ import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
 import { deleteNote } from "@/states/note.slice";
+import { setActiveNoteId } from "@/states/noteItem.slice";
 import { NoteNavigationType } from "@/types/notes";
 import { Loader, Trash2 } from "lucide-react";
 const NavigationRenderItem = ({
@@ -20,16 +21,12 @@ const NavigationRenderItem = ({
   const dispatch = useAppDispatch();
 
   const onItemClick = () => {
-    dispatch({
-      type: "note/setCurrentNoteId",
-      payload: item.id,
-    });
+    dispatch(setActiveNoteId({ id: item.id }));
   };
 
   const handleDelete = async () => {
     try {
       const response = await dispatch(deleteNote({ id: item.id })).unwrap();
-      console.log(response);
     } catch (error) {}
   };
 

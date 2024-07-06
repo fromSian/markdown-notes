@@ -96,10 +96,53 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "in-center": {
+          from: {
+            transform: "scale(0)",
+            opacity: 0,
+          },
+          "50%": {
+            transform: "scale(1)",
+            opacity: 1,
+          },
+          to: {
+            transform: "scale(0)",
+            opacity: 0,
+          },
+        },
+        "top-down": {
+          from: {
+            // transform: "scaleY(0)",
+            transformOrigin: "0 0",
+            height: 0,
+          },
+          to: {
+            // transform: "scaleY(1)",
+            transformOrigin: "0 0",
+            height: "100px",
+          },
+        },
+        "top-up": {
+          from: {
+            // transform: "scaleY(1)",
+            transformOrigin: "0 0",
+            height: "100px",
+          },
+          to: {
+            // transform: "scaleY(0)",
+            transformOrigin: "0 0",
+            height: 0,
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "in-center":
+          "in-center 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "top-down":
+          "top-down 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "top-up": "top-up 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
       },
       backgroundImage: {
         rainbow:

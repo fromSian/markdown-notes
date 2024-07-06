@@ -1,12 +1,13 @@
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { Download } from "lucide-react";
+import { memo } from "react";
 
-const ContentExport = () => {
+const Export = memo(() => {
   return (
     <TooltipSimple content="export">
       <Download />
     </TooltipSimple>
   );
-};
+});
 
-export default ContentExport;
+export default Export;

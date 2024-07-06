@@ -2,6 +2,7 @@ import BothSideScroll from "@/components/ui/BothSideScroll";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { query, queryAfter, queryBefore } from "@/states/note.slice";
+import { setActiveNoteId } from "@/states/noteItem.slice";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { memo, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -22,6 +23,7 @@ const NavigationPanel = memo(() => {
   const { notes, currentNoteId, count, start, end } = useAppSelector(
     (state) => state.note
   );
+  const { activeNoteId } = useAppSelector((state) => state.noteItem);
   const dispatch = useAppDispatch();
   let [searchParams, setSearchParams] = useSearchParams();
   // searchParams including initialDate
@@ -44,8 +46,9 @@ const NavigationPanel = memo(() => {
         setLoadingInfo(undefined);
         setTimeout(() => {
           virtualizerRef.current?.scrollToIndex(response.middle);
+          dispatch(setActiveNoteId({ id: response.middle }));
         }, 0);
-      }, 1000);
+      }, 100);
     } catch (error) {}
   };
 
@@ -114,7 +117,7 @@ const NavigationPanel = memo(() => {
             <NavigationRenderItem
               item={item}
               index={index}
-              active={currentNoteId === item.id}
+              active={activeNoteId === item.id}
               disableDelete={Boolean(loadingInfo)}
             />
           );

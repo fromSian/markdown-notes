@@ -106,3 +106,19 @@ p {
   margin-block-start: 0;
   margin-block-end: 0;
 }
+
+.black_btn {
+  @apply rounded-full border border-primary-foreground px-1 py-2 text-center align-middle;
+}
+
+.orange_gradient {
+  @apply bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent;
+}
+
+.green_gradient {
+  @apply bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent;
+}
+
+.blue_gradient {
+  @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
+}

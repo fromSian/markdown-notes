@@ -1,12 +1,16 @@
-import { cn } from "@/lib/utils";
 import { ScrollToOptions, useVirtualizer } from "@tanstack/react-virtual";
-import { ReactNode, forwardRef, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactNode,
+  useImperativeHandle,
+} from "react";
 
 interface VirtualScrollProps {
   estimateSize: number;
   data: any[];
-  RenderItem: ({ item: any, index: number }) => ReactNode;
-  ParentItem?: ({ children: ReactNode }) => ReactNode;
+  parentRef: MutableRefObject<HTMLDivElement | null>;
+  RenderItem: ({ index, item }) => ReactNode;
   className?: string;
   style?: Object;
 }
@@ -14,19 +18,17 @@ interface VirtualScrollProps {
 const VirtualScroll = forwardRef(
   (
     {
+      parentRef,
       estimateSize,
-      data,
+      count,
       RenderItem,
-      ParentItem = () => <></>,
-      className,
-      style,
+      className = "",
+      style = {},
     }: VirtualScrollProps,
     ref
   ) => {
-    const parentRef = useRef<HTMLDivElement>(null);
-
     const virtualizer = useVirtualizer({
-      count: data.length,
+      count: count,
       getScrollElement: () => parentRef.current,
       estimateSize: () => estimateSize,
     });
@@ -36,57 +38,41 @@ const VirtualScroll = forwardRef(
       () => {
         return {
           scrollToIndex(index: number, option?: ScrollToOptions) {
-            if (index >= data.length - 1) {
-              return;
-            }
             virtualizer.scrollToIndex(index, option);
           },
         };
       },
-      [data]
+      []
     );
-    const items = virtualizer.getVirtualItems();
 
+    const items = virtualizer.getVirtualItems();
     return (
       <div
-        ref={parentRef}
-        className={cn(
-          "w-full h-full overflow-y-auto contain-strict",
-          className
-        )}
-        style={style}
+        style={{
+          height: virtualizer.getTotalSize(),
+          width: "100%",
+          position: "relative",
+        }}
       >
         <div
+          className={className}
           style={{
-            height: virtualizer.getTotalSize(),
+            position: "absolute",
+            top: 0,
+            left: 0,
             width: "100%",
-            position: "relative",
+            transform: `translateY(${items[0]?.start ?? 0}px)`,
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              transform: `translateY(${items[0]?.start ?? 0}px)`,
-            }}
-          >
-            <ParentItem>
-              {items.map((virtualRow) => (
-                <div
-                  key={virtualRow.key}
-                  data-index={virtualRow.index}
-                  ref={virtualizer.measureElement}
-                >
-                  <RenderItem
-                    item={data[virtualRow.index]}
-                    index={virtualRow.index}
-                  />
-                </div>
-              ))}
-            </ParentItem>
-          </div>
+          {items.map((virtualRow) => (
+            <div
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+            >
+              <RenderItem index={virtualRow.index} />
+            </div>
+          ))}
         </div>
       </div>
     );

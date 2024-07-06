@@ -1,5 +1,12 @@
 import { Loader } from "lucide-react";
-import { ChangeEvent, FocusEvent, KeyboardEvent, useState } from "react";
+
+import {
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent,
+  useCallback,
+  useState,
+} from "react";
 interface ContentTitleProps {
   id: string | number;
   initialValue: string;
@@ -21,45 +28,45 @@ const ContentTitle = ({
 }: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(false);
-
-  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-    e.target.style.height = "0px";
-    e.target.style.height = e.target.scrollHeight + "px";
-  };
+  const [isChanged, setIsChanged] = useState(false);
 
   const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
-      const target = e.target as HTMLTextAreaElement;
-      const value = target.value;
-      let splits = value.split("\n");
-      const length = splits.length - 1;
-      if (length) {
-        splits = splits.filter((v) => v);
-        target.value = splits.slice(0, splits.length).join("\n");
-
-        const flag = onNext();
-        console.log(flag);
-        if (flag) {
-          target.blur();
-        }
-      }
+      onNext();
     }
   };
-  const onBlur = (e: FocusEvent<HTMLTextAreaElement>) => {
+  const onBlur = useCallback(
+    (e: FocusEvent<HTMLTextAreaElement>) => {
+      if (!isChanged) {
+        return;
+      }
+
+      setValue(e.target.value);
+      e.target.style.height = "0px";
+      e.target.style.height = e.target.scrollHeight + "px";
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setIsChanged(false);
+      }, 2000);
+    },
+    [isChanged]
+  );
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setIsChanged(true);
+    const value = e.target.value;
+    const t = value.replace(/\r?\n/g, "");
+    e.target.value = t;
+
     setValue(e.target.value);
     e.target.style.height = "0px";
     e.target.style.height = e.target.scrollHeight + "px";
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
   };
   return (
     <>
       <textarea
         value={value}
-        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none pr-4 bg-transparent"
+        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none pr-4 bg-transparent pt-4"
         rows={1}
         onChange={onChange}
         maxLength={50}
@@ -69,7 +76,7 @@ const ContentTitle = ({
       <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
       <div className="flex gap-4 text-xs text-ttertiary mb-4">
         {loading ? (
-          <Loader className="animate-spin" />
+          <Loader size={16} className="animate-spin" />
         ) : (
           <>
             {updated && <p>{updated}</p>}
