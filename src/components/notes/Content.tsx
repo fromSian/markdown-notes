@@ -4,9 +4,7 @@ import {
   queryFirstNoteItems,
   queryRestNoteItems,
 } from "@/states/noteItem.slice.ts";
-import { Virtualizer } from "@tanstack/react-virtual";
 import {
-  MutableRefObject,
   memo,
   useCallback,
   useEffect,
@@ -37,14 +35,11 @@ type NoteItemInfoType = {
   loaded: boolean;
 };
 
-interface MainContentProps {
-  virtualizerRef: MutableRefObject<Virtualizer<HTMLDivElement, Element> | null>;
-  chapterIndex: number;
-}
+interface MainContentProps {}
 /**
  * 先加第一波然后promise all 其他的
  */
-const Content = memo(({ virtualizerRef, chapterIndex }: MainContentProps) => {
+const Content = memo(({}: MainContentProps) => {
   const { noteInfo, activeNoteId, noteItems } = useAppSelector(
     (state) => state.noteItem
   );

@@ -107,6 +107,21 @@ p {
   margin-block-end: 0;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  color: var(--text-tertiary);
+}
+
+.divider::before,
+.divider::after {
+  flex: 1;
+  content: "";
+  padding: 0.5px;
+  background-color: var(--text-tertiary);
+  @apply m-2;
+}
+
 .black_btn {
   @apply rounded-full border border-primary-foreground px-1 py-2 text-center align-middle;
 }

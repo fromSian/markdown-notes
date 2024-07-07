@@ -8,14 +8,15 @@ import { ReactNode } from "react";
 interface TooltipSimpleProps {
   children: ReactNode;
   content: ReactNode;
+  side?: "top" | "right" | "bottom" | "left" | undefined;
 }
 
-const TooltipSimple = ({ children, content }: TooltipSimpleProps) => {
+const TooltipSimple = ({ children, content, side }: TooltipSimpleProps) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent>{content}</TooltipContent>
+        <TooltipContent side={side}>{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

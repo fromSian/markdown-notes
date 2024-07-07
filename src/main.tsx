@@ -31,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/introduction",
-    element: lazyLoad("@/pages/Notes"),
+    element: lazyLoad("@/pages/introduction"),
   },
   {
     path: "/test",

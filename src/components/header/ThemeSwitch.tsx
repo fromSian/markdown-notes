@@ -1,14 +1,10 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { MoonStar, Settings, Sun } from "lucide-react";
+import { MoonStar, Sun, SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState, useTransition } from "react";
+import Select from "../ui/select";
 type optionType = "system" | "dark" | "light";
 const Icons: Record<optionType, ReactNode> = {
-  system: <Settings />,
+  system: <SunMoon />,
   dark: <MoonStar />,
   light: <Sun />,
 };
@@ -17,6 +13,7 @@ const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -27,36 +24,36 @@ const ThemeSwitch = () => {
     return null;
   }
 
+  const changeTheme = (item: string) => {
+    startTransition(() => {
+      setTheme(item);
+      setOpen(false);
+    });
+  };
+
   return (
-    <Popover
+    <Select
       open={open}
-      onOpenChange={(e) => {
-        console.log(e);
-        setOpen(e);
-      }}
+      setOpen={setOpen}
+      content={<div className="">{Icons[theme as optionType]}</div>}
     >
-      <PopoverTrigger>{Icons[theme as optionType]}</PopoverTrigger>
-      <PopoverContent asChild>
-        <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
-          {["system", "dark", "light"]
-            .filter((item) => item !== theme)
-            .map((item) => (
-              <div
-                className="flex justify-center cursor-pointer"
-                key={item}
-                onClick={() => {
-                  setTheme(item);
-                  setTimeout(() => {
-                    setOpen(false);
-                  }, 100);
-                }}
-              >
-                {Icons[item as optionType]}
-              </div>
-            ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+      <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
+        {["system", "dark", "light"]
+          .filter((item) => item !== theme)
+          .map((item) => (
+            <div
+              className="flex justify-between cursor-pointer items-center gap-2 "
+              key={item}
+              onClick={() => {
+                changeTheme(item);
+              }}
+            >
+              {Icons[item as optionType]}{" "}
+              <p className="text-sm italic">{item}</p>
+            </div>
+          ))}
+      </div>
+    </Select>
   );
 };
 

@@ -1,5 +1,5 @@
 import Content from "@/components/notes/Content";
-import NavigationPanel from "@/components/notes/NavigationPanel";
+import Navigation from "@/components/notes/Navigation";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -7,8 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { Virtualizer } from "@tanstack/react-virtual";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
 
 const initialPanelSize = {
@@ -24,15 +23,6 @@ const Notes = () => {
   const navigationRef = useRef<ImperativePanelHandle>(null);
 
   const dispatch = useAppDispatch();
-  const contentVirtualizerRef =
-    useRef<Virtualizer<HTMLDivElement, Element>>(null);
-
-  /**
-   * finish this
-   * and change the uistate using the useContext
-   *
-   */
-  const [activeNavigationIndex, setActiveNavigationIndex] = useState(-1);
 
   useEffect(() => {
     if (!navigationRef.current) {
@@ -80,11 +70,11 @@ const Notes = () => {
             });
           }}
         >
-          <NavigationPanel />
+          <Navigation />
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel order={2} defaultSize={initialPanelSize.content}>
-          <Content virtualizerRef={contentVirtualizerRef} />
+          <Content />
         </ResizablePanel>
       </ResizablePanelGroup>
     </>
