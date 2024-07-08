@@ -5,7 +5,7 @@ import { memo } from "react";
 const Export = memo(() => {
   return (
     <TooltipSimple content="export">
-      <Download />
+      <Download size={20} />
     </TooltipSimple>
   );
 });

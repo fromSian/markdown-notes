@@ -55,7 +55,7 @@ const Notes = () => {
           collapsible={true}
           defaultSize={initialPanelSize.navigation}
           minSize={2}
-          maxSize={30}
+          maxSize={60}
           className="transition-[flex]"
           onCollapse={() => {
             dispatch({

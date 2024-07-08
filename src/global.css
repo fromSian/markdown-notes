@@ -111,6 +111,7 @@ p {
   display: flex;
   align-items: center;
   color: var(--text-tertiary);
+  @apply truncate;
 }
 
 .divider::before,
@@ -119,7 +120,13 @@ p {
   content: "";
   padding: 0.5px;
   background-color: var(--text-tertiary);
-  @apply m-2;
+}
+
+.divider::before {
+  margin-right: 0.5rem;
+}
+.divider::after {
+  margin-left: 0.5rem;
 }
 
 .black_btn {

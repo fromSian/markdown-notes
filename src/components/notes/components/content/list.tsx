@@ -1,27 +1,48 @@
+import { useAppSelector } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
-import { format } from "date-fns";
 import { Loader } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import type { DateRange } from "react-day-picker";
+import {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { v4 as uuid4 } from "uuid";
-import Item from "./item";
-
+import Item from "./item/index";
+import NewEditor from "./NewEditor";
+import Subline from "./subline";
+import Title from "./title";
 interface ListProps {
-  date: DateRange | undefined;
+  scrollRef: MutableRefObject<HTMLDivElement>;
+  navigationId: string | number | undefined;
   data: NoteNavigationType[];
   setData: Dispatch<SetStateAction<NoteNavigationType[]>>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
+const List = ({
+  navigationId,
+  data,
+  setData,
+  loading,
+  setLoading,
+}: ListProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
   const previousRatioRef = useRef(0);
   const queryRef = useRef<ReturnType<typeof setTimeout> | undefined>();
   const pageRef = useRef(1);
+  const newRef = useRef(null);
+  const contentRefs = useRef([]);
+  const [desc, setDesc] = useState(true);
 
+  const { noteInfo, activeNoteId, noteItems } = useAppSelector(
+    (state) => state.noteItem
+  );
   const [loaded, setLoaded] = useState(false);
   const fetchNext = () => {
     if (queryRef.current) {
@@ -44,13 +65,14 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       });
       pageRef.current = page + 1;
       //   response.links.next is null
-      if (page > 0) {
+      if (page > 1) {
         setLoaded(true);
         targetRef.current && observerRef.current?.unobserve(targetRef.current);
       }
+      previousRatioRef.current = 0;
       queryRef.current = undefined;
       setLoading(false);
-    }, 3000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -74,7 +96,6 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     };
 
     observerRef.current = new IntersectionObserver(callback, options);
-
     return () => {
       targetRef.current && observerRef.current?.unobserve(targetRef.current);
     };
@@ -98,7 +119,7 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
         setLoaded(true);
       }
       setLoading(false);
-    }, 3000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -107,46 +128,53 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       clearTimeout(queryRef.current);
       queryRef.current = undefined;
     }
+    previousRatioRef.current = 0;
+
     setLoaded(false);
+
     setData([]);
+
+    if (!navigationId) {
+      return;
+    }
     fetchFirst();
     pageRef.current = 1;
-  }, [date]);
+  }, [navigationId, desc]);
 
+  const onExistAddNew = () => {
+    // setIsAddingNew(false);
+  };
   return (
     <div
-      ref={scrollRef}
-      className="w-full overflow-auto pb-4"
+      className="overflow-auto pb-4"
       style={{
         height: "calc(100% - 36px)",
       }}
+      ref={scrollRef}
     >
-      {date?.from ? (
-        <p className="text-xs italic divider w-full truncate">
-          {format(date.from, "LLL dd, y")}
-        </p>
-      ) : (
-        ""
-      )}
-
-      <div className="flex flex-col">
+      <Title initialValue={noteInfo?.title} />
+      <Subline
+        updated="update"
+        created="created"
+        count={12}
+        desc={desc}
+        setDesc={setDesc}
+      />
+      {true && <NewEditor ref={newRef} onExistAddNew={onExistAddNew} />}
+      <div className="flex flex-col gap-6">
         {data &&
           data.map((item, index) => (
-            <Item key={item.id} item={item} index={index} loaded={loaded} />
+            <Item key={item.id} item={item} index={index} />
           ))}
       </div>
 
       <div className="w-full flex justify-center my-4">
         {loading && <Loader className="animate-spin" />}
-        {loaded && <p className="text-xs text-ttertiary">already loaded all</p>}
+        {loaded && (
+          <p className="text-xs italic text-ttertiary">already loaded all</p>
+        )}
       </div>
-      {date?.to ? (
-        <p className="text-xs italic divider w-full truncate">
-          {format(date.to, "LLL dd, y")}
-        </p>
-      ) : (
-        ""
-      )}
+
       <div ref={targetRef} className="w-full"></div>
     </div>
   );

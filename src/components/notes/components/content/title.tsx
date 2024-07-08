@@ -1,40 +1,15 @@
-import { Loader } from "lucide-react";
-
-import {
-  ChangeEvent,
-  FocusEvent,
-  KeyboardEvent,
-  useCallback,
-  useState,
-} from "react";
+import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
 interface ContentTitleProps {
   id: string | number;
   initialValue: string;
-  updated: string;
-  created: string;
-  count: number;
-  onNext: () => boolean | undefined;
   onSave: (text: string) => void;
 }
 
-const ContentTitle = ({
-  id,
-  updated,
-  created,
-  count,
-  initialValue,
-  onNext,
-  onSave,
-}: ContentTitleProps) => {
+const Title = ({ id, initialValue, onSave }: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
 
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      onNext();
-    }
-  };
   const onBlur = useCallback(
     (e: FocusEvent<HTMLTextAreaElement>) => {
       if (!isChanged) {
@@ -66,27 +41,15 @@ const ContentTitle = ({
     <>
       <textarea
         value={value}
-        className="resize-none text-xl w-full field overflow-hidden focus-visible:outline-none pr-4 bg-transparent pt-4"
+        className="resize-none text-2xl w-full field overflow-hidden focus-visible:outline-none bg-transparent"
         rows={1}
         onChange={onChange}
-        maxLength={50}
-        onKeyDown={onKeyDown}
+        maxLength={100}
         onBlur={onBlur}
       />
       <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
-      <div className="flex gap-4 text-xs text-ttertiary mb-4">
-        {loading ? (
-          <Loader size={16} className="animate-spin" />
-        ) : (
-          <>
-            {updated && <p>{updated}</p>}
-            {created && <p>{created}</p>}
-            <p>{count || 0} items</p>
-          </>
-        )}
-      </div>
     </>
   );
 };
 
-export default ContentTitle;
+export default Title;

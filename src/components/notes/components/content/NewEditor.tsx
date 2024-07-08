@@ -33,7 +33,6 @@ const NewEditor = forwardRef(({ onExistAddNew }, ref) => {
       await dispatch(addOneNoteItem());
       setLoading(false);
       onExistAddNew();
-      console.log(value);
     }, 2000);
   };
   const onCancel = () => {
@@ -51,17 +50,9 @@ const NewEditor = forwardRef(({ onExistAddNew }, ref) => {
     <div
       ref={parentRef}
       onClick={focusEditor}
-      className="border-t-2 ml-4 pb-8 min-h-32 relative pt-2"
+      className="pb-8 min-h-32 relative pt-2 mb-4"
     >
-      <p
-        className="italic px-4 absolute bg-blue-800 rounded-full text-ttertiary"
-        style={{
-          left: "50%",
-          transform: "translate(-50%, -100%)",
-        }}
-      >
-        new item
-      </p>
+      <p className="divider">new item</p>
       <Editor content={""} ref={ref} />
       <div
         className="absolute bottom-0 left-0 w-full bg-secondary flex gap-8 justify-center"

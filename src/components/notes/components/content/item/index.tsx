@@ -73,7 +73,7 @@ const Item = memo(
     };
 
     return (
-      <>
+      <div>
         <ItemHeader
           toggleOpen={toggleOpen}
           open={open}
@@ -100,12 +100,12 @@ const Item = memo(
           </div>
         </div>
         <div className="w-full h-0.5 bg-border my-2" />
-        <div className="flex justify-between gap-2 text-xs text-ttertiary mt-1 mb-6">
+        <div className="flex justify-between gap-2 text-xs text-ttertiary">
           <span>
             {item?.created || "-"} {item?.updated || "-"}
           </span>
         </div>
-      </>
+      </div>
     );
   })
 );

@@ -13,7 +13,7 @@ const Header = ({ setDate, newing, handleAddNew }: HeaderProps) => {
     <div
       className="w-full backdrop-blur-sm flex justify-between items-center px-4"
       style={{
-        height: "48px",
+        height: "36px",
       }}
     >
       <DateRange setDate={setDate} />

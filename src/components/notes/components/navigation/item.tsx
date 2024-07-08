@@ -33,7 +33,7 @@ const Item = memo(
       <div
         className={cn(
           className,
-          "group cursor-pointer py-2 px-4 border-b rounded",
+          "group cursor-pointer py-4 px-4 border-b rounded",
           active && "bg-secondary"
         )}
         // onClick={onItemClick}
