@@ -9,13 +9,15 @@ const Item = memo(
     index,
     item,
     active,
-    loaded,
+    loading,
+    handleDelete,
     className = "",
   }: {
     index: number;
     item: NoteNavigationType;
     active: boolean;
-    loaded: boolean;
+    loading: boolean;
+    handleDelete: (id: string | number | undefined) => void;
     className?: string;
   }) => {
     const dispatch = useAppDispatch();
@@ -29,11 +31,10 @@ const Item = memo(
       });
     };
 
-    // const handleDelete = async () => {
-    //   try {
-    //     const response = await dispatch(deleteNote({ id: item.id })).unwrap();
-    //   } catch (error) {}
-    // };
+    const onDelete = (e) => {
+      e.stopPropagation();
+      handleDelete(item.id);
+    };
 
     return (
       <div
@@ -50,7 +51,7 @@ const Item = memo(
           </p>
           <TooltipSimple content={123}>
             <>
-              {!loaded ? (
+              {loading ? (
                 <Loader
                   size={16}
                   className="animate-spin group-hover:block hidden"
@@ -58,7 +59,7 @@ const Item = memo(
               ) : (
                 <Trash2
                   size={16}
-                  // onClick={handleDelete}
+                  onClick={onDelete}
                   className="group-hover:block hidden cursor-pointer flex-shrink-0 transition-all text-ttertiary hover:text-tprimary active:scale-90"
                 />
               )}

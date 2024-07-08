@@ -123,6 +123,14 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     pageRef.current = 1;
   }, [date]);
 
+  const handleDelete = (id: string | number | undefined) => {
+    if (queryRef.current) {
+      clearTimeout(queryRef.current);
+      queryRef.current = undefined;
+    }
+    setData((v) => v.filter((v) => v.id != id));
+  };
+
   return (
     <div
       ref={scrollRef}
@@ -146,8 +154,9 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
               key={item.id}
               item={activeId === item.id ? activeInfo : item}
               index={index}
-              loaded={loaded}
+              loading={loading}
               active={activeId === item.id}
+              handleDelete={handleDelete}
             />
           ))}
       </div>
