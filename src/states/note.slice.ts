@@ -4,11 +4,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface NoteState {
   activeId: string | number | undefined;
   activeInfo: NoteNavigationType | undefined;
+  updateInfo: NoteNavigationType | undefined;
 }
 
 const initialState: NoteState = {
   activeId: undefined,
   activeInfo: undefined,
+  updateInfo: undefined,
 };
 
 export const query = createAsyncThunk("notes/query", async () => {
@@ -31,18 +33,14 @@ export const noteSlice = createSlice({
       return {
         activeId: info?.id,
         activeInfo: info,
+        updateInfo: undefined,
       };
     },
-    updateInfo(state, action: PayloadAction<Partial<NoteNavigationType>>) {
-      return state.activeInfo
-        ? {
-            ...state,
-            activeInfo: {
-              ...state.activeInfo,
-              ...action.payload,
-            },
-          }
-        : state;
+    setUpdateInfo(state, action: PayloadAction<NoteNavigationType>) {
+      return {
+        ...state,
+        updateInfo: action.payload,
+      };
     },
   },
   extraReducers: (builder) => {

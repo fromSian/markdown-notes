@@ -1,13 +1,24 @@
-import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
+import {
+  ChangeEvent,
+  FocusEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 interface ContentTitleProps {
+  id: string | number | undefined;
   initialValue: string;
-  handleSave: (text: string) => void;
+  handleSave: (id: string | number | undefined, text: string) => void;
 }
 
-const Title = ({ initialValue, handleSave }: ContentTitleProps) => {
+const Title = ({ id, initialValue, handleSave }: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [id, initialValue]);
 
   const onBlur = useCallback(
     (e: FocusEvent<HTMLTextAreaElement>) => {
@@ -16,11 +27,12 @@ const Title = ({ initialValue, handleSave }: ContentTitleProps) => {
       }
 
       setValue(e.target.value);
+      const text = e.target.value;
       e.target.style.height = "0px";
       e.target.style.height = e.target.scrollHeight + "px";
       setLoading(true);
       setTimeout(() => {
-        handleSave(e.target.value);
+        handleSave(id, text);
         setLoading(false);
         setIsChanged(false);
       }, 2000);

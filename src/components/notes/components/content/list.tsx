@@ -30,7 +30,6 @@ const List = ({
   setAdding,
 }: ListProps) => {
   const dispatch = useAppDispatch();
-
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
@@ -140,11 +139,15 @@ const List = ({
     pageRef.current = 1;
   }, [activeId, desc]);
 
-  const handleSave = (text: string) => {
+  const handleSave = (id: string | number | undefined, text: string) => {
     dispatch({
-      type: "note/updateInfo",
+      type: "note/setUpdateInfo",
       payload: {
+        id: id,
         title: text,
+        summary: "new summary",
+        updated: "ff",
+        created: "c",
       },
     });
   };
@@ -157,7 +160,7 @@ const List = ({
       }}
       ref={scrollRef}
     >
-      <Title initialValue={info.title} handleSave={handleSave} />
+      <Title id={activeId} initialValue={info.title} handleSave={handleSave} />
       <Subline
         updated={info.updated}
         created={info.created}

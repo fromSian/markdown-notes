@@ -23,7 +23,9 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const queryRef = useRef<ReturnType<typeof setTimeout> | undefined>();
   const pageRef = useRef(1);
 
-  const { activeId, activeInfo } = useAppSelector((state) => state.note);
+  const { activeId, activeInfo, updateInfo } = useAppSelector(
+    (state) => state.note
+  );
   const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
@@ -130,6 +132,17 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     }
     setData((v) => v.filter((v) => v.id != id));
   };
+
+  useEffect(() => {
+    if (!updateInfo) {
+      return;
+    }
+    if (queryRef.current) {
+      clearTimeout(queryRef.current);
+      queryRef.current = undefined;
+    }
+    setData((v) => [updateInfo, ...v.filter((v) => v.id !== updateInfo.id)]);
+  }, [updateInfo]);
 
   return (
     <div
