@@ -1,5 +1,5 @@
-import { useAppSelector } from "@/states/hooks";
-import { NoteNavigationType } from "@/types/notes";
+import { useAppDispatch } from "@/states/hooks";
+import { NoteContentItemType, NoteNavigationType } from "@/types/notes";
 import { Loader } from "lucide-react";
 import {
   Dispatch,
@@ -15,34 +15,33 @@ import NewEditor from "./NewEditor";
 import Subline from "./subline";
 import Title from "./title";
 interface ListProps {
-  scrollRef: MutableRefObject<HTMLDivElement>;
-  navigationId: string | number | undefined;
-  data: NoteNavigationType[];
-  setData: Dispatch<SetStateAction<NoteNavigationType[]>>;
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
+  contentRefs: MutableRefObject<HTMLDivElement>;
+  activeId: string | number | undefined;
+  info: NoteNavigationType;
+  adding: boolean;
+  setAdding: Dispatch<SetStateAction<boolean>>;
 }
 
 const List = ({
-  navigationId,
-  data,
-  setData,
-  loading,
-  setLoading,
+  contentRefs,
+  activeId,
+  info,
+  adding,
+  setAdding,
 }: ListProps) => {
+  const dispatch = useAppDispatch();
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
   const previousRatioRef = useRef(0);
   const queryRef = useRef<ReturnType<typeof setTimeout> | undefined>();
+
   const pageRef = useRef(1);
   const newRef = useRef(null);
-  const contentRefs = useRef([]);
   const [desc, setDesc] = useState(true);
-
-  const { noteInfo, activeNoteId, noteItems } = useAppSelector(
-    (state) => state.noteItem
-  );
+  const [data, setData] = useState<NoteContentItemType[]>([]);
+  const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const fetchNext = () => {
     if (queryRef.current) {
@@ -56,7 +55,7 @@ const List = ({
           ...v,
           ...Array.from({ length: 15 }, (_, i) => ({
             id: uuid4(),
-            title: "title",
+            content: "content",
             summary: "summary",
             created: "created",
             updated: "updated",
@@ -107,7 +106,7 @@ const List = ({
       setData(
         Array.from({ length: 15 }, (_, i) => ({
           id: uuid4(),
-          title: "title",
+          content: "content",
           summary: "summary",
           created: "created",
           updated: "updated",
@@ -134,16 +133,22 @@ const List = ({
 
     setData([]);
 
-    if (!navigationId) {
+    if (!activeId) {
       return;
     }
     fetchFirst();
     pageRef.current = 1;
-  }, [navigationId, desc]);
+  }, [activeId, desc]);
 
-  const onExistAddNew = () => {
-    // setIsAddingNew(false);
+  const handleSave = (text: string) => {
+    dispatch({
+      type: "note/updateInfo",
+      payload: {
+        title: text,
+      },
+    });
   };
+
   return (
     <div
       className="overflow-auto pb-4"
@@ -152,19 +157,24 @@ const List = ({
       }}
       ref={scrollRef}
     >
-      <Title initialValue={noteInfo?.title} />
+      <Title initialValue={info.title} handleSave={handleSave} />
       <Subline
-        updated="update"
-        created="created"
-        count={12}
+        updated={info.updated}
+        created={info.created}
+        count={info.count}
         desc={desc}
         setDesc={setDesc}
       />
-      {true && <NewEditor ref={newRef} onExistAddNew={onExistAddNew} />}
+      {adding && <NewEditor ref={newRef} setAdding={setAdding} />}
       <div className="flex flex-col gap-6">
         {data &&
           data.map((item, index) => (
-            <Item key={item.id} item={item} index={index} />
+            <Item
+              key={item.id}
+              item={item}
+              index={index}
+              ref={(element) => (contentRefs.current[index] = element)}
+            />
           ))}
       </div>
 

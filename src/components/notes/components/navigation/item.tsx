@@ -1,5 +1,6 @@
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { Loader, Trash2 } from "lucide-react";
 import { memo } from "react";
@@ -17,11 +18,16 @@ const Item = memo(
     loaded: boolean;
     className?: string;
   }) => {
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-    // const onItemClick = () => {
-    //   dispatch(setActiveNoteId({ id: item.id }));
-    // };
+    const onItemClick = () => {
+      dispatch({
+        type: "note/setActive",
+        payload: {
+          info: item,
+        },
+      });
+    };
 
     // const handleDelete = async () => {
     //   try {
@@ -36,7 +42,7 @@ const Item = memo(
           "group cursor-pointer py-4 px-4 border-b rounded",
           active && "bg-secondary"
         )}
-        // onClick={onItemClick}
+        onClick={onItemClick}
       >
         <div className="flex justify-between items-center">
           <p className="text-tprimary truncate">

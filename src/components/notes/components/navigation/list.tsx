@@ -1,3 +1,4 @@
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
@@ -21,6 +22,9 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const previousRatioRef = useRef(0);
   const queryRef = useRef<ReturnType<typeof setTimeout> | undefined>();
   const pageRef = useRef(1);
+
+  const { activeId, activeInfo } = useAppSelector((state) => state.note);
+  const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
   const fetchNext = () => {
@@ -83,22 +87,22 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const fetchFirst = () => {
     setLoading(true);
     setTimeout(() => {
-      setData(
-        Array.from({ length: 15 }, (_, i) => ({
-          id: uuid4(),
-          title: "title",
-          summary: "summary",
-          created: "created",
-          updated: "updated",
-        }))
-      );
+      const _data = Array.from({ length: 15 }, (_, i) => ({
+        id: uuid4(),
+        title: "title",
+        summary: "summary",
+        created: "created",
+        updated: "updated",
+        count: 0,
+      }));
+      setData(_data);
       if (true) {
         targetRef.current && observerRef.current?.observe(targetRef.current);
       } else {
         setLoaded(true);
       }
       setLoading(false);
-    }, 3000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -107,6 +111,12 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       clearTimeout(queryRef.current);
       queryRef.current = undefined;
     }
+    // dispatch({
+    //   type: "note/setActive",
+    //   payload: {
+    //     info: undefined,
+    //   },
+    // });
     setLoaded(false);
     setData([]);
     fetchFirst();
@@ -132,7 +142,13 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       <div className="flex flex-col">
         {data &&
           data.map((item, index) => (
-            <Item key={item.id} item={item} index={index} loaded={loaded} />
+            <Item
+              key={item.id}
+              item={activeId === item.id ? activeInfo : item}
+              index={index}
+              loaded={loaded}
+              active={activeId === item.id}
+            />
           ))}
       </div>
 

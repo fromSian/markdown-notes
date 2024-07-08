@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
-import { deleteNoteItem } from "@/states/noteItem.slice";
 import { FocusPosition } from "@tiptap/react";
 import {
   forwardRef,
@@ -68,9 +67,7 @@ const Item = memo(
       setIsChanged(true);
     };
 
-    const handleDelete = async () => {
-      const reponse = await dispatch(deleteNoteItem({ id: item.id })).unwrap();
-    };
+    const handleDelete = async () => {};
 
     return (
       <div>

@@ -1,23 +1,30 @@
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { useAppDispatch } from "@/states/hooks";
-import { addOneNoteItem } from "@/states/noteItem.slice";
 import { Check, X } from "lucide-react";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  forwardRef,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Editor from "./Editor";
 import MaskLoader from "./MaskLoader";
 
-interface NewEditorProps {}
-const NewEditor = forwardRef(({ onExistAddNew }, ref) => {
+interface NewEditorProps {
+  setAdding: Dispatch<SetStateAction<boolean>>;
+}
+const NewEditor = forwardRef(({ setAdding }: NewEditorProps, ref) => {
   const [loading, setLoading] = useState(false);
   const parentRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(parentRef.current);
     if (parentRef.current) {
       parentRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "nearest",
       });
     }
   }, []);
@@ -30,13 +37,12 @@ const NewEditor = forwardRef(({ onExistAddNew }, ref) => {
 
     const value = ref.current?.getHTMLValue();
     setTimeout(async () => {
-      await dispatch(addOneNoteItem());
       setLoading(false);
-      onExistAddNew();
+      setAdding(false);
     }, 2000);
   };
   const onCancel = () => {
-    onExistAddNew();
+    setAdding(false);
   };
 
   const focusEditor = () => {

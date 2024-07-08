@@ -4,27 +4,13 @@ export type NoteNavigationType = {
   created: string;
   updated: string;
   summary: string;
+  count: number;
 };
 
-export type NoteContentType = {
+export type NoteContentItemType = {
   id: string | number;
   content: string;
   created: string;
   updated: string;
-  type: "new" | "exist";
-  loaded: boolean;
-};
-
-export enum NoteChaptersStatusType {
-  "nochanges",
-  "new",
-  "saved",
-  "saving",
-  "saveFailed",
-}
-
-export type NoteChaptersType = {
-  id: string | number;
   summary: string;
-  status: keyof typeof NoteChaptersStatusType;
 };

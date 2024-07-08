@@ -1,11 +1,10 @@
 import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
 interface ContentTitleProps {
-  id: string | number;
   initialValue: string;
-  onSave: (text: string) => void;
+  handleSave: (text: string) => void;
 }
 
-const Title = ({ id, initialValue, onSave }: ContentTitleProps) => {
+const Title = ({ initialValue, handleSave }: ContentTitleProps) => {
   const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
@@ -21,6 +20,7 @@ const Title = ({ id, initialValue, onSave }: ContentTitleProps) => {
       e.target.style.height = e.target.scrollHeight + "px";
       setLoading(true);
       setTimeout(() => {
+        handleSave(e.target.value);
         setLoading(false);
         setIsChanged(false);
       }, 2000);

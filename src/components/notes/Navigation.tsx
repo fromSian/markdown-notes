@@ -1,3 +1,4 @@
+import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { addDays } from "date-fns";
 import { useCallback, useState } from "react";
@@ -7,6 +8,7 @@ import Header from "./components/navigation/header";
 import List from "./components/navigation/list";
 
 const Navigation = () => {
+  const dispatch = useAppDispatch();
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
@@ -27,16 +29,21 @@ const Navigation = () => {
        * reset the date
        * refetching the data
        */
-      setData((v) => [
-        {
-          id: uuid4(),
-          title: "new title",
-          summary: "new summary",
-          created: "new created",
-          updated: "new updated",
+      const newItem = {
+        id: uuid4(),
+        title: "new title",
+        summary: "new summary",
+        created: "new created",
+        updated: "new updated",
+        count: 0,
+      };
+      setData((v) => [newItem, ...v]);
+      dispatch({
+        type: "note/setActive",
+        payload: {
+          info: newItem,
         },
-        ...v,
-      ]);
+      });
       setNewing(false);
     }, 3000);
   }, []);
@@ -44,6 +51,7 @@ const Navigation = () => {
   return (
     <div className="w-full h-full">
       <Header
+        date={date}
         setDate={setDate}
         newing={newing}
         handleAddNew={handleAddOneNote}
