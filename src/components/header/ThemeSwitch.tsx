@@ -35,7 +35,9 @@ const ThemeSwitch = () => {
     <Select
       open={open}
       setOpen={setOpen}
-      content={<div className="">{Icons[theme as optionType]}</div>}
+      content={
+        <div className="cursor-pointer">{Icons[theme as optionType]}</div>
+      }
     >
       <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
         {["system", "dark", "light"]

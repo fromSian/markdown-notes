@@ -42,7 +42,7 @@ const LanguageSwitch = () => {
     <Select
       open={open}
       setOpen={setOpen}
-      content={<div className="">{t(currentLng)}</div>}
+      content={<div className="cursor-pointer">{t(currentLng)}</div>}
     >
       <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
         {languages
