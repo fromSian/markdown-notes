@@ -4,22 +4,27 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ReactNode } from "react";
+import { forwardRef, LegacyRef, ReactNode } from "react";
 interface TooltipSimpleProps {
   children: ReactNode;
   content: ReactNode;
   side?: "top" | "right" | "bottom" | "left" | undefined;
 }
 
-const TooltipSimple = ({ children, content, side }: TooltipSimpleProps) => {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent side={side}>{content}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};
+const TooltipSimple = forwardRef(
+  (
+    { children, content, side }: TooltipSimpleProps,
+    ref: LegacyRef<HTMLButtonElement>
+  ) => {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger ref={ref}>{children}</TooltipTrigger>
+          <TooltipContent side={side}>{content}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+);
 
 export default TooltipSimple;

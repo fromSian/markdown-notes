@@ -20,6 +20,7 @@ interface ListProps {
   info: NoteNavigationType;
   adding: boolean;
   setAdding: Dispatch<SetStateAction<boolean>>;
+  sortInfo: any;
 }
 
 const List = ({
@@ -28,6 +29,7 @@ const List = ({
   info,
   adding,
   setAdding,
+  sortInfo,
 }: ListProps) => {
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -38,10 +40,10 @@ const List = ({
 
   const pageRef = useRef(1);
   const newRef = useRef(null);
-  const [desc, setDesc] = useState(true);
   const [data, setData] = useState<NoteContentItemType[]>([]);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
   const fetchNext = () => {
     if (queryRef.current) {
       return;
@@ -137,7 +139,7 @@ const List = ({
     }
     fetchFirst();
     pageRef.current = 1;
-  }, [activeId, desc]);
+  }, [activeId, sortInfo]);
 
   const handleSave = (id: string | number | undefined, text: string) => {
     dispatch({
@@ -165,8 +167,6 @@ const List = ({
         updated={"2019.05.06 15:34:23"}
         created={"2019.05.06 15:34:23"}
         count={info.count}
-        desc={desc}
-        setDesc={setDesc}
       />
       {adding && <NewEditor ref={newRef} setAdding={setAdding} />}
       <div className="flex flex-col gap-6">

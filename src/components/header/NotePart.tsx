@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { PanelLeftClose, PanelRightOpen, Search } from "lucide-react";
+import { PanelLeftClose, PanelRightOpen } from "lucide-react";
 import { memo } from "react";
 const NotePart = memo(() => {
   const { showNavigation } = useAppSelector((state) => state.ui);
@@ -15,7 +15,6 @@ const NotePart = memo(() => {
       >
         {showNavigation ? <PanelLeftClose /> : <PanelRightOpen />}
       </button>
-      <Search />
     </div>
   );
 });

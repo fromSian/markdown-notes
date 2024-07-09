@@ -16,7 +16,10 @@ const Content = memo(({}: MainContentProps) => {
   const handleAdding = () => {
     setAdding(true);
   };
-
+  const [sortInfo, setSortInfo] = useState({
+    field: "created",
+    order: "desc",
+  });
   const toggleAllItem = () => {
     if (!contentRefs.current.length) {
       return;
@@ -33,7 +36,12 @@ const Content = memo(({}: MainContentProps) => {
     <div className={cn("relative w-full h-full pl-2 sm:pl-4")}>
       {activeId !== undefined && activeInfo ? (
         <>
-          <Operator toggleExpand={toggleAllItem} handleAdding={handleAdding} />
+          <Operator
+            toggleExpand={toggleAllItem}
+            handleAdding={handleAdding}
+            sortInfo={sortInfo}
+            setSortInfo={setSortInfo}
+          />
 
           <List
             contentRefs={contentRefs}
@@ -41,6 +49,7 @@ const Content = memo(({}: MainContentProps) => {
             info={activeInfo}
             adding={adding}
             setAdding={setAdding}
+            sortInfo={sortInfo}
           />
         </>
       ) : (
