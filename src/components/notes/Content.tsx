@@ -30,7 +30,7 @@ const Content = memo(({}: MainContentProps) => {
   };
 
   return (
-    <div className={cn("relative w-full h-full pl-4")}>
+    <div className={cn("relative w-full h-full pl-2 sm:pl-4")}>
       {activeId !== undefined && activeInfo ? (
         <>
           <Operator toggleExpand={toggleAllItem} handleAdding={handleAdding} />

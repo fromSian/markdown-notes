@@ -1,40 +1,23 @@
-import { ArrowUpDown, Loader } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Loader } from "lucide-react";
 
 interface SublineProps {
   updated: string;
   created: string;
   count: number;
-  desc: boolean;
-  setDesc: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
 }
 
-const Subline = ({
-  updated,
-  created,
-  count,
-  desc,
-  setDesc,
-  loading,
-}: SublineProps) => {
-  const changeDesc = () => {
-    setDesc((v) => !v);
-  };
-
+const Subline = ({ updated, created, count, loading }: SublineProps) => {
   return (
     <>
-      <div className="flex gap-4 text-xs text-ttertiary mb-4">
+      <div className="flex flex-col xs:flex-row gap-2 sm:gap-4 text-xs text-ttertiary mb-4 transition-all">
         {loading ? (
           <Loader size={16} className="animate-spin" />
         ) : (
           <>
-            {updated && <p>{updated}</p>}
-            {created && <p>{created}</p>}
-            <p>{count || 0} items</p>
-            <button className="flex gap-1" onClick={changeDesc}>
-              {desc ? "desc" : "asc"} <ArrowUpDown size={16} />
-            </button>
+            {updated && <p className="truncate">{updated}</p>}
+            {created && <p className="truncate">{created}</p>}
+            <p className="truncate">{count || 0} items</p>
           </>
         )}
       </div>

@@ -154,7 +154,7 @@ const List = ({
 
   return (
     <div
-      className="overflow-auto pb-4"
+      className="overflow-auto pb-4 pr-2 sm:pr-4"
       style={{
         height: "calc(100% - 36px)",
       }}
@@ -162,8 +162,8 @@ const List = ({
     >
       <Title id={activeId} initialValue={info.title} handleSave={handleSave} />
       <Subline
-        updated={info.updated}
-        created={info.created}
+        updated={"2019.05.06 15:34:23"}
+        created={"2019.05.06 15:34:23"}
         count={info.count}
         desc={desc}
         setDesc={setDesc}
