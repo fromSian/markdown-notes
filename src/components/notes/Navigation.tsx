@@ -1,18 +1,16 @@
+import { getErrorMessage } from "@/request/error";
+import { addNote } from "@/request/notes";
 import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
-import { addDays } from "date-fns";
 import { useCallback, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { v4 as uuid4 } from "uuid";
+import { toast } from "sonner";
 import Header from "./components/navigation/header";
 import List from "./components/navigation/list";
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
   const [data, setData] = useState<NoteNavigationType[]>([]);
   const [loading, setLoading] = useState(false);
   const [newing, setNewing] = useState(false);
@@ -21,31 +19,25 @@ const Navigation = () => {
     if (loading) {
       return;
     }
-    setNewing(true);
-    setTimeout(() => {
-      /**
-       * no use this
-       * post the new items
-       * reset the date
-       * refetching the data
-       */
-      const newItem = {
-        id: uuid4(),
-        title: "new title",
-        summary: "new summary",
-        created: "new created",
-        updated: "new updated",
-        count: 0,
-      };
-      setData((v) => [newItem, ...v]);
-      dispatch({
-        type: "note/setActive",
-        payload: {
-          info: newItem,
-        },
-      });
+
+    try {
+      setNewing(true);
+      const response = await addNote();
+      if (response) {
+        setData((v) => [response, ...v]);
+        dispatch({
+          type: "note/setActive",
+          payload: {
+            info: response,
+          },
+        });
+        setNewing(false);
+      }
+    } catch (error) {
       setNewing(false);
-    }, 3000);
+      toast.warning(getErrorMessage(error));
+      console.log(error);
+    }
   }, []);
 
   return (
@@ -55,6 +47,7 @@ const Navigation = () => {
         setDate={setDate}
         newing={newing}
         handleAddNew={handleAddOneNote}
+        newingBounce={!data?.length}
       />
       <List
         date={date}

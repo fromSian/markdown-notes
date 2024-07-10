@@ -8,12 +8,12 @@ interface EmptyProps {
 const Empty = ({ className, message }: EmptyProps) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center h-full w-full absolute top-16 text-ttertiary ${
+      className={`flex flex-col items-center justify-center h-full w-full absolute text-ttertiary ${
         className || ""
       }`}
     >
       <Frown size={28} />
-      <p className="italic">{message || "No data found"}</p>
+      <p className="italic truncate">{message || "No data found"}</p>
     </div>
   );
 };

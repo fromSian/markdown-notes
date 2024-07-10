@@ -13,11 +13,12 @@ import { Dispatch, SetStateAction, useState, useTransition } from "react";
 import CalendarRange from "./CalendarRange";
 
 interface DateRangeProps {
+  disabled: boolean;
   date: DateRange | undefined;
   setDate: Dispatch<SetStateAction<DateRange | undefined>>;
 }
 
-const DateRange = ({ date, setDate }: DateRangeProps) => {
+const DateRange = ({ disabled, date, setDate }: DateRangeProps) => {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -41,20 +42,25 @@ const DateRange = ({ date, setDate }: DateRangeProps) => {
   };
 
   return (
-    <div className={cn("grid gap-2")}>
+    <div className={cn("grid gap-2", disabled && "cursor-not-allowed")}>
       <Popover open={open} onOpenChange={handleChange}>
         <PopoverTrigger asChild>
           <div
             className={cn(
               "p-1 rounded-sm  cursor-pointer",
-              date && "bg-secondary text-red-500"
+              date && "bg-secondary text-red-500",
+              disabled && "pointer-events-none"
             )}
           >
             <CalendarIcon size={20} />
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <CalendarRange onCancel={onCancel} onSubmit={onSubmit} />
+          <CalendarRange
+            onCancel={onCancel}
+            onSubmit={onSubmit}
+            initialDate={date}
+          />
         </PopoverContent>
       </Popover>
     </div>

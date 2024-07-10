@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/sonner";
 import { store } from "@/states/store";
 import { ThemeProvider } from "next-themes";
 import React, { lazy, Suspense } from "react";
@@ -46,6 +45,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>
-    <Toaster />
   </React.StrictMode>
 );

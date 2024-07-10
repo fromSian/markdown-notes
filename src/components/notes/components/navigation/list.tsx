@@ -1,10 +1,11 @@
+import Empty from "@/components/ui/Empty";
+import { deleteNote, queryNoteNavigation } from "@/request/notes";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { v4 as uuid4 } from "uuid";
 import Item from "./item";
 
 interface ListProps {
@@ -20,8 +21,8 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
   const previousRatioRef = useRef(0);
-  const queryRef = useRef<ReturnType<typeof setTimeout> | undefined>();
   const pageRef = useRef(1);
+  const controllerRef = useRef<AbortController>();
 
   const { activeId, activeInfo, updateInfo } = useAppSelector(
     (state) => state.note
@@ -29,34 +30,34 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
-  const fetchNext = () => {
-    if (queryRef.current) {
-      return;
-    }
-    setLoading(true);
-    queryRef.current = setTimeout(() => {
-      const page = pageRef.current;
-      setData((v) => {
-        return [
-          ...v,
-          ...Array.from({ length: 15 }, (_, i) => ({
-            id: uuid4(),
-            title: "title",
-            summary: "summary",
-            created: "created",
-            updated: "updated",
-          })),
-        ];
-      });
-      pageRef.current = page + 1;
-      //   response.links.next is null
-      if (page > 0) {
-        setLoaded(true);
-        targetRef.current && observerRef.current?.unobserve(targetRef.current);
+  const fetchNext = async () => {
+    try {
+      if (controllerRef.current) {
+        return;
       }
-      queryRef.current = undefined;
-      setLoading(false);
-    }, 3000);
+      controllerRef.current = new AbortController();
+      setLoading(true);
+
+      const page = pageRef.current;
+      console.log(page);
+      const response = await queryNoteNavigation(
+        { page: page + 1 },
+        controllerRef.current.signal
+      );
+      if (response) {
+        setData((prev) => [...prev, ...response.results]);
+        console.log(response.links.next);
+        if (!response.links.next) {
+          setLoaded(true);
+          targetRef.current &&
+            observerRef.current?.unobserve(targetRef.current);
+        } else {
+          pageRef.current = page + 1;
+        }
+        setLoading(false);
+        controllerRef.current = undefined;
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -73,6 +74,7 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     let callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.intersectionRatio > previousRatioRef.current) {
+          console.log("fetch");
           fetchNext();
         }
         previousRatioRef.current = entry.intersectionRatio;
@@ -86,50 +88,59 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     };
   }, []);
 
-  const fetchFirst = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const _data = Array.from({ length: 15 }, (_, i) => ({
-        id: uuid4(),
-        title: "title",
-        summary: "summary",
-        created: "created",
-        updated: "updated",
-        count: 0,
-      }));
-      setData(_data);
-      if (true) {
-        targetRef.current && observerRef.current?.observe(targetRef.current);
-      } else {
-        setLoaded(true);
+  const fetchFirst = async (date: DateRange | undefined) => {
+    try {
+      console.log(432);
+      controllerRef.current = new AbortController();
+      setLoading(true);
+      const response = await queryNoteNavigation(
+        {
+          start: date?.from ? format(date.from, "yyyy-MM-dd") : "",
+          end: date?.to ? format(date.to, "yyyy-MM-dd") : "",
+        },
+        controllerRef.current.signal
+      );
+      if (response) {
+        setData(response.results);
+        if (response.links.next) {
+          targetRef.current && observerRef.current?.observe(targetRef.current);
+        } else {
+          setLoaded(true);
+        }
+        if (response.results.length) {
+          dispatch({
+            type: "note/setActive",
+            payload: {
+              info: response.results[0],
+            },
+          });
+        }
       }
+      controllerRef.current = undefined;
       setLoading(false);
-    }, 1000);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     targetRef.current && observerRef.current?.unobserve(targetRef.current);
-    if (queryRef.current) {
-      clearTimeout(queryRef.current);
-      queryRef.current = undefined;
+
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+      controllerRef.current = undefined;
     }
-    // dispatch({
-    //   type: "note/setActive",
-    //   payload: {
-    //     info: undefined,
-    //   },
-    // });
     setLoaded(false);
     setData([]);
-    fetchFirst();
+    fetchFirst(date);
     pageRef.current = 1;
   }, [date]);
 
-  const handleDelete = (id: string | number | undefined) => {
-    if (queryRef.current) {
-      clearTimeout(queryRef.current);
-      queryRef.current = undefined;
+  const handleDelete = async (id: string | number | undefined) => {
+    if (controllerRef.current) {
+      return;
     }
+    await deleteNote(id);
     setData((v) => v.filter((v) => v.id != id));
   };
 
@@ -137,17 +148,13 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     if (!updateInfo) {
       return;
     }
-    if (queryRef.current) {
-      clearTimeout(queryRef.current);
-      queryRef.current = undefined;
-    }
     setData((v) => [updateInfo, ...v.filter((v) => v.id !== updateInfo.id)]);
   }, [updateInfo]);
 
   return (
     <div
       ref={scrollRef}
-      className="w-full overflow-auto pb-4"
+      className="w-full overflow-auto pb-4 relative"
       style={{
         height: "calc(100% - 36px)",
       }}
@@ -161,22 +168,26 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       )}
 
       <div className="flex flex-col">
-        {data &&
-          data.map((item, index) => (
-            <Item
-              key={item.id}
-              item={activeId === item.id ? activeInfo : item}
-              index={index}
-              loading={loading}
-              active={activeId === item.id}
-              handleDelete={handleDelete}
-            />
-          ))}
+        {data?.length
+          ? data.map((item, index) => (
+              <Item
+                key={item.id}
+                item={activeId === item.id ? activeInfo : item}
+                index={index}
+                loading={loading}
+                active={activeId === item.id}
+                handleDelete={handleDelete}
+              />
+            ))
+          : ""}
       </div>
+      {!data.length ? <Empty /> : ""}
 
       <div className="w-full flex justify-center my-4">
         {loading && <Loader className="animate-spin" />}
-        {loaded && <p className="text-xs text-ttertiary">already loaded all</p>}
+        {loaded && (
+          <p className="text-xs text-ttertiary truncate">{data.length} items</p>
+        )}
       </div>
       {date?.to ? (
         <p className="text-xs italic divider w-full truncate">

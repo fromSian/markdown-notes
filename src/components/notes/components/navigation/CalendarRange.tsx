@@ -1,19 +1,21 @@
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { useCallback, useState, useTransition } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { Calendar } from "@/components/ui/calendar";
 
 interface CalendarRangeProps {
+  initialDate: DateRange | undefined;
   onCancel: () => void;
   onSubmit: (date: DateRange | undefined) => void;
 }
 
-const CalendarRange = ({ onCancel, onSubmit }: CalendarRangeProps) => {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+const CalendarRange = ({
+  initialDate,
+  onCancel,
+  onSubmit,
+}: CalendarRangeProps) => {
+  const [date, setDate] = useState<DateRange | undefined>(initialDate);
   const [isPending, startTransition] = useTransition();
 
   const handleClear = () => {
@@ -40,10 +42,11 @@ const CalendarRange = ({ onCancel, onSubmit }: CalendarRangeProps) => {
         {date?.from ? (
           date.to ? (
             <>
-              {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+              {format(date.from, "yyyy-MM-dd")} -{" "}
+              {format(date.to, "yyyy-MM-dd")}
             </>
           ) : (
-            format(date.from, "LLL dd, y")
+            format(date.from, "yyyy-MM-dd")
           )
         ) : (
           <span>Pick a date</span>

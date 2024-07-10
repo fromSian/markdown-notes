@@ -5,6 +5,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Toaster } from "@/components/ui/sonner";
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { useEffect, useRef } from "react";
@@ -77,6 +78,7 @@ const Notes = () => {
           <Content />
         </ResizablePanel>
       </ResizablePanelGroup>
+      <Toaster richColors position="top-right" />
     </>
   );
 };
