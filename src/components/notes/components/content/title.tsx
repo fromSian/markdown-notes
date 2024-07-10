@@ -21,7 +21,7 @@ const Title = ({ id, initialValue, handleSave }: ContentTitleProps) => {
   }, [id, initialValue]);
 
   const onBlur = useCallback(
-    (e: FocusEvent<HTMLTextAreaElement>) => {
+    async (e: FocusEvent<HTMLTextAreaElement>) => {
       if (!isChanged) {
         return;
       }
@@ -31,11 +31,9 @@ const Title = ({ id, initialValue, handleSave }: ContentTitleProps) => {
       e.target.style.height = "0px";
       e.target.style.height = e.target.scrollHeight + "px";
       setLoading(true);
-      setTimeout(() => {
-        handleSave(id, text);
-        setLoading(false);
-        setIsChanged(false);
-      }, 2000);
+      await handleSave(id, text);
+      setLoading(false);
+      setIsChanged(false);
     },
     [isChanged]
   );

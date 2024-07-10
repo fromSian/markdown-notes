@@ -1,3 +1,5 @@
+import { getErrorMessage } from "@/request/error";
+import { updateTitle } from "@/request/notes";
 import { useAppDispatch } from "@/states/hooks";
 import { NoteContentItemType, NoteNavigationType } from "@/types/notes";
 import { Loader } from "lucide-react";
@@ -9,6 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { toast } from "sonner";
 import { v4 as uuid4 } from "uuid";
 import Item from "./item/index";
 import NewEditor from "./NewEditor";
@@ -141,17 +144,19 @@ const List = ({
     pageRef.current = 1;
   }, [activeId, sortInfo]);
 
-  const handleSave = (id: string | number | undefined, text: string) => {
-    dispatch({
-      type: "note/setUpdateInfo",
-      payload: {
-        id: id,
-        title: text,
-        summary: "new summary",
-        updated: "ff",
-        created: "c",
-      },
-    });
+  const handleSave = async (id: string | number, text: string) => {
+    try {
+      const response = await updateTitle(id, text);
+      console.log(response);
+      dispatch({
+        type: "note/setUpdateInfo",
+        payload: response,
+      });
+      toast.success("update title successfully");
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+      console.log(error);
+    }
   };
 
   return (
@@ -164,8 +169,8 @@ const List = ({
     >
       <Title id={activeId} initialValue={info.title} handleSave={handleSave} />
       <Subline
-        updated={"2019.05.06 15:34:23"}
-        created={"2019.05.06 15:34:23"}
+        updated={info.updated}
+        created={info.created}
         count={info.count}
       />
       {adding && <NewEditor ref={newRef} setAdding={setAdding} />}

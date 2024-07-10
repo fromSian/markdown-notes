@@ -1,3 +1,4 @@
+import { getDateTimeInCurrentTimeZone } from "@/lib/timezone";
 import { Loader } from "lucide-react";
 
 interface SublineProps {
@@ -15,8 +16,16 @@ const Subline = ({ updated, created, count, loading }: SublineProps) => {
           <Loader size={16} className="animate-spin" />
         ) : (
           <>
-            {updated && <p className="truncate">{updated}</p>}
-            {created && <p className="truncate">{created}</p>}
+            {updated && (
+              <p className="truncate">
+                {getDateTimeInCurrentTimeZone(updated)}
+              </p>
+            )}
+            {created && (
+              <p className="truncate">
+                {getDateTimeInCurrentTimeZone(created)}
+              </p>
+            )}
             <p className="truncate">{count || 0} items</p>
           </>
         )}

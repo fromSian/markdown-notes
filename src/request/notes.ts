@@ -46,3 +46,21 @@ export const deleteNote = async (id: string | number | undefined) => {
   const url = `/note/navigation/${id}/`;
   await request.delete(url);
 };
+
+export const updateTitle = async (id: string | number, title: string) => {
+  const url = `/note/navigation/${id}/`;
+  const response = await request.patch(url, {
+    title,
+  });
+  if (response.data) {
+    const { success, ...rest } = response.data;
+
+    if (success) {
+      return rest;
+    } else {
+      throw new Error(response.data.message);
+    }
+  } else {
+    throw new Error("Failed to update note title");
+  }
+};

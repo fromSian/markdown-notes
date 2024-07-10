@@ -172,7 +172,7 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
           ? data.map((item, index) => (
               <Item
                 key={item.id}
-                item={activeId === item.id ? activeInfo : item}
+                item={item}
                 index={index}
                 loading={loading}
                 active={activeId === item.id}
