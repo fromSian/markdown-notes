@@ -6,9 +6,9 @@ import {
   useState,
 } from "react";
 interface ContentTitleProps {
-  id: string | number | undefined;
+  id: string | number;
   initialValue: string;
-  handleSave: (id: string | number | undefined, text: string) => void;
+  handleSave: (id: string | number, text: string) => void;
 }
 
 const Title = ({ id, initialValue, handleSave }: ContentTitleProps) => {

@@ -1,14 +1,8 @@
+import { getDateTimeInCurrentTimeZone } from "@/lib/timezone";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
 import { FocusPosition } from "@tiptap/react";
-import {
-  forwardRef,
-  memo,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, memo, useImperativeHandle, useRef, useState } from "react";
 import ContentEditor from "./ContentEditor";
 import ItemHeader from "./ItemHeader";
 
@@ -18,7 +12,7 @@ interface ItemProps {
 }
 
 const Item = memo(
-  forwardRef(({ index, item }: ItemProps, ref) => {
+  forwardRef(({ index, item, handleDelete, handleSave }: ItemProps, ref) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(true);
     const [status, setStatus] = useState<
@@ -45,21 +39,27 @@ const Item = memo(
       },
       [open]
     );
-    useEffect(() => {
-      // console.log(index, "setAllState");
-    }, []);
 
     const toggleOpen = () => {
       setOpen((v) => !v);
     };
 
-    const handleSave = () => {
+    const onSave = async () => {
       setStatus("loading");
-      setTimeout(() => {
-        const flag = Math.random() > 0.9;
-        setStatus(flag ? "success" : "fail");
+      if (!editorRef.current) {
+        return;
+      }
+      try {
+        const content = editorRef.current?.getHTMLValue();
+        const summary = editorRef.current?.getTextValue();
+        handleSave(item.id, content, summary);
+        setStatus("success");
         setIsChanged(false);
-      }, 2000);
+      } catch (error) {
+        console.log(error);
+        setStatus("fail");
+        setIsChanged(false);
+      }
     };
 
     const onEditorUpdate = () => {
@@ -67,18 +67,17 @@ const Item = memo(
       setIsChanged(true);
     };
 
-    const handleDelete = async () => {};
-
     return (
       <div>
         <ItemHeader
           toggleOpen={toggleOpen}
           open={open}
           index={index}
+          id={item.id}
           summary={item.summary}
           status={status}
           isChanged={isChanged}
-          handleSave={handleSave}
+          handleSave={onSave}
           handleDelete={handleDelete}
         />
         <div
@@ -97,10 +96,14 @@ const Item = memo(
           </div>
         </div>
         <div className="w-full h-0.5 bg-border my-2" />
-        <div className="flex justify-between gap-2 text-xs text-ttertiary">
-          <span>
-            {item?.created || "-"} {item?.updated || "-"}
-          </span>
+        <div className="flex flex-col xs:flex-row justify-between gap-2 text-xs text-ttertiary">
+          <p className="truncate">
+            created: {getDateTimeInCurrentTimeZone(item?.created) || "-"}
+          </p>
+
+          <p className="truncate">
+            updated: {getDateTimeInCurrentTimeZone(item?.updated) || "-"}
+          </p>
         </div>
       </div>
     );

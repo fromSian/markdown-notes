@@ -16,6 +16,9 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontSize: {
+      xs: "0.7rem",
+    },
     screens: {
       xs: "480px",
       sm: "640px",

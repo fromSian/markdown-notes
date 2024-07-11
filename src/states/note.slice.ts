@@ -39,6 +39,7 @@ export const noteSlice = createSlice({
     setUpdateInfo(state, action: PayloadAction<NoteNavigationType>) {
       return {
         ...state,
+        activeInfo: action.payload,
         updateInfo: action.payload,
       };
     },

@@ -17,7 +17,7 @@ const Content = memo(({}: MainContentProps) => {
     setAdding(true);
   };
   const [sortInfo, setSortInfo] = useState({
-    field: "created",
+    field: "updated",
     order: "desc",
   });
   const toggleAllItem = () => {

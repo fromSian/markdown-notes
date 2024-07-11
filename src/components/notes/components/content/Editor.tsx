@@ -19,6 +19,9 @@ const FocusHandler = forwardRef((props, ref) => {
       getHTMLValue() {
         return editor?.getHTML();
       },
+      getTextValue() {
+        return editor?.getText();
+      },
     };
   });
   return <></>;

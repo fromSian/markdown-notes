@@ -90,7 +90,6 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
 
   const fetchFirst = async (date: DateRange | undefined) => {
     try {
-      console.log(432);
       controllerRef.current = new AbortController();
       setLoading(true);
       const response = await queryNoteNavigation(
