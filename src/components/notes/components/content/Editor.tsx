@@ -8,6 +8,12 @@ import {
   useCurrentEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+
+export type EditorRef = {
+  focus: (position?: FocusPosition) => void;
+  getHTMLValue: () => string;
+  getTextValue: () => string;
+};
 const FocusHandler = forwardRef((props, ref) => {
   const { editor } = useCurrentEditor();
   useImperativeHandle(ref, () => {

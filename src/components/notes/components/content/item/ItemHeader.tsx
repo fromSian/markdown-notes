@@ -68,9 +68,8 @@ const HeaderText = memo(
     open: boolean;
   }) => {
     return (
-      <div className="flex gap-1">
-        <p>{index + 1}.</p>
-        {!open && summary}
+      <div className="flex gap-1 truncate">
+        {index + 1}.{!open && summary}
       </div>
     );
   }
@@ -101,7 +100,7 @@ const ItemHeader = memo(
     handleDelete,
   }: ItemHeaderProps) => {
     return (
-      <div className="flex justify-between gap-2 text-sm italic mb-2 items-center">
+      <div className="flex justify-between gap-2 text-sm italic mb-2 items-center w-full">
         <HeaderText index={index} open={open} summary={summary} />
         <div className="flex-shrink-0 flex gap-2 items-center">
           <Status

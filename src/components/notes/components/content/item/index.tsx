@@ -1,25 +1,32 @@
 import { getDateTimeInCurrentTimeZone } from "@/lib/timezone";
 import { cn } from "@/lib/utils";
-import { useAppDispatch } from "@/states/hooks";
+import { NoteContentItemType } from "@/types/notes";
 import { FocusPosition } from "@tiptap/react";
 import { forwardRef, memo, useImperativeHandle, useRef, useState } from "react";
+import { EditorRef } from "../Editor";
 import ContentEditor from "./ContentEditor";
 import ItemHeader from "./ItemHeader";
 
 interface ItemProps {
   index: number;
-  item: any;
+  item: NoteContentItemType;
+  handleDelete: (id: string | number) => void;
+  handleSave: (id: string | number, content: string, summary: string) => void;
 }
 
+export type ItemRef = {
+  open: boolean;
+  setAllState: (flag: boolean) => void;
+  focus: (position: FocusPosition) => void;
+};
 const Item = memo(
   forwardRef(({ index, item, handleDelete, handleSave }: ItemProps, ref) => {
-    const dispatch = useAppDispatch();
     const [open, setOpen] = useState(true);
     const [status, setStatus] = useState<
       "loading" | "success" | "fail" | undefined
     >();
     const [isChanged, setIsChanged] = useState(false);
-    const editorRef = useRef();
+    const editorRef = useRef<EditorRef>();
 
     useImperativeHandle(
       ref,
@@ -31,9 +38,6 @@ const Item = memo(
           },
           focus: (position: FocusPosition) => {
             editorRef.current?.focus(position);
-          },
-          getHTMLValue: () => {
-            return editorRef.current?.getHTMLValue();
           },
         };
       },

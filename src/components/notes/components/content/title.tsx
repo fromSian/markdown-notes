@@ -57,7 +57,7 @@ const Title = ({ id, initialValue, handleSave }: ContentTitleProps) => {
         maxLength={100}
         onBlur={onBlur}
       />
-      <div className="bg-current w-48 h-[0.1rem] mb-2 opacity-60"></div>
+      <div className="bg-current w-[40%] h-[0.1rem] mb-2 opacity-60"></div>
     </>
   );
 };

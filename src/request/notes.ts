@@ -1,13 +1,23 @@
 import request from "./request";
 export const queryNoteNavigation = async (
-  { start = "", end = "", page = 1, size = 10 },
+  {
+    start = "",
+    end = "",
+    since_id = "",
+    size = 10,
+  }: {
+    start?: string;
+    end?: string;
+    since_id?: string | number;
+    size?: number;
+  },
   signal: AbortSignal
 ) => {
   const params = new URLSearchParams();
   params.append("start", start);
   params.append("end", end);
-  params.append("page", page + "");
   params.append("size", size + "");
+  params.append("since_id", since_id + "");
 
   const url = `/note/navigation/?${params.toString()}`;
   const response = await request.get(url, {
@@ -22,6 +32,21 @@ export const queryNoteNavigation = async (
     }
   } else {
     throw new Error("Failed to fetch note navigation");
+  }
+};
+
+export const queryNoteInfo = async (id: string | number) => {
+  const url = `/note/navigation/${id}/`;
+  const response = await request.get(url);
+
+  if (response.data) {
+    if (response.data.success) {
+      return response.data;
+    } else {
+      throw new Error(response.data.message);
+    }
+  } else {
+    throw new Error("Failed to fetch note info");
   }
 };
 
@@ -69,12 +94,12 @@ export const queryNoteContents = async (
   {
     id,
     order = "-updated",
-    page = 1,
+    since_id = "",
     size = 10,
   }: {
     id: string | number;
     order?: string;
-    page?: number;
+    since_id?: string | number;
     size?: number;
   },
   signal: AbortSignal
@@ -82,7 +107,7 @@ export const queryNoteContents = async (
   const params = new URLSearchParams();
   params.append("note", id + "");
   params.append("order", order);
-  params.append("page", page + "");
+  params.append("since_id", since_id + "");
   params.append("size", size + "");
 
   const url = `/note/content/?${params.toString()}`;

@@ -3,6 +3,7 @@ import {
   addNoteContent,
   deleteNoteContent,
   queryNoteContents,
+  queryNoteInfo,
   updateNoteContent,
   updateTitle,
 } from "@/request/notes";
@@ -15,21 +16,23 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { toast } from "sonner";
-import Item from "./item/index";
+import { SortInfo } from "../../Content";
+import Item, { ItemRef } from "./item/index";
 import NewEditor from "./NewEditor";
 import Subline from "./subline";
 import Title from "./title";
 interface ListProps {
-  contentRefs: MutableRefObject<HTMLDivElement>;
+  contentRefs: MutableRefObject<ItemRef[]>;
   activeId: string | number;
   info: NoteNavigationType;
   adding: boolean;
   setAdding: Dispatch<SetStateAction<boolean>>;
-  sortInfo: any;
+  sortInfo: SortInfo;
 }
 
 const List = ({
@@ -48,11 +51,15 @@ const List = ({
 
   const controllerRef = useRef<AbortController>();
 
-  const pageRef = useRef(1);
   const newRef = useRef(null);
   const [data, setData] = useState<NoteContentItemType[]>([]);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const lastId = useMemo(() => data[data.length - 1]?.id, [data]);
+  const [hasNext, setHasNext] = useState(false);
+
+  const [titleLoading, setTitleLoading] = useState(false);
 
   const fetchNext = useCallback(async () => {
     try {
@@ -62,29 +69,29 @@ const List = ({
       controllerRef.current = new AbortController();
       setLoading(true);
 
-      const page = pageRef.current;
       const response = await queryNoteContents(
-        { id: activeId, page: page + 1 },
+        { id: activeId, since_id: lastId },
         controllerRef.current.signal
       );
       if (response) {
         setData((prev) => [...prev, ...response.results]);
-        console.log(response.links.next);
-        if (!response.links.next) {
+        setHasNext(response.hasNext);
+        if (!response.hasNext) {
           setLoaded(true);
           targetRef.current &&
             observerRef.current?.unobserve(targetRef.current);
-        } else {
-          pageRef.current = page + 1;
         }
         setLoading(false);
         controllerRef.current = undefined;
       }
     } catch (error) {}
-  }, [activeId]);
+  }, [activeId, lastId]);
 
   useEffect(() => {
     if (!scrollRef.current || !targetRef.current) {
+      return;
+    }
+    if (!hasNext) {
       return;
     }
 
@@ -104,28 +111,41 @@ const List = ({
     };
 
     observerRef.current = new IntersectionObserver(callback, options);
+    targetRef.current && observerRef.current?.observe(targetRef.current);
     return () => {
       targetRef.current && observerRef.current?.unobserve(targetRef.current);
     };
-  }, [fetchNext]);
+  }, [fetchNext, hasNext]);
 
-  const fetchFirst = async (id: string | number, order: string) => {
+  const fetchFirst = useCallback(async () => {
     try {
+      if (!activeId) return;
+      targetRef.current && observerRef.current?.unobserve(targetRef.current);
+
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+        controllerRef.current = undefined;
+      }
+      previousRatioRef.current = 0;
+
+      setLoaded(false);
+
+      setData([]);
       controllerRef.current = new AbortController();
       setLoading(true);
       const response = await queryNoteContents(
         {
-          id,
-          order,
+          id: activeId,
+          order: `${sortInfo.order === "desc" ? "-" : ""}${sortInfo.field}`,
         },
         controllerRef.current.signal
       );
       if (response) {
         setData(response.results);
-        if (response.links.next) {
-          targetRef.current && observerRef.current?.observe(targetRef.current);
-        } else {
+        setHasNext(response.hasNext);
+        if (!response.hasNext) {
           if (!response.count) {
+            console.log(123);
             setAdding(true);
           }
           setLoaded(true);
@@ -136,33 +156,15 @@ const List = ({
     } catch (error) {
       setLoading(false);
     }
-  };
+  }, [activeId, sortInfo]);
 
   useEffect(() => {
-    targetRef.current && observerRef.current?.unobserve(targetRef.current);
-
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-      controllerRef.current = undefined;
-    }
-    previousRatioRef.current = 0;
-
-    setLoaded(false);
-
-    setData([]);
-
-    if (!activeId) {
-      return;
-    }
-    fetchFirst(
-      activeId,
-      `${sortInfo.order === "desc" ? "-" : ""}${sortInfo.field}`
-    );
-    pageRef.current = 1;
-  }, [activeId, sortInfo]);
+    fetchFirst();
+  }, [fetchFirst]);
 
   const handleTitleSave = async (id: string | number, text: string) => {
     try {
+      setTitleLoading(true);
       const response = await updateTitle(id, text);
       console.log(response);
       dispatch({
@@ -170,24 +172,37 @@ const List = ({
         payload: response,
       });
       toast.success("update title successfully");
+      setTitleLoading(false);
     } catch (error) {
       toast.error(getErrorMessage(error));
       console.log(error);
+      setTitleLoading(false);
     }
   };
 
-  const onNewSubmit = async (content: string, summary: string) => {
-    const response = await addNoteContent(activeId, content, summary);
-    setData((v) => [response, ...v]);
-  };
+  const onNewSubmit = useCallback(
+    async (content: string, summary: string) => {
+      const response = await addNoteContent(activeId, content, summary);
+      setData((v) => [response, ...v]);
+      const noteinfo = await queryNoteInfo(activeId);
+      dispatch({ type: "note/setUpdateInfo", payload: noteinfo });
+    },
+    [activeId]
+  );
 
-  const handleDelete = async (id: string | number) => {
-    if (controllerRef.current) {
-      return;
-    }
-    await deleteNoteContent(id);
-    setData((v) => v.filter((v) => v.id != id));
-  };
+  const handleDelete = useCallback(
+    async (id: string | number) => {
+      if (controllerRef.current) {
+        return;
+      }
+      await deleteNoteContent(id);
+      setData((v) => v.filter((v) => v.id != id));
+
+      const noteinfo = await queryNoteInfo(activeId);
+      dispatch({ type: "note/setUpdateInfo", payload: noteinfo });
+    },
+    [activeId]
+  );
 
   const handleSave = async (
     id: string | number,
@@ -197,6 +212,12 @@ const List = ({
     const response = await updateNoteContent(id, content, summary);
 
     setData((v) => v.map((item) => (item.id === id ? response : item)));
+
+    const { updated } = response;
+    dispatch({
+      type: "note/setUpdateInfo",
+      payload: { updated },
+    });
   };
 
   return (
@@ -216,6 +237,7 @@ const List = ({
         updated={info.updated}
         created={info.created}
         count={info.count}
+        loading={titleLoading}
       />
       {adding && (
         <NewEditor
@@ -231,7 +253,9 @@ const List = ({
               key={item.id}
               item={item}
               index={index}
-              ref={(element) => (contentRefs.current[index] = element)}
+              ref={(element) =>
+                (contentRefs.current[index] = element as ItemRef)
+              }
               handleDelete={handleDelete}
               handleSave={handleSave}
             />
@@ -240,7 +264,7 @@ const List = ({
 
       <div className="w-full flex justify-center my-4">
         {loading && <Loader className="animate-spin" />}
-        {loaded && <p className="text-xs text-ttertiary">loaded all</p>}
+        {loaded && <p className="text-xs text-ttertiary">{info.count} items</p>}
       </div>
 
       <div ref={targetRef} className="w-full"></div>

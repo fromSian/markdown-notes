@@ -1,25 +1,35 @@
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/states/hooks";
-import { memo, useRef, useState, useTransition } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import { ItemRef } from "./components/content/item/index.tsx";
 import List from "./components/content/list.tsx";
 import Operator from "./components/content/operator/index.tsx";
+
+export type SortInfo = {
+  field: "updated" | "created";
+  order: "asc" | "desc";
+};
 
 interface MainContentProps {}
 const Content = memo(({}: MainContentProps) => {
   const { activeId, activeInfo } = useAppSelector((state) => state.note);
-  const [isPending, startTransition] = useTransition();
 
   const [adding, setAdding] = useState(false);
+  const [sortInfo, setSortInfo] = useState<SortInfo>({
+    field: "updated",
+    order: "desc",
+  });
 
-  const contentRefs = useRef([]);
+  const contentRefs = useRef<ItemRef[]>([]);
+
+  useEffect(() => {
+    setAdding(false);
+  }, [activeId]);
 
   const handleAdding = () => {
     setAdding(true);
   };
-  const [sortInfo, setSortInfo] = useState({
-    field: "updated",
-    order: "desc",
-  });
+
   const toggleAllItem = () => {
     if (!contentRefs.current.length) {
       return;

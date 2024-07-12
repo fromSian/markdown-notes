@@ -1,10 +1,13 @@
+import { SortInfo } from "@/components/notes/Content";
 import { cn } from "@/lib/utils";
-import { memo } from "react";
+import { Dispatch, memo, SetStateAction } from "react";
 import ExpandTrigger from "./expandTrigger";
 import Export from "./export";
 import NewTriggle from "./newTrigger";
 import Sort from "./sort";
 interface OperatorProps {
+  sortInfo: SortInfo;
+  setSortInfo: Dispatch<SetStateAction<SortInfo>>;
   toggleExpand: () => void;
   handleAdding: () => void;
 }

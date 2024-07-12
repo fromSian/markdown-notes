@@ -1,4 +1,8 @@
-export const getDateTimeInCurrentTimeZone = (date: string) => {
-  const d = new Date(date);
-  return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+import { formatInTimeZone } from "date-fns-tz";
+
+export const getDateTimeInCurrentTimeZone = (_date: string) => {
+  const date = new Date(_date);
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const date_str = formatInTimeZone(date, timezone, "yyyy-MM-dd HH:mm:ss");
+  return date_str;
 };

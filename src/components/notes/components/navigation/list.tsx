@@ -4,7 +4,15 @@ import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { DateRange } from "react-day-picker";
 import Item from "./item";
 
@@ -21,7 +29,6 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
   const previousRatioRef = useRef(0);
-  const pageRef = useRef(1);
   const controllerRef = useRef<AbortController>();
 
   const { activeId, activeInfo, updateInfo } = useAppSelector(
@@ -30,7 +37,10 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
   const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
-  const fetchNext = async () => {
+
+  const lastId = useMemo(() => data[data.length - 1]?.id, [data]);
+  const [hasNext, setHasNext] = useState(false);
+  const fetchNext = useCallback(async () => {
     try {
       if (controllerRef.current) {
         return;
@@ -38,43 +48,45 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       controllerRef.current = new AbortController();
       setLoading(true);
 
-      const page = pageRef.current;
-      console.log(page);
       const response = await queryNoteNavigation(
-        { page: page + 1 },
+        { since_id: lastId },
         controllerRef.current.signal
       );
       if (response) {
         setData((prev) => [...prev, ...response.results]);
-        console.log(response.links.next);
-        if (!response.links.next) {
+        setHasNext(response.hasNext);
+        if (!response.hasNext) {
           setLoaded(true);
           targetRef.current &&
             observerRef.current?.unobserve(targetRef.current);
-        } else {
-          pageRef.current = page + 1;
         }
         setLoading(false);
         controllerRef.current = undefined;
       }
     } catch (error) {}
-  };
+  }, [lastId]);
 
   useEffect(() => {
     if (!scrollRef.current || !targetRef.current) {
       return;
     }
 
+    if (!hasNext) {
+      return;
+    }
+
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = undefined;
+    }
     let options = {
       root: scrollRef.current,
       rootMargin: "0px",
       threshold: 1.0,
     };
-
     let callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.intersectionRatio > previousRatioRef.current) {
-          console.log("fetch");
           fetchNext();
         }
         previousRatioRef.current = entry.intersectionRatio;
@@ -82,14 +94,24 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     };
 
     observerRef.current = new IntersectionObserver(callback, options);
-
+    targetRef.current && observerRef.current?.observe(targetRef.current);
     return () => {
       targetRef.current && observerRef.current?.unobserve(targetRef.current);
     };
-  }, []);
+  }, [fetchNext, hasNext]);
 
-  const fetchFirst = async (date: DateRange | undefined) => {
+  const fetchFirst = useCallback(async () => {
     try {
+      targetRef.current && observerRef.current?.unobserve(targetRef.current);
+
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+        controllerRef.current = undefined;
+      }
+      previousRatioRef.current = 0;
+
+      setLoaded(false);
+      setData([]);
       controllerRef.current = new AbortController();
       setLoading(true);
       const response = await queryNoteNavigation(
@@ -101,9 +123,8 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       );
       if (response) {
         setData(response.results);
-        if (response.links.next) {
-          targetRef.current && observerRef.current?.observe(targetRef.current);
-        } else {
+        setHasNext(response.hasNext);
+        if (!response.hasNext) {
           setLoaded(true);
         }
         if (response.results.length) {
@@ -120,20 +141,11 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
     } catch (error) {
       setLoading(false);
     }
-  };
+  }, [date]);
 
   useEffect(() => {
-    targetRef.current && observerRef.current?.unobserve(targetRef.current);
-
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-      controllerRef.current = undefined;
-    }
-    setLoaded(false);
-    setData([]);
-    fetchFirst(date);
-    pageRef.current = 1;
-  }, [date]);
+    fetchFirst();
+  }, [fetchFirst]);
 
   const handleDelete = async (id: string | number | undefined) => {
     if (controllerRef.current) {
@@ -159,7 +171,7 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       }}
     >
       {date?.from ? (
-        <p className="text-xs italic divider w-full truncate">
+        <p className="text-xs italic divider w-full truncate mb-2">
           {format(date.from, "LLL dd, y")}
         </p>
       ) : (
@@ -182,7 +194,7 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       </div>
       {!data.length ? <Empty /> : ""}
 
-      <div className="w-full flex justify-center my-4">
+      <div className="w-full flex justify-center my-2">
         {loading && <Loader className="animate-spin" />}
         {loaded && (
           <p className="text-xs text-ttertiary truncate">{data.length} items</p>

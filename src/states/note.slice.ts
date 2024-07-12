@@ -36,11 +36,16 @@ export const noteSlice = createSlice({
         updateInfo: undefined,
       };
     },
-    setUpdateInfo(state, action: PayloadAction<NoteNavigationType>) {
+    setUpdateInfo(state, action: PayloadAction<Partial<NoteNavigationType>>) {
+      let info = JSON.parse(JSON.stringify(state.activeInfo));
+      info = {
+        ...info,
+        ...action.payload,
+      };
       return {
         ...state,
-        activeInfo: action.payload,
-        updateInfo: action.payload,
+        activeInfo: info,
+        updateInfo: info,
       };
     },
   },
