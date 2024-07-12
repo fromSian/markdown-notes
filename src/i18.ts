@@ -20,7 +20,7 @@ i18n
     fallbackLng: "en",
     debug: true,
     detection: {
-      caches: ["cookie"],
+      caches: ["localStorage"],
     },
   });
 

@@ -1,10 +1,10 @@
-import { MoonStar, Sun, SunMoon } from "lucide-react";
+import { Monitor, MoonStar, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { ReactNode, useEffect, useState, useTransition } from "react";
 import Select from "../ui/select";
 type optionType = "system" | "dark" | "light";
 const Icons: Record<optionType, ReactNode> = {
-  system: <SunMoon />,
+  system: <Monitor />,
   dark: <MoonStar />,
   light: <Sun />,
 };
@@ -50,8 +50,7 @@ const ThemeSwitch = () => {
                 changeTheme(item);
               }}
             >
-              {Icons[item as optionType]}{" "}
-              <p className="text-sm italic">{item}</p>
+              {Icons[item as optionType]} <p className="text-sm">{item}</p>
             </div>
           ))}
       </div>
