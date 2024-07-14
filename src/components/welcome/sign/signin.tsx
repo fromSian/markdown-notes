@@ -11,6 +11,7 @@ import InputShowHide from "@/components/ui/input-show-hide";
 import InputWithLabel from "@/components/ui/input-with-label";
 import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
+import { useAppDispatch } from "@/states/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
@@ -32,6 +33,7 @@ const formSchema = z.object({
 });
 
 const SignIn = ({ open }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
@@ -49,7 +51,11 @@ const SignIn = ({ open }) => {
     try {
       setFail(false);
       setLoading(true);
-      await fetchLogin(data);
+      const response = await fetchLogin(data);
+      dispatch({
+        type: "account/setUser",
+        payload: response,
+      });
       toast.success("login success");
       navigate("/notes");
     } catch (error) {

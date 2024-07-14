@@ -1,5 +1,5 @@
-import Header from "@/components/header/Header";
 import Content from "@/components/notes/Content";
+import Header from "@/components/notes/header";
 import Navigation from "@/components/notes/Navigation";
 import {
   ResizableHandle,

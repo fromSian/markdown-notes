@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import request from "@/request/request";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 type AccountType = "base" | "google";
 type Account = {
   email: string;
@@ -18,6 +19,11 @@ const initialState: AccountState = {
   user: undefined,
 };
 
+export const logout = createAsyncThunk("account/logout", async () => {
+  const response = await request.post("/account/logout/");
+  return response;
+});
+
 export const accountSlice = createSlice({
   name: "account",
   initialState,
@@ -26,6 +32,18 @@ export const accountSlice = createSlice({
       state.user = action.payload;
       state.isLogin = true;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(logout.fulfilled, (state, action) => {
+        sessionStorage.removeItem("token");
+
+        return {
+          user: undefined,
+          isLogin: false,
+        };
+      })
+      .addCase(logout.rejected, (state) => {});
   },
 });
 

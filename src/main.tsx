@@ -1,12 +1,42 @@
 import { store } from "@/states/store";
 import { Loader } from "lucide-react";
 import { ThemeProvider } from "next-themes";
-import React, { lazy, Suspense } from "react";
+import React, { lazy, ReactNode, Suspense, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "sonner";
 import "./global.css";
+import { fetchUserInfo } from "./request/account";
+import { useAppDispatch, useAppSelector } from "./states/hooks";
+
+const Wrap = ({ children }: { children: ReactNode }) => {
+  const { isLogin } = useAppSelector((state) => state.account);
+  const dispatch = useAppDispatch();
+  const queryUserInfo = async () => {
+    try {
+      const response = await fetchUserInfo();
+      dispatch({
+        type: "account/setUser",
+        payload: response,
+      });
+    } catch (error) {
+      sessionStorage.removeItem("token");
+    }
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      return;
+    }
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      queryUserInfo();
+    }
+  }, [isLogin]);
+  return <>{children}</>;
+};
+
 const lazyLoad = (path: string) => {
   if (path.startsWith("@/")) {
     path = path.replace("@/", "");
@@ -18,7 +48,9 @@ const lazyLoad = (path: string) => {
         <Loader className="absolute top-[50%] left-[50%] animate-spin" />
       }
     >
-      <Module />
+      <Wrap>
+        <Module />
+      </Wrap>
     </Suspense>
   );
 };

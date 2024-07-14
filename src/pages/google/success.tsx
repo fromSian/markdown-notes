@@ -1,6 +1,7 @@
 import SuccessIcon from "@/components/icons/success";
 import Header from "@/components/welcome/header";
 import { fetchUserInfo } from "@/request/account";
+import { useAppDispatch } from "@/states/hooks";
 import { Loader } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -8,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 
 const GoogleSuccess = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [seconds, setSeconds] = useState(5);
@@ -18,9 +20,11 @@ const GoogleSuccess = () => {
     try {
       setLoading(true);
       const response = await fetchUserInfo(token);
-      if (response) {
-        sessionStorage.setItem("token", token);
-      }
+      dispatch({
+        type: "account/setUser",
+        payload: response,
+      });
+      sessionStorage.setItem("token", token);
     } catch (error) {
       navigate("/google/fail");
     } finally {

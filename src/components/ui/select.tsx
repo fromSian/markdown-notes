@@ -20,9 +20,7 @@ const Select = ({ content, children, open, setOpen }: SelectProps) => {
   };
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>
-        <div className="">{content}</div>
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{content}</PopoverTrigger>
       <PopoverContent asChild>{children}</PopoverContent>
     </Popover>
   );

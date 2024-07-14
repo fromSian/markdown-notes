@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
 import request from "@/request/request";
+import { useAppDispatch } from "@/states/hooks";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ export type Step = "email" | "code" | "password" | "success";
 
 const SignUp = ({ open, goSomeWhereElse }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +23,13 @@ const SignUp = ({ open, goSomeWhereElse }) => {
     if (!email || !password) {
       return;
     }
-    await fetchLogin({
+    const response = await fetchLogin({
       email,
       password,
+    });
+    dispatch({
+      type: "account/setUser",
+      payload: response,
     });
     toast.success("login success");
     navigate("/notes");

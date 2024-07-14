@@ -1,4 +1,5 @@
 import request from "@/request/request";
+import { useAppDispatch } from "@/states/hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import SignIn from "./signin";
 import SignUp from "./signup";
 
 const Sign = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState<"signin" | "signup" | undefined>(undefined);
 
@@ -26,6 +28,10 @@ const Sign = () => {
     setOpen(undefined);
     const url = "/account/trial/";
     const response = await request.post(url);
+    dispatch({
+      type: "account/setUser",
+      payload: response,
+    });
     sessionStorage.setItem("token", response?.token);
     toast.success("trial successfully");
     navigate("/notes");
