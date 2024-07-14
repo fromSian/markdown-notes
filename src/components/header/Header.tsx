@@ -7,7 +7,7 @@ import Logo from "../icons/logo";
 const NotePart = lazy(() => import("./NotePart"));
 const CommonPart = lazy(() => import("../common/CommonPart"));
 const Avatar = lazy(() => import("./Avatar"));
-const Sign = lazy(() => import("./Sign"));
+const Sign = lazy(() => import("../common/Sign"));
 const Header = () => {
   const { pathname } = useLocation();
 

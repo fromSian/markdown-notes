@@ -1,14 +1,12 @@
 import Fail from "@/components/icons/fail";
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
-import { Check, Loader, Save } from "lucide-react";
+import { Loader, Save } from "lucide-react";
 
 const SuccessIcon = () => {
   return (
     <TooltipSimple content="save successfully">
-      <div className="rounded-full w-6 h-6 flex justify-center items-center bg-green-500 bg-opacity-50">
-        <Check size={16} className="" />
-      </div>
+      <SuccessIcon />
     </TooltipSimple>
   );
 };

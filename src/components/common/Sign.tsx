@@ -4,9 +4,9 @@ import Select from "../ui/select";
 const SignContent = () => {
   return (
     <>
-      <button className="black_btn border">sign up</button>
-      <button className="black_btn border">sign in</button>
-      <button className="black_btn border">sign in with google</button>
+      <button className="black_btn border truncate">sign up</button>
+      <button className="black_btn border truncate">sign in</button>
+      <button className="black_btn border truncate">sign in with google</button>
     </>
   );
 };
@@ -32,7 +32,7 @@ const SignFold = () => {
 const Sign = () => {
   return (
     <>
-      <div className="hidden flex-1 xs:flex items-center justify-center gap-2">
+      <div className="hidden flex-1 xs:flex items-center justify-center gap-2 sm:gap-0">
         <SignContent />
       </div>
       <SignFold />
