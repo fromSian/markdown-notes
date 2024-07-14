@@ -1,3 +1,4 @@
+import Fail from "@/components/icons/fail";
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
 import { Check, Loader, Save } from "lucide-react";
@@ -15,12 +16,7 @@ const SuccessIcon = () => {
 const FailIcon = ({ handleSave }: { handleSave: () => void }) => {
   return (
     <TooltipSimple content="save failed, click to try again">
-      <div
-        className="rounded-full w-6 h-6 flex justify-center items-center bg-red-500 bg-opacity-50 not-italic font-bold cursor-pointer"
-        onClick={handleSave}
-      >
-        !
-      </div>
+      <Fail onClick={handleSave} />
     </TooltipSimple>
   );
 };

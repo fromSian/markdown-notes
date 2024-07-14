@@ -2,10 +2,10 @@ import * as UIVariable from "@/lib/ui";
 import { Loader } from "lucide-react";
 import { Suspense, lazy } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Logo from "../svgs/logo";
+import Logo from "../icons/logo";
 
 const NotePart = lazy(() => import("./NotePart"));
-const CommonPart = lazy(() => import("./CommonPart"));
+const CommonPart = lazy(() => import("../common/CommonPart"));
 const Avatar = lazy(() => import("./Avatar"));
 const Sign = lazy(() => import("./Sign"));
 const Header = () => {

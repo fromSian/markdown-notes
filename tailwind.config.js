@@ -161,6 +161,10 @@ module.exports = {
             height: 0,
           },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -170,6 +174,7 @@ module.exports = {
         "top-down":
           "top-down 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "top-up": "top-up 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
       backgroundImage: {
         rainbow:

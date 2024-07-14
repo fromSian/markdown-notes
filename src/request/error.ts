@@ -1,3 +1,6 @@
+import axios from "axios";
+import { toast } from "sonner";
+
 export type CommonError = {
   message: string;
 };
@@ -25,4 +28,24 @@ const convertToCommonError = (error: unknown): CommonError => {
 
 export const getErrorMessage = (error: unknown): string => {
   return convertToCommonError(error).message;
+};
+
+export const httpErrorHandler = (error: unknown) => {
+  if (error === null) throw new Error("Unrecoverable error!! Error is null!");
+  if (axios.isAxiosError(error)) {
+    const response = error?.response;
+
+    if (error.code === "ERR_NETWORK") {
+      console.log("connection problems..");
+    } else if (error.code === "ERR_CANCELED") {
+      console.log("connection canceled..");
+    }
+    if (response && response.data) {
+      console.log(response.data.message);
+      toast.error(response.data.message);
+    }
+  } else {
+    console.log(error);
+  }
+  return Promise.reject(error);
 };

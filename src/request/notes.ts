@@ -24,15 +24,7 @@ export const queryNoteNavigation = async (
     signal: signal,
   });
 
-  if (response.data) {
-    if (response.data.success) {
-      return response.data;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to fetch note navigation");
-  }
+  return response;
 };
 
 export const queryNoteInfo = async (id: string | number) => {

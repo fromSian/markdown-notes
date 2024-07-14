@@ -1,3 +1,4 @@
+import Header from "@/components/header/Header";
 import Content from "@/components/notes/Content";
 import Navigation from "@/components/notes/Navigation";
 import {
@@ -5,7 +6,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Toaster } from "@/components/ui/sonner";
 import * as UIVariable from "@/lib/ui";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { useEffect, useRef } from "react";
@@ -41,6 +41,7 @@ const Notes = () => {
 
   return (
     <>
+      <Header />
       <ResizablePanelGroup
         direction="horizontal"
         className="flex transition-all"
@@ -78,7 +79,6 @@ const Notes = () => {
           <Content />
         </ResizablePanel>
       </ResizablePanelGroup>
-      <Toaster richColors position="top-right" />
     </>
   );
 };

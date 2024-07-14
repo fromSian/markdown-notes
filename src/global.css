@@ -130,7 +130,7 @@ p {
 }
 
 .black_btn {
-  @apply rounded-full border border-primary-foreground px-1 py-2 text-center align-middle;
+  @apply rounded-full border border-primary-foreground px-4 py-2 text-center align-middle;
 }
 
 .orange_gradient {
