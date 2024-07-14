@@ -21,9 +21,11 @@ const Notes = () => {
     (state) => state.ui
   );
 
+  const { activeId } = useAppSelector((state) => state.note);
   const navigationRef = useRef<ImperativePanelHandle>(null);
 
   const dispatch = useAppDispatch();
+  const prevSizeRef = useRef<number>(initialPanelSize.navigation);
 
   useEffect(() => {
     if (!navigationRef.current) {
@@ -38,6 +40,18 @@ const Notes = () => {
       navigationRef.current?.collapse();
     }
   }, [showNavigation]);
+
+  useEffect(() => {
+    if (!activeId) {
+      navigationRef.current?.resize(100);
+    } else {
+      navigationRef.current?.resize(
+        prevSizeRef.current < 100
+          ? prevSizeRef.current
+          : initialPanelSize.navigation
+      );
+    }
+  }, [activeId, showNavigation]);
 
   return (
     <>
@@ -57,7 +71,7 @@ const Notes = () => {
           collapsible={true}
           defaultSize={initialPanelSize.navigation}
           minSize={2}
-          maxSize={60}
+          maxSize={100}
           className="transition-[flex]"
           onCollapse={() => {
             dispatch({
@@ -70,6 +84,9 @@ const Notes = () => {
               type: "ui/setShowNavigation",
               payload: true,
             });
+          }}
+          onResize={(e) => {
+            prevSizeRef.current = e;
           }}
         >
           <Navigation />

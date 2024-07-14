@@ -12,7 +12,13 @@ interface OperatorProps {
   handleAdding: () => void;
 }
 const Operator = memo(
-  ({ sortInfo, setSortInfo, toggleExpand, handleAdding }: OperatorProps) => {
+  ({
+    sortInfo,
+    setSortInfo,
+    toggleExpand,
+    handleAdding,
+    handleExport,
+  }: OperatorProps) => {
     return (
       <div
         className={cn(
@@ -23,7 +29,7 @@ const Operator = memo(
         <ExpandTrigger toggleExpand={toggleExpand} />
         <Sort sortInfo={sortInfo} setSortInfo={setSortInfo} />
         <NewTriggle onClick={handleAdding} />
-        <Export />
+        <Export handleExport={handleExport} />
       </div>
     );
   }

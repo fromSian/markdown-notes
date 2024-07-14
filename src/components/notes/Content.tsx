@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
+import { downloadFile } from "@/request/notes";
 import { useAppSelector } from "@/states/hooks";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { ItemRef } from "./components/content/item/index.tsx";
 import List from "./components/content/list.tsx";
 import Operator from "./components/content/operator/index.tsx";
@@ -42,6 +44,11 @@ const Content = memo(({}: MainContentProps) => {
     });
   };
 
+  const handleExport = useCallback(async () => {
+    await downloadFile(activeId);
+    toast.success("export successfully");
+  }, [activeId]);
+
   return (
     <div className={cn("relative w-full h-full pl-2 sm:pl-4")}>
       {activeId !== undefined && activeInfo ? (
@@ -51,6 +58,7 @@ const Content = memo(({}: MainContentProps) => {
             handleAdding={handleAdding}
             sortInfo={sortInfo}
             setSortInfo={setSortInfo}
+            handleExport={handleExport}
           />
 
           <List

@@ -26,7 +26,7 @@ const Delete = ({
     }
   };
   return (
-    <TooltipSimple content={loading ? "" : ""}>
+    <TooltipSimple content={loading ? "delete" : "loading"}>
       <>
         {loading || deleteLoading ? (
           <Loader size={16} className="animate-spin group-hover:block hidden" />

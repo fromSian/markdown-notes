@@ -1,9 +1,8 @@
-import Empty from "@/components/ui/Empty";
 import { deleteNote, queryNoteNavigation } from "@/request/notes";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { format } from "date-fns";
-import { Loader } from "lucide-react";
+import { Loader, NotebookPen } from "lucide-react";
 import {
   Dispatch,
   SetStateAction,
@@ -24,7 +23,14 @@ interface ListProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
+const List = ({
+  date,
+  data,
+  setData,
+  loading,
+  setLoading,
+  handleAddNew,
+}: ListProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
@@ -152,6 +158,12 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
       return;
     }
     await deleteNote(id);
+    dispatch({
+      type: "note/setActive",
+      payload: {
+        info: undefined,
+      },
+    });
     setData((v) => v.filter((v) => v.id != id));
   };
 
@@ -192,12 +204,27 @@ const List = ({ date, data, setData, loading, setLoading }: ListProps) => {
             ))
           : ""}
       </div>
-      {!data.length ? <Empty /> : ""}
 
+      {!data.length && (
+        <div
+          className={`flex flex-col items-center h-full w-full absolute text-ttertiary pt-32 gap-4 `}
+        >
+          <NotebookPen
+            className="cursor-pointer hover:text-tprimary animate-bounce"
+            onClick={handleAddNew}
+            size={36}
+          />
+          <p className="italic text-center text-lg">
+            no notes exists, go write your first note!
+          </p>
+        </div>
+      )}
       <div className="w-full flex justify-center my-2">
         {loading && <Loader className="animate-spin" />}
-        {loaded && (
+        {loaded && data.length ? (
           <p className="text-xs text-ttertiary truncate">{data.length} items</p>
+        ) : (
+          ""
         )}
       </div>
       {date?.to ? (

@@ -42,19 +42,25 @@ const Navigation = () => {
 
   return (
     <div className="w-full h-full">
-      <Header
-        date={date}
-        setDate={setDate}
-        newing={newing}
-        handleAddNew={handleAddOneNote}
-        newingBounce={!data?.length}
-      />
+      {data?.length ? (
+        <Header
+          date={date}
+          setDate={setDate}
+          newing={newing}
+          handleAddNew={handleAddOneNote}
+          newingBounce={!data?.length}
+        />
+      ) : (
+        ""
+      )}
+
       <List
         date={date}
         data={data}
         setData={setData}
         loading={loading}
         setLoading={setLoading}
+        handleAddNew={handleAddOneNote}
       />
     </div>
   );

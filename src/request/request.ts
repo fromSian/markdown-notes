@@ -29,8 +29,6 @@ const responseHandler = (response) => {
       throw new Error(message);
     }
     return rest;
-  } else {
-    throw new Error("Failed to fetch data");
   }
 };
 const errorHandler = (response) => {

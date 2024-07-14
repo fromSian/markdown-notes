@@ -145,7 +145,6 @@ const List = ({
         setHasNext(response.hasNext);
         if (!response.hasNext) {
           if (!response.count) {
-            console.log(123);
             setAdding(true);
           }
           setLoaded(true);
