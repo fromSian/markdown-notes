@@ -1,7 +1,12 @@
 import "./logo.css";
 
-const Logo = ({ width = 48, height = 48 }) => (
-  <svg width={width} height={height} viewBox="0 0 480 480" className="group">
+const Logo = ({ width = 48, height = 48, className = "" }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 480 480"
+    className={className}
+  >
     <path
       style={{
         fill: "none",

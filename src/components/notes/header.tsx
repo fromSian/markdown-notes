@@ -18,7 +18,7 @@ const Header = () => {
     >
       <div className="flex-shrink-0 flex">
         <Link to="/">
-          <Logo />
+          <Logo className="-mt-2" />
         </Link>
       </div>
       <Suspense fallback={<Loader className="animate-spin" />}>

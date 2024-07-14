@@ -31,32 +31,14 @@ export const queryNoteInfo = async (id: string | number) => {
   const url = `/note/navigation/${id}/`;
   const response = await request.get(url);
 
-  if (response.data) {
-    if (response.data.success) {
-      return response.data;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to fetch note info");
-  }
+  return response;
 };
 
 export const addNote = async () => {
   const url = "/note/navigation/";
   const response = await request.post(url);
 
-  if (response.data) {
-    const { success, ...rest } = response.data;
-
-    if (success) {
-      return rest;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to add note");
-  }
+  return response;
 };
 
 export const deleteNote = async (id: string | number | undefined) => {
@@ -69,17 +51,7 @@ export const updateTitle = async (id: string | number, title: string) => {
   const response = await request.patch(url, {
     title,
   });
-  if (response.data) {
-    const { success, ...rest } = response.data;
-
-    if (success) {
-      return rest;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to update note title");
-  }
+  return response;
 };
 
 export const queryNoteContents = async (
@@ -107,15 +79,7 @@ export const queryNoteContents = async (
     signal: signal,
   });
 
-  if (response.data) {
-    if (response.data.success) {
-      return response.data;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to fetch note navigation");
-  }
+  return response;
 };
 
 export const updateNoteContent = async (
@@ -128,17 +92,7 @@ export const updateNoteContent = async (
     content,
     summary,
   });
-  if (response.data) {
-    const { success, ...rest } = response.data;
-
-    if (success) {
-      return rest;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to update note content");
-  }
+  return response;
 };
 
 export const addNoteContent = async (
@@ -152,18 +106,7 @@ export const addNoteContent = async (
     content,
     summary,
   });
-
-  if (response.data) {
-    const { success, ...rest } = response.data;
-
-    if (success) {
-      return rest;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to add note content");
-  }
+  return response;
 };
 
 export const deleteNoteContent = async (id: string | number) => {
@@ -176,15 +119,7 @@ export const exportToMarkdown = async (id: string | number) => {
   const response = await request.post(url, {
     id,
   });
-  if (response.data) {
-    if (response.data.success) {
-      return response.data.content;
-    } else {
-      throw new Error(response.data.message);
-    }
-  } else {
-    throw new Error("Failed to export markdown content");
-  }
+  return response.content;
 };
 
 export const downloadFile = async (id: string | number) => {
