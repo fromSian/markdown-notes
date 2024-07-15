@@ -4,7 +4,6 @@ import { Suspense, lazy } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../icons/logo";
 
-const NotePart = lazy(() => import("@/components/common/NotePart"));
 const CommonPart = lazy(() => import("@/components/common/CommonPart"));
 const Avatar = lazy(() => import("@/components/common/Avatar"));
 const Header = () => {
@@ -20,17 +19,15 @@ const Header = () => {
           <Logo className="-mt-2" />
         </Link>
       </div>
-      <Suspense fallback={<Loader className="animate-spin" />}>
-        {pathname === "/notes" && <NotePart />}
-      </Suspense>
+      <div className="flex-1 flex gap-2 sm:gap-4 justify-end items-center">
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <CommonPart />
+        </Suspense>
 
-      <Suspense fallback={<Loader className="animate-spin" />}>
-        <CommonPart />
-      </Suspense>
-
-      <Suspense fallback={<Loader className="animate-spin" />}>
-        <Avatar />
-      </Suspense>
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <Avatar />
+        </Suspense>
+      </div>
     </header>
   );
 };

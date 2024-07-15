@@ -47,7 +47,15 @@ const Wrap = ({
       needAuth && navigate("/");
     }
   }, [isLogin, needAuth]);
-  return <>{children}</>;
+  return (
+    <>
+      {isLogin || !needAuth ? (
+        children
+      ) : (
+        <Loader className="absolute top-[50%] left-[50%] animate-spin" />
+      )}
+    </>
+  );
 };
 
 const lazyLoad = (path: string, needAuth: boolean = true) => {
@@ -95,7 +103,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/settings",
-    element: lazyLoad("@/pages/test"),
+    element: lazyLoad("@/pages/settings", false),
   },
 ]);
 
