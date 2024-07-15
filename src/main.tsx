@@ -94,7 +94,7 @@ const router = createBrowserRouter([
     element: lazyLoad("@/pages/google/success", false),
   },
   {
-    path: "/test",
+    path: "/settings",
     element: lazyLoad("@/pages/test"),
   },
 ]);
