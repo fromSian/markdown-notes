@@ -45,6 +45,20 @@ const SignUp = ({ open, goSomeWhereElse }) => {
     await request.post(url, { email: _email });
   };
 
+  const handlePasswordSubmit = useCallback(
+    async (_password: string) => {
+      const url = "/account/register/";
+      const response = await request.post(url, {
+        email,
+        password,
+      });
+      setPassword(_password);
+      setStep("success");
+      toast.success("Registration success");
+    },
+    [email]
+  );
+
   return (
     <div
       className={cn(
@@ -71,7 +85,7 @@ const SignUp = ({ open, goSomeWhereElse }) => {
           />
         )}
         {step === "password" && (
-          <Password setStep={setStep} setPassword={setPassword} email={email} />
+          <Password handlePasswordSubmit={handlePasswordSubmit} />
         )}
         {step === "success" && (
           <Success goSomeWhereElse={handleExit} handleLogin={handleLogin} />

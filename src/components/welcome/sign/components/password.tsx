@@ -8,12 +8,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import InputShowHide from "@/components/ui/input-show-hide";
-import request from "@/request/request";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { KeyboardEvent, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z
@@ -33,7 +31,7 @@ const formSchema = z
     message: "Passwords don't match",
     path: ["confirm"], // path of error
   });
-const Password = ({ email, setStep, setPassword }) => {
+const Password = ({ handlePasswordSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
 
@@ -51,22 +49,15 @@ const Password = ({ email, setStep, setPassword }) => {
       try {
         setLoading(false);
         setFail(false);
-        const { password } = data;
-        const url = "/account/register/";
-        const response = await request.post(url, {
-          email,
-          password,
-        });
-        setPassword(data.password);
-        setStep("success");
-        toast.success("Registration success");
+
+        handlePasswordSubmit(data.password);
       } catch (error) {
         setFail(true);
       } finally {
         setLoading(false);
       }
     },
-    [email]
+    [handlePasswordSubmit]
   );
 
   const onEnter = useCallback(

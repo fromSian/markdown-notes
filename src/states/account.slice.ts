@@ -37,7 +37,6 @@ export const accountSlice = createSlice({
     builder
       .addCase(logout.fulfilled, (state, action) => {
         sessionStorage.removeItem("token");
-
         return {
           user: undefined,
           isLogin: false,

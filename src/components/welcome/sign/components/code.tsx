@@ -23,8 +23,14 @@ interface CodeProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Code = ({ email, setStep, sendVerificationCode }: CodeProps) => {
-  const [time, setTime] = useState(5);
+const Code = ({
+  email,
+  setStep,
+  sendVerificationCode,
+  buttonStr = "resend code",
+  initialSended = true,
+}: CodeProps) => {
+  const [time, setTime] = useState(0);
   const timeRef = useRef<ReturnType<typeof setInterval>>();
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
@@ -32,12 +38,17 @@ const Code = ({ email, setStep, sendVerificationCode }: CodeProps) => {
   const inputRef = useRef();
 
   const mount = () => {
+    setTime(5);
     countDown();
     inputRef.current?.focus();
     setValue("");
   };
+
   const handleResend = useCallback(async () => {
     try {
+      if (!email) {
+        return;
+      }
       setLoading(true);
       await sendVerificationCode(email);
       mount();
@@ -67,15 +78,18 @@ const Code = ({ email, setStep, sendVerificationCode }: CodeProps) => {
   };
 
   useEffect(() => {
-    mount();
+    if (initialSended) {
+      mount();
+    }
 
     return () => {
       clearCountDown();
     };
-  }, []);
+  }, [initialSended]);
 
   const verifyCode = async (email, code) => {
     try {
+      if (!email || !code) return;
       setLoading(true);
       setFail(false);
       const url = "/account/verify-code/";
@@ -126,7 +140,8 @@ const Code = ({ email, setStep, sendVerificationCode }: CodeProps) => {
               <Loader className="animate-spin" />
             ) : (
               <button disabled={Boolean(time)} onClick={handleResend}>
-                {time ? time : ""}re send code
+                {time ? time : ""}
+                {buttonStr}
               </button>
             )}
           </div>
