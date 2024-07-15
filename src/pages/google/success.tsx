@@ -42,7 +42,7 @@ const GoogleSuccess = () => {
           if (v < 2) {
             clearInterval(timeRef.current);
             timeRef.current = undefined;
-            navigate("/notes");
+            navigate("/");
           }
           return v - 1;
         });
@@ -63,7 +63,7 @@ const GoogleSuccess = () => {
       clearInterval(timeRef.current);
       timeRef.current = undefined;
     }
-    navigate("/notes");
+    navigate("/");
   };
   return (
     <>

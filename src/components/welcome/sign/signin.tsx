@@ -57,7 +57,7 @@ const SignIn = ({ open }) => {
         payload: response,
       });
       toast.success("login success");
-      navigate("/notes");
+      navigate("/");
     } catch (error) {
       setFail(true);
     } finally {

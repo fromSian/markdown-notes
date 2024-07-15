@@ -44,7 +44,7 @@ const Wrap = ({
     if (token) {
       queryUserInfo();
     } else {
-      needAuth && navigate("/");
+      needAuth && navigate("/welcome");
     }
   }, [isLogin, needAuth]);
   return (
@@ -78,15 +78,11 @@ const lazyLoad = (path: string, needAuth: boolean = true) => {
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: lazyLoad("@/pages", false),
-  },
-  {
     path: "/welcome",
     element: lazyLoad("@/pages/welcome", false),
   },
   {
-    path: "/notes",
+    path: "/",
     element: lazyLoad("@/pages/notes"),
   },
   {

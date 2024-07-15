@@ -34,7 +34,7 @@ const Sign = () => {
     });
     sessionStorage.setItem("token", response?.token);
     toast.success("trial successfully");
-    navigate("/notes");
+    navigate("/");
   };
   return (
     <div className="flex flex-col p-4" style={{ width: "50%" }}>

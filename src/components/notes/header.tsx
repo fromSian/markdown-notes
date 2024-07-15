@@ -21,7 +21,7 @@ const Header = () => {
         </Link>
       </div>
       <Suspense fallback={<Loader className="animate-spin" />}>
-        {pathname === "/notes" && <NotePart />}
+        {pathname === "/" && <NotePart />}
       </Suspense>
 
       <Suspense fallback={<Loader className="animate-spin" />}>

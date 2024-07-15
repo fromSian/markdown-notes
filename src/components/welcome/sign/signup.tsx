@@ -32,7 +32,7 @@ const SignUp = ({ open, goSomeWhereElse }) => {
       payload: response,
     });
     toast.success("login success");
-    navigate("/notes");
+    navigate("/");
   }, [email, password]);
 
   const handleExit = () => {

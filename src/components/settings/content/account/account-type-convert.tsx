@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import SignUp from "@/components/welcome/sign/signup";
 import { useState } from "react";
 import TitleKit from "../title-kit";
 
@@ -11,14 +11,7 @@ const AccountTypeConvert = () => {
         title={"convert user type"}
         onClick={() => setOpen((v) => !v)}
       />
-      <div
-        className={cn(
-          "grid transition-all",
-          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        )}
-      >
-        <div className="overflow-hidden">123</div>
-      </div>
+      <SignUp open={open} />
     </div>
   );
 };
