@@ -9,7 +9,7 @@ import SignUp from "./signup";
 const Sign = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [open, setOpen] = useState<"signin" | "signup" | undefined>(undefined);
+  const [open, setOpen] = useState<"signin" | "signup" | undefined>("signin");
 
   const goSomeWhereElse = () => {
     setOpen(undefined);
@@ -37,7 +37,7 @@ const Sign = () => {
     navigate("/notes");
   };
   return (
-    <div className="flex flex-col w-full p-4">
+    <div className="flex flex-col p-4" style={{ width: "50%" }}>
       <button className="black_btn mb-4" onClick={() => setOpen("signin")}>
         sign in
       </button>

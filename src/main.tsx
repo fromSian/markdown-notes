@@ -4,15 +4,26 @@ import { ThemeProvider } from "next-themes";
 import React, { lazy, ReactNode, Suspense, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import { Toaster } from "sonner";
 import "./global.css";
 import { fetchUserInfo } from "./request/account";
 import { useAppDispatch, useAppSelector } from "./states/hooks";
 
-const Wrap = ({ children }: { children: ReactNode }) => {
+const Wrap = ({
+  children,
+  needAuth,
+}: {
+  children: ReactNode;
+  needAuth: boolean;
+}) => {
   const { isLogin } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const queryUserInfo = async () => {
     try {
       const response = await fetchUserInfo();
@@ -32,12 +43,14 @@ const Wrap = ({ children }: { children: ReactNode }) => {
     const token = sessionStorage.getItem("token");
     if (token) {
       queryUserInfo();
+    } else {
+      needAuth && navigate("/");
     }
-  }, [isLogin]);
+  }, [isLogin, needAuth]);
   return <>{children}</>;
 };
 
-const lazyLoad = (path: string) => {
+const lazyLoad = (path: string, needAuth: boolean = true) => {
   if (path.startsWith("@/")) {
     path = path.replace("@/", "");
   }
@@ -48,7 +61,7 @@ const lazyLoad = (path: string) => {
         <Loader className="absolute top-[50%] left-[50%] animate-spin" />
       }
     >
-      <Wrap>
+      <Wrap needAuth={needAuth}>
         <Module />
       </Wrap>
     </Suspense>
@@ -58,11 +71,11 @@ const lazyLoad = (path: string) => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: lazyLoad("@/pages"),
+    element: lazyLoad("@/pages", false),
   },
   {
     path: "/welcome",
-    element: lazyLoad("@/pages/welcome"),
+    element: lazyLoad("@/pages/welcome", false),
   },
   {
     path: "/notes",
@@ -70,15 +83,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/introduction",
-    element: lazyLoad("@/pages/introduction"),
+    element: lazyLoad("@/pages/introduction", false),
   },
   {
     path: "/google/fail",
-    element: lazyLoad("@/pages/google/fail"),
+    element: lazyLoad("@/pages/google/fail", false),
   },
   {
     path: "/google/success",
-    element: lazyLoad("@/pages/google/success"),
+    element: lazyLoad("@/pages/google/success", false),
   },
   {
     path: "/test",
