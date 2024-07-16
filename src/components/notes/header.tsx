@@ -1,19 +1,27 @@
-import * as UIVariable from "@/lib/ui";
 import { Loader } from "lucide-react";
-import { Suspense, lazy } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Dispatch, lazy, SetStateAction, Suspense } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../icons/logo";
 
 const NotePart = lazy(() => import("@/components/common/NotePart"));
 const CommonPart = lazy(() => import("@/components/common/CommonPart"));
 const Avatar = lazy(() => import("@/components/common/Avatar"));
-const Header = () => {
-  const { pathname } = useLocation();
 
+interface HeaderProps {
+  showNavigation: boolean;
+  setShowNavigation: Dispatch<SetStateAction<boolean>>;
+  activeId?: string | number;
+}
+
+const Header = ({
+  showNavigation,
+  setShowNavigation,
+  activeId,
+}: HeaderProps) => {
   return (
     <header
-      className="flex px-2 xs:px-4 gap-4 overflow-hidden transition-all items-center justify-between"
-      style={{ height: UIVariable.headerHeight }}
+      className="flex px-2 xs:px-4 gap-4 sm:gap-6 overflow-hidden transition-all items-center justify-between"
+      style={{ height: "4rem" }}
     >
       <div className="flex-shrink-0 flex">
         <Link to="/">
@@ -21,7 +29,11 @@ const Header = () => {
         </Link>
       </div>
       <Suspense fallback={<Loader className="animate-spin" />}>
-        {pathname === "/" && <NotePart />}
+        <NotePart
+          showNavigation={showNavigation}
+          setShowNavigation={setShowNavigation}
+          activeId={activeId}
+        />
       </Suspense>
 
       <Suspense fallback={<Loader className="animate-spin" />}>

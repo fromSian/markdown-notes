@@ -1,4 +1,3 @@
-import * as UIVariable from "@/lib/ui";
 import { Loader } from "lucide-react";
 import { Suspense, lazy } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -12,7 +11,7 @@ const Header = () => {
   return (
     <header
       className="flex px-2 xs:px-4 gap-4 overflow-hidden transition-all items-center justify-between"
-      style={{ height: UIVariable.headerHeight }}
+      style={{ height: "4rem" }}
     >
       <div className="flex-shrink-0 flex">
         <Link to="/">
