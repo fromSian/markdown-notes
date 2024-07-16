@@ -7,20 +7,14 @@ import { ItemRef } from "./components/content/item/index.tsx";
 import List from "./components/content/list.tsx";
 import Operator from "./components/content/operator/index.tsx";
 
-export type SortInfo = {
-  field: "updated" | "created";
-  order: "asc" | "desc";
-};
+export type SortInfo = "updated" | "-updated" | "created" | "-created";
 
 interface MainContentProps {}
 const Content = memo(({}: MainContentProps) => {
   const { activeId, activeInfo } = useAppSelector((state) => state.note);
 
   const [adding, setAdding] = useState(false);
-  const [sortInfo, setSortInfo] = useState<SortInfo>({
-    field: "updated",
-    order: "desc",
-  });
+  const [sortInfo, setSortInfo] = useState<SortInfo>("-updated");
 
   const contentRefs = useRef<ItemRef[]>([]);
 

@@ -10,6 +10,7 @@ interface OperatorProps {
   setSortInfo: Dispatch<SetStateAction<SortInfo>>;
   toggleExpand: () => void;
   handleAdding: () => void;
+  handleExport: () => void;
 }
 const Operator = memo(
   ({
@@ -27,9 +28,9 @@ const Operator = memo(
         style={{ height: "36px" }}
       >
         <ExpandTrigger toggleExpand={toggleExpand} />
-        <Sort sortInfo={sortInfo} setSortInfo={setSortInfo} />
         <NewTriggle onClick={handleAdding} />
         <Export handleExport={handleExport} />
+        <Sort sortInfo={sortInfo} setSortInfo={setSortInfo} />
       </div>
     );
   }

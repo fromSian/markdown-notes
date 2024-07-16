@@ -73,7 +73,7 @@ const List = ({
         {
           id: activeId,
           since_id: lastId,
-          order: `${sortInfo.order === "desc" ? "-" : ""}${sortInfo.field}`,
+          order: sortInfo,
         },
         controllerRef.current.signal
       );
@@ -140,7 +140,7 @@ const List = ({
       const response = await queryNoteContents(
         {
           id: activeId,
-          order: `${sortInfo.order === "desc" ? "-" : ""}${sortInfo.field}`,
+          order: sortInfo,
         },
         controllerRef.current.signal
       );
