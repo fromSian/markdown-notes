@@ -19,7 +19,7 @@ const SortLabel = ({
     )}
   </p>
 );
-const sortOptions = [
+export const sortOptions = [
   {
     label: <SortLabel field={"updated"} />,
     value: "-updated",

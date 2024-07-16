@@ -28,7 +28,7 @@ const SignUp = ({ open, goSomeWhereElse }) => {
       password,
     });
     dispatch({
-      type: "account/setUser",
+      type: "account/setAccount",
       payload: response,
     });
     toast.success("login success");

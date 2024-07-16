@@ -53,7 +53,7 @@ const SignIn = ({ open }) => {
       setLoading(true);
       const response = await fetchLogin(data);
       dispatch({
-        type: "account/setUser",
+        type: "account/setAccount",
         payload: response,
       });
       toast.success("login success");

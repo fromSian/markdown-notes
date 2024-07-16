@@ -1,22 +1,32 @@
+import { sortOptions } from "@/components/notes/components/content/operator/sort";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
-
-const sortOptions = [
-  {
-    label: "created",
-    value: "created",
-  },
-  {
-    label: "-created",
-    value: "-created",
-  },
-];
 const Note = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showTime, setShowTime] = useState(false);
-  const [sortInfo, setSortInfo] = useState("created");
+  const { defaultExpanded, showExactTime, sortInfo } = useAppSelector(
+    (state) => state.note
+  );
+  const dispatch = useAppDispatch();
+
+  const setDefaultExpanded = (value: boolean) => {
+    dispatch({
+      type: "note/setDefaultExpanded",
+      payload: value,
+    });
+  };
+  const setShowExactTime = (value: boolean) => {
+    dispatch({
+      type: "note/setShowExactTime",
+      payload: value,
+    });
+  };
+  const setSortInfo = (value: string) => {
+    dispatch({
+      type: "note/setSortInfo",
+      payload: value,
+    });
+  };
   return (
     <>
       <div className="divider italic my-4">note</div>
@@ -25,13 +35,13 @@ const Note = () => {
         <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
           <TitleKit title={"expanded"} info={"expanded"} />
           <Switch
-            checked={isExpanded}
-            onCheckedChange={(e) => setIsExpanded(e)}
+            checked={defaultExpanded}
+            onCheckedChange={setDefaultExpanded}
           />
         </div>
         <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
           <TitleKit title={"show time"} info={"show time"} />
-          <Switch checked={showTime} onCheckedChange={(e) => setShowTime(e)} />
+          <Switch checked={showExactTime} onCheckedChange={setShowExactTime} />
         </div>
         <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
           <TitleKit title={"sort info"} info={"sort info"} />

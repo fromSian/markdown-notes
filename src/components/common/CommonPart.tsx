@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/states/hooks";
 import { AlignJustify, Info } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 
 const CommanPartContent = () => {
+  const { language, theme } = useAppSelector((state) => state.account);
   return (
     <>
       <TooltipSimple content="introduce">
@@ -14,9 +16,8 @@ const CommanPartContent = () => {
           <Info />
         </Link>
       </TooltipSimple>
-
-      <ThemeSwitch />
-      <LanguageSwitch />
+      <ThemeSwitch _theme={theme} />
+      <LanguageSwitch language={language} />
     </>
   );
 };

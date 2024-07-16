@@ -29,7 +29,7 @@ const Sign = () => {
     const url = "/account/trial/";
     const response = await request.post(url);
     dispatch({
-      type: "account/setUser",
+      type: "account/setAccount",
       payload: response,
     });
     sessionStorage.setItem("token", response?.token);

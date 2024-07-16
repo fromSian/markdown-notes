@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
 const languageOptions = [
@@ -15,9 +15,20 @@ const themeOptions = [
   { label: "system", value: "system" },
 ];
 const System = () => {
-  const [language, setLanguage] = useState("");
-  const [theme, setTheme] = useState("");
-
+  const { language, theme } = useAppSelector((state) => state.account);
+  const dispatch = useAppDispatch();
+  const setLanguage = (value: string) => {
+    dispatch({
+      type: "account/setLanguage",
+      payload: value,
+    });
+  };
+  const setTheme = (value: string) => {
+    dispatch({
+      type: "account/setTheme",
+      payload: value,
+    });
+  };
   return (
     <>
       <div className="divider italic my-4">system</div>

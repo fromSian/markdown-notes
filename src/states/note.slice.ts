@@ -1,16 +1,22 @@
+import type { SortInfo } from "@/components/notes/Content";
 import { NoteNavigationType } from "@/types/notes";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
 interface NoteState {
   activeId: string | number | undefined;
   activeInfo: NoteNavigationType | undefined;
   updateInfo: NoteNavigationType | undefined;
+  showExactTime: boolean;
+  defaultExpanded: boolean;
+  sortInfo: SortInfo;
 }
 
 const initialState: NoteState = {
   activeId: undefined,
   activeInfo: undefined,
   updateInfo: undefined,
+  showExactTime: false,
+  defaultExpanded: true,
+  sortInfo: "-updated",
 };
 
 export const query = createAsyncThunk("notes/query", async () => {
@@ -46,6 +52,37 @@ export const noteSlice = createSlice({
         ...state,
         activeInfo: info,
         updateInfo: info,
+      };
+    },
+    setConfig(
+      state,
+      action: PayloadAction<{
+        showExactTime: boolean;
+        defaultExpanded: boolean;
+        sortInfo: SortInfo;
+      }>
+    ) {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
+    setDefaultExpanded(state, action: PayloadAction<boolean>) {
+      return {
+        ...state,
+        defaultExpanded: action.payload,
+      };
+    },
+    setShowExactTime(state, action: PayloadAction<boolean>) {
+      return {
+        ...state,
+        showExactTime: action.payload,
+      };
+    },
+    setSortInfo(state, action: PayloadAction<SortInfo>) {
+      return {
+        ...state,
+        sortInfo: action.payload,
       };
     },
   },

@@ -28,8 +28,25 @@ const Wrap = ({
     try {
       const response = await fetchUserInfo();
       dispatch({
-        type: "account/setUser",
+        type: "account/setAccount",
         payload: response,
+      });
+      const systemConfig = {
+        language: "zh-TW",
+        theme: "light",
+      };
+      dispatch({
+        type: "account/setConfig",
+        payload: systemConfig,
+      });
+      const noteConfig = {
+        showExactTime: false,
+        defaultExpanded: true,
+        sortInfo: "-updated",
+      };
+      dispatch({
+        type: "note/setConfig",
+        payload: noteConfig,
       });
     } catch (error) {
       sessionStorage.removeItem("token");

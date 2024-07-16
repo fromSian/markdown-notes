@@ -21,7 +21,7 @@ const GoogleSuccess = () => {
       setLoading(true);
       const response = await fetchUserInfo(token);
       dispatch({
-        type: "account/setUser",
+        type: "account/setAccount",
         payload: response,
       });
       sessionStorage.setItem("token", token);

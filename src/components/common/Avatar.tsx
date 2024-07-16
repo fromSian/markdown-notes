@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Select from "../ui/select";
 import TooltipSimple from "../ui/TooltipSimple";
 const Avatar = () => {
-  const { isLogin, user } = useAppSelector((state) => state.account);
+  const { isLogin, account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -20,22 +20,22 @@ const Avatar = () => {
         open={open}
         setOpen={setOpen}
         content={
-          user.image ? (
+          account.image ? (
             <img
               className="w-8 h-8 rounded-full cursor-pointer"
-              src={user.image}
-              alt={user.email}
+              src={account.image}
+              alt={account.email}
             />
           ) : (
             <div className="w-8 h-8 rounded-full bg-red-200 bg-opacity-40 cursor-pointer text-center truncate text-lg">
-              {user.type === "trial" ? "T" : user.email[0]}
+              {account.type === "trial" ? "T" : account.email[0]}
             </div>
           )
         }
       >
         <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
           <Link to="/settings">settings</Link>
-          {user.type === "trial" ? (
+          {account.type === "trial" ? (
             <TooltipSimple
               side="left"
               content={

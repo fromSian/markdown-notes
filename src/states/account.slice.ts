@@ -10,13 +10,17 @@ type Account = {
 // Define a type for the slice state
 interface AccountState {
   isLogin: boolean;
-  user: Account | undefined;
+  account: Account | undefined;
+  language: string;
+  theme: string;
 }
 
 // Define the initial state using that type
 const initialState: AccountState = {
   isLogin: false,
-  user: undefined,
+  account: undefined,
+  language: "",
+  theme: "",
 };
 
 export const logout = createAsyncThunk("account/logout", async () => {
@@ -28,9 +32,35 @@ export const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<Account>) => {
-      state.user = action.payload;
-      state.isLogin = true;
+    setAccount: (state, action: PayloadAction<Account>) => {
+      return {
+        ...state,
+        isLogin: true,
+        account: action.payload,
+      };
+    },
+    setConfig: (
+      state,
+      action: PayloadAction<{ language: string; theme: string }>
+    ) => {
+      const { language, theme } = action.payload;
+      return {
+        ...state,
+        language: language,
+        theme: theme,
+      };
+    },
+    setTheme: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        theme: action.payload,
+      };
+    },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        language: action.payload,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -38,7 +68,7 @@ export const accountSlice = createSlice({
       .addCase(logout.fulfilled, (state, action) => {
         sessionStorage.removeItem("token");
         return {
-          user: undefined,
+          account: undefined,
           isLogin: false,
         };
       })
@@ -46,6 +76,6 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { setUser } = accountSlice.actions;
+export const { setAccount } = accountSlice.actions;
 
 export default accountSlice.reducer;
