@@ -1,9 +1,10 @@
 import Fail from "@/components/icons/fail";
+import SuccessIcon from "@/components/icons/success";
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
 import { Loader, Save } from "lucide-react";
 
-const SuccessIcon = () => {
+const Success = () => {
   return (
     <TooltipSimple content="save successfully">
       <SuccessIcon />
@@ -53,7 +54,7 @@ const Status = ({ isChanged, status, handleSave }: StatusProps) => {
   return (
     <div>
       {status === "fail" && <FailIcon handleSave={handleSave} />}
-      {status === "success" && <SuccessIcon />}
+      {status === "success" && <Success />}
       {status === "loading" && <LoadingIcon />}
       {isChanged && status !== "loading" && (
         <SaveIcon handleSave={handleSave} />

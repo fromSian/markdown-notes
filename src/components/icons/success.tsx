@@ -9,7 +9,7 @@ const SuccessIcon = ({
   return (
     <div
       className={cn(
-        "rounded-full w-6 h-6 flex justify-center items-center bg-green-500 bg-opacity-50",
+        "rounded-full w-6 h-6 flex justify-center items-center bg-success text-success-foreground bg-opacity-50",
         className
       )}
       {...rest}

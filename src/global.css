@@ -44,6 +44,13 @@
     --btn-overlap-foreground: #edecda;
 
     --welcome: #edecda33;
+
+    --bg-emphasis: #89aac7;
+
+    --fail: #c62a30;
+    --fail-foreground: #fff;
+    --success: #51a243;
+    --success-foreground: #fff;
   }
 
   .dark {
@@ -83,6 +90,13 @@
     --btn-overlap-foreground: #2f4858;
 
     --welcome: #3a4856;
+
+    --bg-emphasis: #3f8ad387;
+
+    --fail: #ac3c18;
+    --fail-foreground: #fff;
+    --success: #005500;
+    --success-foreground: #fff;
   }
 }
 

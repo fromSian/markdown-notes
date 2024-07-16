@@ -58,7 +58,7 @@ const Item = memo(
         try {
           const content = editorRef.current?.getHTMLValue();
           const summary = editorRef.current?.getTextValue();
-          handleSave(item.id, content, summary);
+          await handleSave(item.id, content, summary);
           setStatus("success");
           setIsChanged(false);
         } catch (error) {

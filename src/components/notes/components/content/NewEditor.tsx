@@ -1,6 +1,5 @@
-import TooltipSimple from "@/components/ui/TooltipSimple";
 import { useAppDispatch } from "@/states/hooks";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import {
   Dispatch,
   forwardRef,
@@ -11,6 +10,7 @@ import {
   useTransition,
 } from "react";
 import Editor from "./Editor";
+import Status from "./item/Status";
 import MaskLoader from "./MaskLoader";
 
 interface NewEditorProps {
@@ -23,6 +23,9 @@ const NewEditor = forwardRef(
     const parentRef = useRef<HTMLDivElement>(null);
     const [isPending, startTransition] = useTransition();
     const dispatch = useAppDispatch();
+    const [status, setStatus] = useState<
+      "loading" | "success" | "fail" | undefined
+    >(undefined);
 
     useEffect(() => {
       if (parentRef.current) {
@@ -39,18 +42,16 @@ const NewEditor = forwardRef(
       }
 
       try {
-        setLoading(true);
+        setStatus("loading");
 
         const content = ref.current?.getHTMLValue();
         const summary = ref.current?.getTextValue();
 
         await onNewSubmit(content, summary);
-        startTransition(() => {
-          setLoading(false);
-          setAdding(false);
-        });
+        setStatus("success");
+        setAdding(false);
       } catch (error) {
-        setLoading(false);
+        setStatus("fail");
 
         console.log(error);
       }
@@ -72,28 +73,33 @@ const NewEditor = forwardRef(
         onClick={focusEditor}
         className="pb-8 min-h-32 relative pt-2 mb-4"
       >
-        <p className="divider">new item</p>
-        <Editor content={""} ref={ref} />
-        <div
-          className="absolute bottom-0 left-0 w-full bg-secondary flex gap-8 justify-center"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <TooltipSimple content="cancel">
-            <X
+        <div className="flex justify-between items-center">
+          <p className="text-ttertiary text-sm px-1 bg-secondary flex items-center rounded-md h-max">
+            new item
+          </p>
+
+          <div
+            className="flex gap-2 justify-center items-center"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <div
               onClick={onCancel}
-              className="hover:text-red-300 cursor-pointer active:scale-90 transition-all"
-            />
-          </TooltipSimple>
-          <TooltipSimple content="save">
-            <Check
-              onClick={onSubmit}
-              className="hover:text-green-300 cursor-pointer active:scale-90 transition-all"
-            />
-          </TooltipSimple>
+              className="group cursor-pointer px-2 rounded-sm text-center flex items-center bg-secondary border border-transparent hover:border-border hover:bg-transparent py-1"
+            >
+              <X
+                size={16}
+                className={
+                  "text-ttertiary group-hover:text-tprimary group-active:scale-95 transition-all"
+                }
+              />
+            </div>
+            <Status status={status} isChanged={true} handleSave={onSubmit} />
+          </div>
         </div>
+        <Editor content={""} ref={ref} />
 
         {loading && <MaskLoader loading={loading} />}
       </div>

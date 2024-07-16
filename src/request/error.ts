@@ -32,6 +32,7 @@ export const getErrorMessage = (error: unknown): string => {
 
 export const httpErrorHandler = (error: unknown) => {
   if (error === null) throw new Error("Unrecoverable error!! Error is null!");
+  console.log(error);
   if (axios.isAxiosError(error)) {
     const response = error?.response;
 
@@ -39,6 +40,10 @@ export const httpErrorHandler = (error: unknown) => {
       console.log("connection problems..");
     } else if (error.code === "ERR_CANCELED") {
       console.log("connection canceled..");
+    }
+
+    if (error.code === "ERR_BAD_RESPONSE") {
+      toast.error("sorry, api is not working");
     }
     if (response && response.data) {
       console.log(response.data.message);

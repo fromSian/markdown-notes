@@ -26,7 +26,7 @@ const InputWithLabel = forwardRef(
       <div className="relative -mt-4 mb-4">
         <p
           className={cn(
-            "relative px-2 left-2 w-max bg-black rounded-md overflow-visible text-ttertiary text-base opacity-0 transition-all float-left -z-10",
+            "relative px-2 left-2 w-max bg-background rounded-md overflow-visible text-ttertiary text-base opacity-0 transition-all float-left -z-10",
             topLeft && "opacity-100 z-10"
           )}
           style={{

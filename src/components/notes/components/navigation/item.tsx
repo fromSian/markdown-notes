@@ -40,7 +40,7 @@ const Item = memo(
         className={cn(
           className,
           "group cursor-pointer py-4 px-1 xs:px-2 sm:px-4 border-b rounded",
-          active && "bg-secondary"
+          active && "bg-emphasis"
         )}
         onClick={onItemClick}
       >

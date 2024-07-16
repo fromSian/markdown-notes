@@ -186,11 +186,13 @@ const List = ({
   const onNewSubmit = useCallback(
     async (content: string, summary: string) => {
       const response = await addNoteContent(activeId, content, summary);
-      setData((v) => [response, ...v]);
       const noteinfo = await queryNoteInfo(activeId);
       dispatch({ type: "note/setUpdateInfo", payload: noteinfo });
+      setData((v) => {
+        return sortInfo.startsWith("-") ? [response, ...v] : [...v, response];
+      });
     },
-    [activeId]
+    [activeId, sortInfo]
   );
 
   const handleDelete = useCallback(

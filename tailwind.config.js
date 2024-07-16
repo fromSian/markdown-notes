@@ -109,6 +109,16 @@ module.exports = {
         tsecondary: "var(--text-secondary)",
         ttertiary: "var(--text-tertiary)",
         welcome: "var(--welcome)",
+        emphasis: "var(--bg-emphasis)",
+        fail: {
+          DEFAULT: "var(--fail)",
+          foreground: "var(--fail-foreground)",
+        },
+
+        success: {
+          DEFAULT: "var(--success)",
+          foreground: "var(--success-foreground)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
