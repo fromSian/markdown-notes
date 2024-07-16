@@ -28,14 +28,14 @@ const Header = ({
           <Logo className="-mt-2" />
         </Link>
       </div>
-      <Suspense fallback={<Loader className="animate-spin" />}>
-        <NotePart
-          showNavigation={showNavigation}
-          setShowNavigation={setShowNavigation}
-          activeId={activeId}
-        />
-      </Suspense>
-
+      {activeId && (
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <NotePart
+            showNavigation={showNavigation}
+            setShowNavigation={setShowNavigation}
+          />
+        </Suspense>
+      )}
       <Suspense fallback={<Loader className="animate-spin" />}>
         <CommonPart />
       </Suspense>

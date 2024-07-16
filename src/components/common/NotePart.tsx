@@ -9,21 +9,19 @@ interface NotePartProps {
 }
 
 const NotePart = memo(
-  ({ showNavigation, setShowNavigation, activeId }: NotePartProps) => {
+  ({ showNavigation, setShowNavigation }: NotePartProps) => {
     return (
       <div className="flex-1 flex items-center gap-2">
-        {activeId && (
-          <TooltipSimple content={showNavigation ? "hide" : "show"}>
-            <p
-              className="cursor-pointer"
-              onClick={() => {
-                setShowNavigation((v) => !v);
-              }}
-            >
-              {showNavigation ? <PanelLeftClose /> : <PanelRightOpen />}
-            </p>
-          </TooltipSimple>
-        )}
+        <TooltipSimple content={showNavigation ? "hide" : "show"}>
+          <p
+            className="cursor-pointer"
+            onClick={() => {
+              setShowNavigation((v) => !v);
+            }}
+          >
+            {showNavigation ? <PanelLeftClose /> : <PanelRightOpen />}
+          </p>
+        </TooltipSimple>
       </div>
     );
   }
