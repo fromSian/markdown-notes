@@ -32,8 +32,8 @@ const Wrap = ({
         payload: response,
       });
       const systemConfig = {
-        language: "zh-TW",
-        theme: "light",
+        language: "",
+        theme: "",
       };
       dispatch({
         type: "account/setConfig",
