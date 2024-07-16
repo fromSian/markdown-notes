@@ -1,3 +1,5 @@
+import TooltipSimple from "@/components/ui/TooltipSimple";
+import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";
 import { useState } from "react";
@@ -37,21 +39,49 @@ const Sign = () => {
     navigate("/");
   };
   return (
-    <div className="flex flex-col p-4" style={{ width: "50%" }}>
-      <button className="black_btn mb-4" onClick={() => setOpen("signin")}>
+    <div className="flex flex-col p-4 justify-center xl:w-[40vw] lg:w-[45vw] md:w-[50vw]">
+      <button
+        className={cn(
+          "btn-overlap mb-4 transition-all opacity-50 hover:opacity-100",
+          open === "signin" && "opacity-100"
+        )}
+        onClick={() => setOpen("signin")}
+      >
         sign in
       </button>
       <SignIn open={open === "signin"} />
-      <button className="black_btn mb-4" onClick={() => setOpen("signup")}>
+      <button
+        className={cn(
+          "btn-overlap mb-4 transition-all opacity-50 hover:opacity-100",
+          open === "signup" && "opacity-100"
+        )}
+        onClick={() => setOpen("signup")}
+      >
         sign up
       </button>
       <SignUp open={open === "signup"} goSomeWhereElse={goSomeWhereElse} />
-      <button className="black_btn mb-4" onClick={handleGoogleAuth}>
-        sign in with google
-      </button>
-      <button className="black_btn mb-4" onClick={handleTrial}>
-        trial
-      </button>
+      <TooltipSimple content={"132"}>
+        <p
+          className={cn(
+            "btn-overlap w-full transition-all mb-4 opacity-50 hover:opacity-100",
+            open === undefined && "opacity-100"
+          )}
+          onClick={handleGoogleAuth}
+        >
+          sign in with google
+        </p>
+      </TooltipSimple>
+      <TooltipSimple content={"132"}>
+        <p
+          className={cn(
+            "btn-overlap w-full transition-all mb-4 opacity-50 hover:opacity-100",
+            open === undefined && "opacity-100"
+          )}
+          onClick={handleTrial}
+        >
+          trial
+        </p>
+      </TooltipSimple>
     </div>
   );
 };

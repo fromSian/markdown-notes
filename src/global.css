@@ -1,3 +1,5 @@
+@import "@/styles/button.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,7 +30,7 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: #33415533;
+    --border: #c4c4c4;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
@@ -37,6 +39,11 @@
     --text-primary: #09090b;
     --text-secondary: #18181b;
     --text-tertiary: #3f3f46;
+
+    --btn-overlap: #3f4a3c;
+    --btn-overlap-foreground: #edecda;
+
+    --welcome: #edecda33;
   }
 
   .dark {
@@ -64,13 +71,18 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: #a1a1aa33;
+    --border: #96afb8;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
 
     --text-primary: #fafafa;
     --text-secondary: #d4d4d8;
     --text-tertiary: #a1a1aa;
+
+    --btn-overlap: #a3af9e;
+    --btn-overlap-foreground: #2f4858;
+
+    --welcome: #3a4856;
   }
 }
 

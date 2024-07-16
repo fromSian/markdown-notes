@@ -108,6 +108,7 @@ module.exports = {
         tprimary: "var(--text-primary)",
         tsecondary: "var(--text-secondary)",
         ttertiary: "var(--text-tertiary)",
+        welcome: "var(--welcome)",
       },
       borderRadius: {
         lg: "var(--radius)",

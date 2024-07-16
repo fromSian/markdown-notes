@@ -95,12 +95,13 @@ const lazyLoad = (path: string, needAuth: boolean = true) => {
 
 const router = createBrowserRouter([
   {
-    path: "/welcome",
-    element: lazyLoad("@/pages/welcome", false),
-  },
-  {
     path: "/",
     element: lazyLoad("@/pages/notes"),
+    errorElement: lazyLoad("@/pages/not-found", false),
+  },
+  {
+    path: "/welcome",
+    element: lazyLoad("@/pages/welcome", false),
   },
   {
     path: "/introduction",
