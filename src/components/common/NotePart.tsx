@@ -14,13 +14,14 @@ const NotePart = memo(
       <div className="flex-1 flex items-center gap-2">
         {activeId && (
           <TooltipSimple content={showNavigation ? "hide" : "show"}>
-            <button
+            <p
+              className="cursor-pointer"
               onClick={() => {
                 setShowNavigation((v) => !v);
               }}
             >
               {showNavigation ? <PanelLeftClose /> : <PanelRightOpen />}
-            </button>
+            </p>
           </TooltipSimple>
         )}
       </div>

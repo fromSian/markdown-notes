@@ -1,3 +1,8 @@
+import TooltipSimple from "@/components/ui/TooltipSimple";
+import {
+  formatDistanceFromNow,
+  getDateTimeInCurrentTimeZone,
+} from "@/lib/timezone";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Loader, Trash } from "lucide-react";
 import { memo, useState } from "react";
@@ -62,14 +67,38 @@ const HeaderText = memo(
     index,
     summary,
     open,
+    updated,
+    created,
+    sortField = "updated",
   }: {
     index: number;
     summary: string;
     open: boolean;
+    updated: string;
+    created: string;
+    sortField?: "updated" | "created";
   }) => {
     return (
-      <div className="flex gap-1 truncate">
-        {index + 1}.{!open && summary}
+      <div className="flex gap-2 items-center flex-1 overflow-hidden whitespace-nowrap">
+        <p className="italic w-4 flex-shrink-0">{index + 1}.</p>
+
+        <TooltipSimple
+          content={
+            <>
+              <p>update at: {getDateTimeInCurrentTimeZone(updated)}</p>
+              <p>create at: {getDateTimeInCurrentTimeZone(created)}</p>
+            </>
+          }
+        >
+          <p className="bg-secondary px-1 rounded-md align-middle text-ttertiary flex-shrink-0">
+            {formatDistanceFromNow(
+              sortField === "created" ? created : updated,
+              localStorage.getItem("i18nextLng") || ""
+            )}
+          </p>
+        </TooltipSimple>
+
+        <p className="truncate text-base">{!open && summary}</p>
       </div>
     );
   }
@@ -81,6 +110,9 @@ interface ItemHeaderProps {
   toggleOpen: () => void;
   index: number;
   summary: string;
+  updated: string;
+  created: string;
+  sortField: "updated" | "created";
   isChanged: boolean;
   status: "loading" | "success" | "fail" | undefined;
   handleSave: () => void;
@@ -94,14 +126,22 @@ const ItemHeader = memo(
     open,
     index,
     summary,
+    updated,
+    created,
     isChanged,
     status,
     handleSave,
     handleDelete,
   }: ItemHeaderProps) => {
     return (
-      <div className="flex justify-between gap-2 text-sm italic mb-2 items-center w-full">
-        <HeaderText index={index} open={open} summary={summary} />
+      <div className="flex justify-between gap-2 text-sm mb-2 items-center w-full">
+        <HeaderText
+          index={index}
+          open={open}
+          summary={summary}
+          updated={updated}
+          created={created}
+        />
         <div className="flex-shrink-0 flex gap-2 items-center">
           <Status
             isChanged={isChanged}

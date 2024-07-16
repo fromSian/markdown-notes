@@ -70,7 +70,11 @@ const List = ({
       setLoading(true);
 
       const response = await queryNoteContents(
-        { id: activeId, since_id: lastId },
+        {
+          id: activeId,
+          since_id: lastId,
+          order: `${sortInfo.order === "desc" ? "-" : ""}${sortInfo.field}`,
+        },
         controllerRef.current.signal
       );
       if (response) {
@@ -85,7 +89,7 @@ const List = ({
         controllerRef.current = undefined;
       }
     } catch (error) {}
-  }, [activeId, lastId]);
+  }, [activeId, lastId, sortInfo]);
 
   useEffect(() => {
     if (!scrollRef.current || !targetRef.current) {
@@ -141,7 +145,7 @@ const List = ({
         controllerRef.current.signal
       );
       if (response) {
-        setData(response.results);
+        setData((v) => response.results);
         setHasNext(response.hasNext);
         if (!response.hasNext) {
           if (!response.count) {
@@ -252,6 +256,7 @@ const List = ({
               key={item.id}
               item={item}
               index={index}
+              sortField={sortInfo.field}
               ref={(element) =>
                 (contentRefs.current[index] = element as ItemRef)
               }

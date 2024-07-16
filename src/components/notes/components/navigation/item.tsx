@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { memo } from "react";
-import { Trans, useTranslation } from "react-i18next";
 import Delete from "./delete";
 const Item = memo(
   ({
@@ -26,7 +25,6 @@ const Item = memo(
     className?: string;
   }) => {
     const dispatch = useAppDispatch();
-    const { t } = useTranslation();
 
     const onItemClick = () => {
       dispatch({
@@ -57,12 +55,10 @@ const Item = memo(
         <div className="flex gap-2 mt-1 text-sm">
           <TooltipSimple content={getDateTimeInCurrentTimeZone(item.updated)}>
             <p className="text-tsecondary truncate flex-shrink-0">
-              <Trans t={t}>
-                {formatDistanceFromNow(
-                  item.updated,
-                  localStorage.getItem("i18nextLng") || ""
-                )}
-              </Trans>
+              {formatDistanceFromNow(
+                item.updated,
+                localStorage.getItem("i18nextLng") || ""
+              )}
             </p>
           </TooltipSimple>
 
