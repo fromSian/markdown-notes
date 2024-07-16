@@ -1,8 +1,13 @@
-import { getDateTimeInCurrentTimeZone } from "@/lib/timezone";
+import TooltipSimple from "@/components/ui/TooltipSimple";
+import {
+  formatDistanceFromNow,
+  getDateTimeInCurrentTimeZone,
+} from "@/lib/timezone";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { memo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import Delete from "./delete";
 const Item = memo(
   ({
@@ -21,6 +26,7 @@ const Item = memo(
     className?: string;
   }) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const onItemClick = () => {
       dispatch({
@@ -41,10 +47,7 @@ const Item = memo(
         onClick={onItemClick}
       >
         <div className="flex justify-between items-center mb-2">
-          <p className="text-tprimary truncate">
-            {item.title || "no title"}
-            {item.id}
-          </p>
+          <p className="text-tprimary truncate">{item.title || "no title"}</p>
           <Delete
             handleDelete={() => handleDelete(item.id)}
             loading={loading}
@@ -52,9 +55,17 @@ const Item = memo(
         </div>
 
         <div className="flex gap-2 mt-1 text-sm">
-          <p className="text-tsecondary truncate flex-shrink-0">
-            {getDateTimeInCurrentTimeZone(item.updated)}
-          </p>
+          <TooltipSimple content={getDateTimeInCurrentTimeZone(item.updated)}>
+            <p className="text-tsecondary truncate flex-shrink-0">
+              <Trans t={t}>
+                {formatDistanceFromNow(
+                  item.updated,
+                  localStorage.getItem("i18nextLng") || ""
+                )}
+              </Trans>
+            </p>
+          </TooltipSimple>
+
           <p className="text-ttertiary truncate">{item.summary}</p>
         </div>
       </div>

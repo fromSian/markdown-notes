@@ -1,5 +1,7 @@
 {
   "en": "English",
   "zh-CN": "Simplified Chinese",
-  "zh-TW": "Traditional Chinese"
+  "zh-TW": "Traditional Chinese",
+  "test_one": "231",
+  "test_other": "231"
 }
