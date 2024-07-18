@@ -14,6 +14,7 @@ const Item = memo(
     item,
     active,
     loading,
+    showExactTime,
     handleDelete,
     className = "",
   }: {
@@ -21,6 +22,7 @@ const Item = memo(
     item: NoteNavigationType;
     active: boolean;
     loading: boolean;
+    showExactTime: boolean;
     handleDelete: (id: string | number) => void;
     className?: string;
   }) => {
@@ -52,13 +54,22 @@ const Item = memo(
           />
         </div>
 
-        <div className="flex gap-2 mt-1 text-sm">
-          <TooltipSimple content={getDateTimeInCurrentTimeZone(item.updated)}>
+        <div className="flex gap-2 mt-1 text-sm truncate">
+          <TooltipSimple
+            content={
+              <>
+                <p>created at: {getDateTimeInCurrentTimeZone(item.created)}</p>
+                <p>updated at: {getDateTimeInCurrentTimeZone(item.updated)}</p>
+              </>
+            }
+          >
             <p className="text-tsecondary truncate flex-shrink-0">
-              {formatDistanceFromNow(
-                item.updated,
-                localStorage.getItem("i18nextLng") || ""
-              )}
+              {showExactTime
+                ? getDateTimeInCurrentTimeZone(item.updated)
+                : formatDistanceFromNow(
+                    item.updated,
+                    localStorage.getItem("i18nextLng") || ""
+                  )}
             </p>
           </TooltipSimple>
 

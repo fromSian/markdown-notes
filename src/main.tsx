@@ -40,11 +40,10 @@ const Wrap = ({
         payload: systemConfig,
       });
       const noteConfig = {
-        showExactTime: false,
-        defaultExpanded: true,
-        sortInfo: "-updated",
+        showExactTime: true,
+        defaultExpanded: false,
+        sortInfo: "created",
       };
-      console.log(noteConfig);
       dispatch({
         type: "note/setConfig",
         payload: noteConfig,

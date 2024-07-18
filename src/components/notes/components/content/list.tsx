@@ -33,6 +33,8 @@ interface ListProps {
   adding: boolean;
   setAdding: Dispatch<SetStateAction<boolean>>;
   sortInfo: SortInfo;
+  defaultExpanded: boolean;
+  showExactTime: boolean;
 }
 
 const List = ({
@@ -42,6 +44,8 @@ const List = ({
   adding,
   setAdding,
   sortInfo,
+  defaultExpanded,
+  showExactTime,
 }: ListProps) => {
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -169,7 +173,6 @@ const List = ({
     try {
       setTitleLoading(true);
       const response = await updateTitle(id, text);
-      console.log(response);
       dispatch({
         type: "note/setUpdateInfo",
         payload: response,
@@ -264,6 +267,8 @@ const List = ({
               }
               handleDelete={handleDelete}
               handleSave={handleSave}
+              defaultExpanded={defaultExpanded}
+              showExactTime={showExactTime}
             />
           ))}
       </div>

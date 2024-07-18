@@ -11,10 +11,16 @@ export type SortInfo = "updated" | "-updated" | "created" | "-created";
 
 interface MainContentProps {}
 const Content = memo(({}: MainContentProps) => {
-  const { activeId, activeInfo } = useAppSelector((state) => state.note);
+  const {
+    activeId,
+    activeInfo,
+    defaultExpanded,
+    showExactTime,
+    sortInfo: defaultSortInfo,
+  } = useAppSelector((state) => state.note);
 
   const [adding, setAdding] = useState(false);
-  const [sortInfo, setSortInfo] = useState<SortInfo>("-updated");
+  const [sortInfo, setSortInfo] = useState<SortInfo>(defaultSortInfo);
 
   const contentRefs = useRef<ItemRef[]>([]);
 
@@ -62,6 +68,8 @@ const Content = memo(({}: MainContentProps) => {
             adding={adding}
             setAdding={setAdding}
             sortInfo={sortInfo}
+            showExactTime={showExactTime}
+            defaultExpanded={defaultExpanded}
           />
         </>
       ) : (

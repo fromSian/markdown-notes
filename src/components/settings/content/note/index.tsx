@@ -7,7 +7,6 @@ const Note = () => {
   const { defaultExpanded, showExactTime, sortInfo } = useAppSelector(
     (state) => state.note
   );
-  console.log(defaultExpanded, sortInfo);
   const dispatch = useAppDispatch();
 
   const setDefaultExpanded = (value: boolean) => {

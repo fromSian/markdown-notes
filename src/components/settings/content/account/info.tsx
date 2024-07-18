@@ -99,12 +99,10 @@ const Info = () => {
     if (!imageRef.current || !crop) {
       return;
     }
-    console.log(file, crop);
     const { left, upper, right, lower } = getCropBoundingRect(
       imageRef.current,
       crop
     );
-    console.log(crop, left, upper, right, lower);
     const formData = new FormData();
     formData.append("file", file as Blob);
     formData.append("left", left + "");

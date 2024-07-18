@@ -46,8 +46,6 @@ export const httpErrorHandler = (error: unknown) => {
       toast.error("sorry, api is not working");
     }
     if (response && response.data) {
-      console.log(response.data.message);
-
       if (response.status === 401) {
         toast.error("not valid log in, will sign out soon");
         // 401 Unauthorized

@@ -38,7 +38,9 @@ const List = ({
   const previousRatioRef = useRef(0);
   const controllerRef = useRef<AbortController>();
 
-  const { activeId, updateInfo } = useAppSelector((state) => state.note);
+  const { activeId, updateInfo, showExactTime } = useAppSelector(
+    (state) => state.note
+  );
   const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
@@ -199,6 +201,7 @@ const List = ({
                 loading={loading}
                 active={activeId === item.id}
                 handleDelete={handleDelete}
+                showExactTime={showExactTime}
               />
             ))
           : ""}

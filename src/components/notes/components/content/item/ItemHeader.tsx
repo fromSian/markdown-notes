@@ -69,6 +69,7 @@ const HeaderText = memo(
     open,
     updated,
     created,
+    showExactTime,
     sortField = "updated",
   }: {
     index: number;
@@ -76,6 +77,7 @@ const HeaderText = memo(
     open: boolean;
     updated: string;
     created: string;
+    showExactTime: boolean;
     sortField?: "updated" | "created";
   }) => {
     return (
@@ -91,10 +93,14 @@ const HeaderText = memo(
           }
         >
           <p className="bg-secondary px-1 rounded-md align-middle text-ttertiary flex-shrink-0">
-            {formatDistanceFromNow(
-              sortField === "created" ? created : updated,
-              localStorage.getItem("i18nextLng") || ""
-            )}
+            {showExactTime
+              ? getDateTimeInCurrentTimeZone(
+                  sortField === "created" ? created : updated
+                )
+              : formatDistanceFromNow(
+                  sortField === "created" ? created : updated,
+                  localStorage.getItem("i18nextLng") || ""
+                )}
           </p>
         </TooltipSimple>
 
@@ -113,6 +119,7 @@ interface ItemHeaderProps {
   updated: string;
   created: string;
   sortField: "updated" | "created";
+  showExactTime: boolean;
   isChanged: boolean;
   status: "loading" | "success" | "fail" | undefined;
   handleSave: () => void;
@@ -128,6 +135,7 @@ const ItemHeader = memo(
     summary,
     updated,
     created,
+    showExactTime,
     isChanged,
     status,
     handleSave,
@@ -141,6 +149,7 @@ const ItemHeader = memo(
           summary={summary}
           updated={updated}
           created={created}
+          showExactTime={showExactTime}
         />
         <div className="flex-shrink-0 flex gap-2 items-center">
           <Status

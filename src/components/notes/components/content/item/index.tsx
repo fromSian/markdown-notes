@@ -1,4 +1,3 @@
-import { getDateTimeInCurrentTimeZone } from "@/lib/timezone";
 import { cn } from "@/lib/utils";
 import { NoteContentItemType } from "@/types/notes";
 import { FocusPosition } from "@tiptap/react";
@@ -13,6 +12,8 @@ interface ItemProps {
   sortField: "updated" | "created";
   handleDelete: (id: string | number) => void;
   handleSave: (id: string | number, content: string, summary: string) => void;
+  defaultExpanded: boolean;
+  showExactTime: boolean;
 }
 
 export type ItemRef = {
@@ -22,8 +23,19 @@ export type ItemRef = {
 };
 const Item = memo(
   forwardRef(
-    ({ index, item, sortField, handleDelete, handleSave }: ItemProps, ref) => {
-      const [open, setOpen] = useState(true);
+    (
+      {
+        index,
+        item,
+        sortField,
+        handleDelete,
+        handleSave,
+        defaultExpanded,
+        showExactTime,
+      }: ItemProps,
+      ref
+    ) => {
+      const [open, setOpen] = useState(defaultExpanded);
       const [status, setStatus] = useState<
         "loading" | "success" | "fail" | undefined
       >();
@@ -84,6 +96,7 @@ const Item = memo(
             updated={item.updated}
             created={item.created}
             sortField={sortField}
+            showExactTime={showExactTime}
             status={status}
             isChanged={isChanged}
             handleSave={onSave}
@@ -104,18 +117,6 @@ const Item = memo(
               />
             </div>
           </div>
-          {/* <div className="w-full h-0.5 bg-border my-2" /> */}
-          {false && (
-            <div className="flex flex-col xs:flex-row justify-between gap-2 text-xs text-ttertiary">
-              <p className="truncate">
-                created: {getDateTimeInCurrentTimeZone(item?.created) || "-"}
-              </p>
-
-              <p className="truncate">
-                updated: {getDateTimeInCurrentTimeZone(item?.updated) || "-"}
-              </p>
-            </div>
-          )}
         </div>
       );
     }
