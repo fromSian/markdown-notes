@@ -258,7 +258,7 @@ const List = ({
               key={item.id}
               item={item}
               index={index}
-              sortField={sortInfo.field}
+              sortField={sortInfo.replace("-", "") as "updated" | "created"}
               ref={(element) =>
                 (contentRefs.current[index] = element as ItemRef)
               }

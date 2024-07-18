@@ -1,8 +1,20 @@
 import Select from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
-const SelectValue = ({ value, setValue, items, className }) => {
+interface SelectValueProps {
+  value: string;
+  setValue: (v: string) => void;
+  items: Array<{ value: string; label: ReactNode }>;
+  className?: string;
+}
+
+const SelectValue = ({
+  value,
+  setValue,
+  items,
+  className,
+}: SelectValueProps) => {
   const [open, setOpen] = useState(false);
   return (
     <Select

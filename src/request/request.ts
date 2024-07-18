@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { httpErrorHandler } from "./error";
 const request = axios.create({
   baseURL: "/api",
@@ -18,11 +18,7 @@ request.interceptors.request.use(
   }
 );
 
-const responseHandler = (response) => {
-  const config = response?.config;
-  if (config.raw) {
-    return response;
-  }
+const responseHandler = (response: AxiosResponse) => {
   if (response.data) {
     const { success, message, ...rest } = response.data;
     if (!success) {
@@ -31,11 +27,7 @@ const responseHandler = (response) => {
     return rest;
   }
 };
-const errorHandler = (response) => {
-  const config = response?.config;
-  if (config.raw) {
-    return response;
-  }
+const errorHandler = (response: AxiosResponse) => {
   // the code of this function was written in above section.
   return httpErrorHandler(response);
 };

@@ -31,7 +31,11 @@ const formSchema = z
     message: "Passwords don't match",
     path: ["confirm"], // path of error
   });
-const Password = ({ handlePasswordSubmit }) => {
+
+interface PasswordProps {
+  handlePasswordSubmit: (password: string) => void;
+}
+const Password = ({ handlePasswordSubmit }: PasswordProps) => {
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
 
@@ -45,7 +49,7 @@ const Password = ({ handlePasswordSubmit }) => {
   });
 
   const onSubmit = useCallback(
-    async (data) => {
+    async (data: z.infer<typeof formSchema>) => {
       try {
         setLoading(false);
         setFail(false);
@@ -67,7 +71,7 @@ const Password = ({ handlePasswordSubmit }) => {
         const { success: valid } = formSchema.safeParse(data);
         if (valid) {
           onSubmit(data);
-          e.target.blur();
+          (e.target as HTMLInputElement).blur();
         }
       }
     },

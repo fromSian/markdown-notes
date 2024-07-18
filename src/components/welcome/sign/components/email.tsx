@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/form";
 import InputWithLabel from "@/components/ui/input-with-label";
 import { cn } from "@/lib/utils";
+import { Step } from "@/types/account";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { Dispatch, KeyboardEvent, SetStateAction, useState } from "react";
@@ -16,14 +17,16 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 interface EmailProps {
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setEmail: Dispatch<SetStateAction<string>>;
+  step: Step;
+  setStep: Dispatch<SetStateAction<Step>>;
+  sendVerificationCode: (email: string) => void;
 }
 
 const formSchema = z.object({
   email: z.string().email(),
 });
 const Email = ({
-  setOpen,
   setEmail,
   step,
   setStep,
@@ -38,7 +41,7 @@ const Email = ({
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
       setEmail(data.email);
@@ -56,7 +59,7 @@ const Email = ({
       const { success: valid } = formSchema.safeParse(data);
       if (valid) {
         onSubmit(data);
-        e.target.blur();
+        (e.target as HTMLInputElement).blur();
       }
     }
   };

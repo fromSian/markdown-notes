@@ -19,9 +19,9 @@ const BlockAlert = () => {
   );
 
   useEffect(() => {
-    const beforeunload = (event) => {
+    const beforeunload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      event.returnValue = "false";
+      event.returnValue = false;
     };
     if (saving) {
       window.addEventListener("beforeunload", beforeunload);

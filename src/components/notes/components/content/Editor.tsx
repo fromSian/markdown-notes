@@ -19,7 +19,6 @@ const FocusHandler = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
       focus(position: FocusPosition = "start") {
-        console.log(position);
         editor?.commands.focus(position);
       },
       getHTMLValue() {

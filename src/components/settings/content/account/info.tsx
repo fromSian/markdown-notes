@@ -10,11 +10,22 @@ import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { Image as ImageIcon, Loader, Upload, User } from "lucide-react";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Crop } from "react-image-crop";
 import { toast } from "sonner";
 import ImageCrop from "./image";
 
+const TrailToBase = lazy(() => import("./trail-to-base.tsx"));
+const PasswordChange = lazy(() => import("./password-change.tsx"));
+const GoogleToBase = lazy(() => import("./google-to-base.tsx"));
 /**
  * 只有上传的图片才可以crop
  *
@@ -110,83 +121,104 @@ const Info = () => {
   }, [crop, file]);
 
   return (
-    <div className="flex gap-4 sm:gap-6 items-center justify-center mb-8">
-      <div
-        className="group flex-shrink-0 w-16 h-16  sm:w-20 sm:h-20 rounded-full flex items-center justify-center cursor-pointer relative "
-        style={{ background: !account?.image ? "#D07D07" : "transparent" }}
-      >
-        {account?.image ? (
-          <img
-            className="w-full h-full rounded-full group-hover:blur-sm"
-            src={account.image}
-            alt={account.email}
-          />
-        ) : (
-          <User size={48} />
-        )}
-        <Upload
-          className="absolute z-10 hidden group-hover:block cursor-pointer hover:scale-110 active:scale-95 transition-all rounded-sm bg-bgBlur backdrop-blur-sm"
-          onClick={openFilePick}
-        />
-      </div>
-      <div>
-        <p className="mb-4 text-lg">{account?.email}</p>
-        <button>{account?.type}</button>
-      </div>
-      <input
-        className="hidden"
-        ref={uploadRef}
-        type="file"
-        accept="image/*"
-        onChange={onUploadFile}
-      />
-
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger></DialogTrigger>
-
-        <DialogContent onInteractOutside={(e) => e.preventDefault()}>
-          <DialogHeader>
-            <DialogTitle>Upload Avatar</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-4 items-center">
-            <ImageCrop
-              src={src}
-              crop={crop}
-              setCrop={setCrop}
-              imageRef={imageRef}
+    <>
+      <div className="flex gap-4 sm:gap-6 items-center justify-center mb-8 truncate">
+        <div
+          className="group flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-full items-center justify-center cursor-pointer relative hidden xxs:flex"
+          style={{ background: !account?.image ? "#D07D07" : "transparent" }}
+        >
+          {account?.image ? (
+            <img
+              className="w-full h-full rounded-full group-hover:blur-sm"
+              src={account.image}
+              alt={account.email}
             />
-            <div
-              className={cn(
-                "flex justify-center gap-8 items-center",
-                !src && "flex-col"
-              )}
-            >
-              {fileLoading ? <Loader className="animate-spin" /> : ""}
-              {!src && !fileLoading ? (
-                <>
-                  <ImageIcon
-                    className="animate-bounce cursor-pointer"
-                    size={28}
-                    onClick={openFilePick}
-                  />
-                  <p>no image please upload.</p>
-                </>
-              ) : (
-                <>
-                  <button className="btn" onClick={openFilePick}>
-                    upload
-                  </button>
-                  <button className="btn" onClick={onSave}>
-                    submit
-                  </button>
-                </>
-              )}
+          ) : (
+            <User size={48} />
+          )}
+          <Upload
+            className="absolute z-10 hidden group-hover:block cursor-pointer hover:scale-110 active:scale-95 transition-all rounded-sm bg-bgBlur backdrop-blur-sm"
+            onClick={openFilePick}
+          />
+        </div>
+        <div>
+          <p className="mb-2 text-2xl font-bold truncate">
+            {account?.type === "trial" ? "trial user" : account?.email}
+          </p>
+          <p className="text-ttertiary truncate">{account?.type}</p>
+        </div>
+        <input
+          className="hidden"
+          ref={uploadRef}
+          type="file"
+          accept="image/*"
+          onChange={onUploadFile}
+        />
+
+        <Dialog open={open} onOpenChange={onOpenChange}>
+          <DialogTrigger></DialogTrigger>
+
+          <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+            <DialogHeader>
+              <DialogTitle>Upload Avatar</DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 items-center">
+              <ImageCrop
+                src={src}
+                crop={crop}
+                setCrop={setCrop}
+                imageRef={imageRef}
+              />
+              <div
+                className={cn(
+                  "flex justify-center gap-8 items-center",
+                  !src && "flex-col"
+                )}
+              >
+                {fileLoading ? <Loader className="animate-spin" /> : ""}
+                {!src && !fileLoading ? (
+                  <>
+                    <ImageIcon
+                      className="animate-bounce cursor-pointer"
+                      size={28}
+                      onClick={openFilePick}
+                    />
+                    <p>no image please upload.</p>
+                  </>
+                ) : (
+                  <>
+                    <button className="btn" onClick={openFilePick}>
+                      upload
+                    </button>
+                    <button className="btn" onClick={onSave}>
+                      submit
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      {account?.type === "base" && (
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <PasswordChange email={account?.email} />
+        </Suspense>
+      )}
+
+      {account?.type === "trial" && (
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <TrailToBase />
+        </Suspense>
+      )}
+
+      {account?.type === "google" && (
+        <Suspense fallback={<Loader className="animate-spin" />}>
+          <GoogleToBase email={account?.email} />
+        </Suspense>
+      )}
+    </>
   );
 };
 

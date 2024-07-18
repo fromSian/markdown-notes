@@ -14,3 +14,13 @@ export type NoteContentItemType = {
   updated: string;
   summary: string;
 };
+
+export interface PageResponse<T> {
+  count: number;
+  hasNext: boolean;
+  results: T[];
+}
+
+export type MarkdownContent = {
+  content: string;
+};

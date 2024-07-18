@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
+import { Step } from "@/types/account";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { Loader } from "lucide-react";
 import {
@@ -19,15 +20,18 @@ import {
 import { toast } from "sonner";
 
 interface CodeProps {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  email: string;
+  setStep: Dispatch<SetStateAction<Step>>;
+  sendVerificationCode: (email: string) => void;
+  buttonStr: string;
+  initialSended?: boolean;
 }
 
 const Code = ({
   email,
   setStep,
   sendVerificationCode,
-  buttonStr = "resend code",
+  buttonStr,
   initialSended = true,
 }: CodeProps) => {
   const [time, setTime] = useState(0);
@@ -35,7 +39,7 @@ const Code = ({
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
   const [value, setValue] = useState("");
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const mount = () => {
     setTime(5);
@@ -87,7 +91,7 @@ const Code = ({
     };
   }, [initialSended]);
 
-  const verifyCode = async (email, code) => {
+  const verifyCode = async (email: string, code: string) => {
     try {
       if (!email || !code) return;
       setLoading(true);
@@ -134,13 +138,20 @@ const Code = ({
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <div className="flex gap-2 justify-center items-center mb-2">
+        <div className="flex gap-2 justify-center items-center my-2">
           <div className={cn("text-sm", Boolean(time) && "text-ttertiary")}>
             {loading ? (
               <Loader className="animate-spin" />
             ) : (
-              <button disabled={Boolean(time)} onClick={handleResend}>
-                {time ? time : ""}
+              <button
+                className={cn(
+                  "btn",
+                  Boolean(time) && "opacity-30 pointer-events-none"
+                )}
+                disabled={Boolean(time)}
+                onClick={handleResend}
+              >
+                {time ? `(${time}) ` : ""}
                 {buttonStr}
               </button>
             )}

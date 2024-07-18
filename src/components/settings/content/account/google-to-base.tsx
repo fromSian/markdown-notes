@@ -6,31 +6,31 @@ import { logout } from "@/states/account.slice";
 import { useAppDispatch } from "@/states/hooks";
 import { AppThunkDispatch } from "@/states/store";
 import { Step } from "@/types/account";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import TitleKit from "../title-kit";
 
-interface PasswordChangeProps {
+interface GoogleToBaseProps {
   email: string;
 }
 
-const PasswordChange = ({ email }: PasswordChangeProps) => {
+const GoogleToBase = ({ email }: GoogleToBaseProps) => {
   const dispatch = useAppDispatch<AppThunkDispatch>();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
 
-  const sendVerificationCode = async () => {
+  const sendVerificationCode = useCallback(async () => {
     const url = "/account/send-code/";
     const data = {
       email: email,
       register: false,
     };
     const response = await request.post(url, data);
-  };
+  }, [email]);
 
   const handlePasswordSubmit = async (password: string) => {
-    const url = "/account/password/";
-    const response = await request.put(url, {
+    const url = "/account/google-base/";
+    const response = await request.post(url, {
       password: password,
     });
     toast.success("change password successfully, we will sign out in 3s.");
@@ -70,4 +70,4 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
   );
 };
 
-export default PasswordChange;
+export default GoogleToBase;

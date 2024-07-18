@@ -2,7 +2,12 @@ import Fail from "@/components/icons/fail";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 
-const Success = ({ goSomeWhereElse, handleLogin }) => {
+interface SuccessProps {
+  goSomeWhereElse: () => void;
+  handleLogin: () => void;
+}
+
+const Success = ({ goSomeWhereElse, handleLogin }: SuccessProps) => {
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
   const login = async () => {

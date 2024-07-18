@@ -21,6 +21,7 @@ interface ListProps {
   setData: Dispatch<SetStateAction<NoteNavigationType[]>>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  handleAddNew: () => void;
 }
 
 const List = ({
@@ -37,9 +38,7 @@ const List = ({
   const previousRatioRef = useRef(0);
   const controllerRef = useRef<AbortController>();
 
-  const { activeId, activeInfo, updateInfo } = useAppSelector(
-    (state) => state.note
-  );
+  const { activeId, updateInfo } = useAppSelector((state) => state.note);
   const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);

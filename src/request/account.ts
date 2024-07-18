@@ -1,7 +1,8 @@
+import { Account } from "@/types/account";
 import request from "./request";
 export const fetchLogin = async (data: { email: string; password: string }) => {
   const url = "/account/login/";
-  const response = await request.post(url, data);
+  const response: Account = await request.post(url, data);
   sessionStorage.setItem("token", response?.token);
   return response;
 };

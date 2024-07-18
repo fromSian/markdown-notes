@@ -1,13 +1,11 @@
 import { Loader } from "lucide-react";
 import { Suspense, lazy } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../icons/logo";
 
 const CommonPart = lazy(() => import("@/components/common/CommonPart"));
 const Avatar = lazy(() => import("@/components/common/Avatar"));
 const Header = () => {
-  const { pathname } = useLocation();
-
   return (
     <header
       className="flex px-2 xs:px-4 gap-4 overflow-hidden transition-all items-center justify-between"

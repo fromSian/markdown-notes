@@ -32,7 +32,11 @@ const formSchema = z.object({
   ),
 });
 
-const SignIn = ({ open }) => {
+interface SignInProps {
+  open: boolean;
+}
+
+const SignIn = ({ open }: SignInProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -47,7 +51,7 @@ const SignIn = ({ open }) => {
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setFail(false);
       setLoading(true);
@@ -71,7 +75,7 @@ const SignIn = ({ open }) => {
       const { success: valid } = formSchema.safeParse(data);
       if (valid) {
         onSubmit(data);
-        e.target.blur();
+        (e.target as HTMLInputElement).blur();
       }
     }
   };

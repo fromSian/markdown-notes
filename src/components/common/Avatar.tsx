@@ -1,12 +1,13 @@
 import { logout } from "@/states/account.slice";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { AppThunkDispatch } from "@/states/store";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "../ui/select";
 import TooltipSimple from "../ui/TooltipSimple";
 const Avatar = () => {
   const { isLogin, account } = useAppSelector((state) => state.account);
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch<AppThunkDispatch>();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 

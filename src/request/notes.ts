@@ -1,3 +1,9 @@
+import {
+  MarkdownContent,
+  NoteContentItemType,
+  NoteNavigationType,
+  PageResponse,
+} from "@/types/notes";
 import request from "./request";
 export const queryNoteNavigation = async (
   {
@@ -20,7 +26,7 @@ export const queryNoteNavigation = async (
   params.append("since_id", since_id + "");
 
   const url = `/note/navigation/?${params.toString()}`;
-  const response = await request.get(url, {
+  const response: PageResponse<NoteNavigationType> = await request.get(url, {
     signal: signal,
   });
 
@@ -29,14 +35,14 @@ export const queryNoteNavigation = async (
 
 export const queryNoteInfo = async (id: string | number) => {
   const url = `/note/navigation/${id}/`;
-  const response = await request.get(url);
+  const response: NoteNavigationType = await request.get(url);
 
   return response;
 };
 
 export const addNote = async () => {
   const url = "/note/navigation/";
-  const response = await request.post(url);
+  const response: NoteNavigationType = await request.post(url);
 
   return response;
 };
@@ -75,7 +81,7 @@ export const queryNoteContents = async (
   params.append("size", size + "");
 
   const url = `/note/content/?${params.toString()}`;
-  const response = await request.get(url, {
+  const response: PageResponse<NoteContentItemType> = await request.get(url, {
     signal: signal,
   });
 
@@ -88,7 +94,7 @@ export const updateNoteContent = async (
   summary: string
 ) => {
   const url = `/note/content/${id}/`;
-  const response = await request.patch(url, {
+  const response: NoteContentItemType = await request.patch(url, {
     content,
     summary,
   });
@@ -101,7 +107,7 @@ export const addNoteContent = async (
   summary: string
 ) => {
   const url = `/note/content/`;
-  const response = await request.post(url, {
+  const response: NoteContentItemType = await request.post(url, {
     note: id,
     content,
     summary,
@@ -116,7 +122,7 @@ export const deleteNoteContent = async (id: string | number) => {
 
 export const exportToMarkdown = async (id: string | number) => {
   const url = "/note/markdown/";
-  const response = await request.post(url, {
+  const response: MarkdownContent = await request.post(url, {
     id,
   });
   return response.content;

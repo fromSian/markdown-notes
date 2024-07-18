@@ -2,6 +2,7 @@ import TooltipSimple from "@/components/ui/TooltipSimple";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";
+import { Account } from "@/types/account";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -29,7 +30,7 @@ const Sign = () => {
   const handleTrial = async () => {
     setOpen(undefined);
     const url = "/account/trial/";
-    const response = await request.post(url);
+    const response: Account = await request.post(url);
     dispatch({
       type: "account/setAccount",
       payload: response,

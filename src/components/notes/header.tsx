@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Loader } from "lucide-react";
 import { Dispatch, lazy, SetStateAction, Suspense } from "react";
 import { Link } from "react-router-dom";
@@ -28,17 +29,21 @@ const Header = ({
           <Logo className="-mt-2" />
         </Link>
       </div>
-      {activeId && (
+      <div
+        className={cn("flex-1 flex justify-end", activeId && "justify-between")}
+      >
+        {activeId && (
+          <Suspense fallback={<Loader className="animate-spin" />}>
+            <NotePart
+              showNavigation={showNavigation}
+              setShowNavigation={setShowNavigation}
+            />
+          </Suspense>
+        )}
         <Suspense fallback={<Loader className="animate-spin" />}>
-          <NotePart
-            showNavigation={showNavigation}
-            setShowNavigation={setShowNavigation}
-          />
+          <CommonPart />
         </Suspense>
-      )}
-      <Suspense fallback={<Loader className="animate-spin" />}>
-        <CommonPart />
-      </Suspense>
+      </div>
 
       <Suspense fallback={<Loader className="animate-spin" />}>
         <Avatar />

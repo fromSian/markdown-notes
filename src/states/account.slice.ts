@@ -1,12 +1,6 @@
 import request from "@/request/request";
+import { Account } from "@/types/account";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-type AccountType = "base" | "google";
-type Account = {
-  email: string;
-  image: string | null;
-  token: string;
-  type: AccountType;
-};
 // Define a type for the slice state
 interface AccountState {
   isLogin: boolean;
@@ -23,10 +17,13 @@ const initialState: AccountState = {
   theme: "",
 };
 
-export const logout = createAsyncThunk("account/logout", async () => {
-  const response = await request.post("/account/logout/");
-  return response;
-});
+export const logout = createAsyncThunk(
+  "account/logout",
+  async ({}, thunkApi) => {
+    const response = await request.post("/account/logout/");
+    return response;
+  }
+);
 
 export const accountSlice = createSlice({
   name: "account",
@@ -70,6 +67,8 @@ export const accountSlice = createSlice({
         return {
           account: undefined,
           isLogin: false,
+          language: "",
+          theme: "",
         };
       })
       .addCase(logout.rejected, (state) => {});

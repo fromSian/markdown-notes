@@ -1,15 +1,14 @@
-import { useAppDispatch } from "@/states/hooks";
 import { X } from "lucide-react";
 import {
   Dispatch,
   forwardRef,
   SetStateAction,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
-  useTransition,
 } from "react";
-import Editor from "./Editor";
+import Editor, { EditorRef } from "./Editor";
 import Status from "./item/Status";
 import MaskLoader from "./MaskLoader";
 
@@ -19,13 +18,14 @@ interface NewEditorProps {
 }
 const NewEditor = forwardRef(
   ({ setAdding, onNewSubmit }: NewEditorProps, ref) => {
+    const editorRef = useRef<EditorRef>();
     const [loading, setLoading] = useState(false);
     const parentRef = useRef<HTMLDivElement>(null);
-    const [isPending, startTransition] = useTransition();
-    const dispatch = useAppDispatch();
     const [status, setStatus] = useState<
       "loading" | "success" | "fail" | undefined
     >(undefined);
+
+    useImperativeHandle(ref, () => editorRef?.current);
 
     useEffect(() => {
       if (parentRef.current) {
@@ -37,15 +37,15 @@ const NewEditor = forwardRef(
     }, []);
 
     const onSubmit = async () => {
-      if (!ref?.current) {
+      if (!editorRef || !editorRef?.current) {
         return;
       }
 
       try {
         setStatus("loading");
 
-        const content = ref.current?.getHTMLValue();
-        const summary = ref.current?.getTextValue();
+        const content = editorRef.current?.getHTMLValue();
+        const summary = editorRef.current?.getTextValue();
 
         await onNewSubmit(content, summary);
         setStatus("success");
@@ -61,10 +61,10 @@ const NewEditor = forwardRef(
     };
 
     const focusEditor = () => {
-      if (!ref?.current) {
+      if (!editorRef?.current) {
         return;
       }
-      ref.current.focus("end");
+      editorRef.current.focus("end");
     };
 
     return (
@@ -99,7 +99,7 @@ const NewEditor = forwardRef(
             <Status status={status} isChanged={true} handleSave={onSubmit} />
           </div>
         </div>
-        <Editor content={""} ref={ref} />
+        <Editor content={""} ref={editorRef} />
 
         {loading && <MaskLoader loading={loading} />}
       </div>

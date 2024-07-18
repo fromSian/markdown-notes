@@ -1,15 +1,6 @@
 import Feature from "./feature";
 import Sign from "./sign";
-/**
- *
- * light 70, 89, 111
- *
- * dark 29, 46, 67
- *
- * gray 121, 124, 136
- *
- *
- */
+
 const Index = () => {
   return (
     <>

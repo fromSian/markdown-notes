@@ -14,6 +14,7 @@ const themeOptions = [
   { label: "dark", value: "dark" },
   { label: "system", value: "system" },
 ];
+
 const System = () => {
   const { language, theme } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();

@@ -1,4 +1,4 @@
-import Account from "./account";
+import Account from "./account/info";
 import Note from "./note";
 import System from "./system";
 

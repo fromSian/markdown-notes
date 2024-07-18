@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
 import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";
+import { Step } from "@/types/account";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -10,9 +11,12 @@ import Email from "./components/email";
 import Password from "./components/password";
 import Success from "./components/success";
 
-export type Step = "email" | "code" | "password" | "success";
+interface SignUpProps {
+  open: boolean;
+  goSomeWhereElse: () => void;
+}
 
-const SignUp = ({ open, goSomeWhereElse }) => {
+const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [step, setStep] = useState<Step>("email");
@@ -50,7 +54,7 @@ const SignUp = ({ open, goSomeWhereElse }) => {
       const url = "/account/register/";
       const response = await request.post(url, {
         email,
-        password,
+        password: _password,
       });
       setPassword(_password);
       setStep("success");
@@ -82,6 +86,7 @@ const SignUp = ({ open, goSomeWhereElse }) => {
             setStep={setStep}
             email={email}
             sendVerificationCode={sendVerificationCode}
+            buttonStr="re send code"
           />
         )}
         {step === "password" && (
