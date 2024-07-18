@@ -6,7 +6,6 @@ const Account = () => {
   return (
     <>
       <Info />
-
       <PasswordChange />
       <AccountTypeConvert />
     </>

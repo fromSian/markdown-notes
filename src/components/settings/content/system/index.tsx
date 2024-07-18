@@ -33,7 +33,7 @@ const System = () => {
     <>
       <div className="divider italic my-4">system</div>
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
+        <div className="flex justify-between py-2 px-4 rounded-md bg-emphasis">
           <TitleKit
             title={"language"}
             info={"when you loaded the app, we will use this as the lan"}
@@ -45,7 +45,7 @@ const System = () => {
           />
         </div>
 
-        <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
+        <div className="flex justify-between py-2 px-4 rounded-md bg-emphasis">
           <TitleKit title={"theme"} info={"theme"} />
           <SelectValue value={theme} setValue={setTheme} items={themeOptions} />
         </div>

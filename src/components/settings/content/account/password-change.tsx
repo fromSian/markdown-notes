@@ -19,7 +19,7 @@ const PasswordChange = () => {
   return (
     <div className="flex flex-col mb-4">
       <TitleKit
-        className="py-2 px-4 rounded-md bg-slate-600 cursor-pointer"
+        className="py-2 px-4 rounded-md bg-emphasis cursor-pointer"
         title={"changePassword"}
         onClick={() => setOpen((v) => !v)}
       />

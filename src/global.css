@@ -51,6 +51,11 @@
     --fail-foreground: #fff;
     --success: #51a243;
     --success-foreground: #fff;
+
+    --btn-default: #fff;
+    --btn-default-foreground: #3f4a3c;
+
+    --bg-blur: #8191b266;
   }
 
   .dark {
@@ -91,12 +96,17 @@
 
     --welcome: #3a4856;
 
-    --bg-emphasis: #3f8ad387;
+    --bg-emphasis: #33454f;
 
     --fail: #ac3c18;
     --fail-foreground: #fff;
     --success: #005500;
     --success-foreground: #fff;
+
+    --btn-default: #0d1113;
+    --btn-default-foreground: #c1c2c0;
+
+    --bg-blur: #17000066;
   }
 }
 

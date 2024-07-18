@@ -1,9 +1,23 @@
 import "react-image-crop/dist/ReactCrop.css";
 
-import ReactCrop from "react-image-crop";
-const ImageCrop = ({ image, crop, setCrop }) => {
-  const onImageLoad = (e) => {
-    const { width, height } = e.target;
+import {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  SyntheticEvent,
+} from "react";
+import ReactCrop, { Crop } from "react-image-crop";
+
+interface ImageCropProps {
+  src: string | undefined;
+  crop: Crop | undefined;
+  setCrop: Dispatch<SetStateAction<Crop | undefined>>;
+  imageRef: MutableRefObject<HTMLImageElement | null>;
+}
+
+const ImageCrop = ({ src, crop, setCrop, imageRef }: ImageCropProps) => {
+  const onImageLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.target as HTMLImageElement;
     let big, small;
     if (width >= height) {
       big = width;
@@ -12,7 +26,6 @@ const ImageCrop = ({ image, crop, setCrop }) => {
       big = height;
       small = width;
     }
-
     setCrop({
       unit: "px",
       width: small,
@@ -31,7 +44,8 @@ const ImageCrop = ({ image, crop, setCrop }) => {
         onChange={(c) => setCrop(c)}
       >
         <img
-          src={image}
+          ref={imageRef}
+          src={src}
           onLoad={onImageLoad}
           style={{
             maxWidth: 400,

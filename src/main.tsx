@@ -44,6 +44,7 @@ const Wrap = ({
         defaultExpanded: true,
         sortInfo: "-updated",
       };
+      console.log(noteConfig);
       dispatch({
         type: "note/setConfig",
         payload: noteConfig,
@@ -117,7 +118,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/settings",
-    element: lazyLoad("@/pages/settings", false),
+    element: lazyLoad("@/pages/settings"),
   },
 ]);
 

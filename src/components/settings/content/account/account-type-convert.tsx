@@ -7,7 +7,7 @@ const AccountTypeConvert = () => {
   return (
     <div className="flex flex-col gap-2 ">
       <TitleKit
-        className="py-2 px-4 rounded-md bg-slate-600 cursor-pointer"
+        className="py-2 px-4 rounded-md bg-emphasis cursor-pointer"
         title={"convert user type"}
         onClick={() => setOpen((v) => !v)}
       />

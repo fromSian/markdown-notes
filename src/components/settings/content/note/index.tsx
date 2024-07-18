@@ -7,6 +7,7 @@ const Note = () => {
   const { defaultExpanded, showExactTime, sortInfo } = useAppSelector(
     (state) => state.note
   );
+  console.log(defaultExpanded, sortInfo);
   const dispatch = useAppDispatch();
 
   const setDefaultExpanded = (value: boolean) => {
@@ -32,18 +33,18 @@ const Note = () => {
       <div className="divider italic my-4">note</div>
 
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
+        <div className="flex justify-between py-2 px-4 rounded-md bg-emphasis">
           <TitleKit title={"expanded"} info={"expanded"} />
           <Switch
             checked={defaultExpanded}
             onCheckedChange={setDefaultExpanded}
           />
         </div>
-        <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
+        <div className="flex justify-between py-2 px-4 rounded-md bg-emphasis">
           <TitleKit title={"show time"} info={"show time"} />
           <Switch checked={showExactTime} onCheckedChange={setShowExactTime} />
         </div>
-        <div className="flex justify-between py-2 px-4 rounded-md bg-slate-600">
+        <div className="flex justify-between py-2 px-4 rounded-md bg-emphasis">
           <TitleKit title={"sort info"} info={"sort info"} />
           <SelectValue
             value={sortInfo}

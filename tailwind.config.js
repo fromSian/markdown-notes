@@ -114,11 +114,11 @@ module.exports = {
           DEFAULT: "var(--fail)",
           foreground: "var(--fail-foreground)",
         },
-
         success: {
           DEFAULT: "var(--success)",
           foreground: "var(--success-foreground)",
         },
+        bgBlur: "var(--bg-blur)",
       },
       borderRadius: {
         lg: "var(--radius)",

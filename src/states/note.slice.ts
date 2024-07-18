@@ -37,6 +37,7 @@ export const noteSlice = createSlice({
     ) {
       const { info } = action.payload;
       return {
+        ...state,
         activeId: info?.id,
         activeInfo: info,
         updateInfo: undefined,
