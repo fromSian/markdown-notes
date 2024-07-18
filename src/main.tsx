@@ -127,7 +127,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider attribute="class">
         <RouterProvider router={router} />
-        <Toaster richColors position="top-right" closeButton={true} />
+        <Toaster richColors position="bottom-right" closeButton={true} />
       </ThemeProvider>
     </Provider>
   </React.StrictMode>

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Dispatch, memo, SetStateAction } from "react";
 import AddTrigger from "./AddTrigger";
 import DateRange from "./DateRange";
@@ -7,25 +8,24 @@ interface HeaderProps {
   setDate: Dispatch<SetStateAction<DateRange | undefined>>;
   newing: boolean;
   handleAddNew: () => void;
-  newingBounce: boolean;
+  className: string;
 }
 
 const Header = memo(
-  ({ date, setDate, newing, handleAddNew, newingBounce }: HeaderProps) => {
+  ({ date, setDate, newing, handleAddNew, className = "" }: HeaderProps) => {
     return (
       <div
-        className="w-full backdrop-blur-sm flex justify-between items-center px-4"
+        className={cn(
+          "w-full backdrop-blur-sm flex justify-between items-center px-4",
+          className
+        )}
         style={{
           height: "36px",
         }}
       >
         <DateRange disabled={newing} setDate={setDate} date={date} />
 
-        <AddTrigger
-          newing={newing}
-          handleAddNew={handleAddNew}
-          newingBounce={newingBounce}
-        />
+        <AddTrigger newing={newing} handleAddNew={handleAddNew} />
       </div>
     );
   }

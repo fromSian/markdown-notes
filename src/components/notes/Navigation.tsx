@@ -42,17 +42,13 @@ const Navigation = () => {
 
   return (
     <div className="w-full h-full">
-      {data?.length ? (
-        <Header
-          date={date}
-          setDate={setDate}
-          newing={newing}
-          handleAddNew={handleAddOneNote}
-          newingBounce={!data?.length}
-        />
-      ) : (
-        ""
-      )}
+      <Header
+        date={date}
+        setDate={setDate}
+        newing={newing}
+        handleAddNew={handleAddOneNote}
+        className={!date && !data.length ? "hidden" : "flex"}
+      />
 
       <List
         date={date}

@@ -48,7 +48,7 @@ const DateRange = ({ disabled, date, setDate }: DateRangeProps) => {
           <div
             className={cn(
               "p-1 rounded-sm  cursor-pointer",
-              date && "bg-secondary text-red-500",
+              date && "bg-secondary text-temphasis",
               disabled && "pointer-events-none"
             )}
           >

@@ -62,13 +62,13 @@ const CalendarRange = ({
       />
 
       <div className="flex justify-end gap-4 mb-4 px-3">
-        <button onClick={handleClear} className="black_btn">
+        <button onClick={handleClear} className="btn">
           clear
         </button>
-        <button onClick={handleCancel} className="black_btn">
+        <button onClick={handleCancel} className="btn">
           cancel
         </button>
-        <button onClick={handleOk} className="black_btn">
+        <button onClick={handleOk} className="btn">
           ok
         </button>
       </div>

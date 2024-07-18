@@ -28,7 +28,12 @@ const Avatar = () => {
               alt={account.email}
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-red-200 bg-opacity-40 cursor-pointer text-center truncate text-lg">
+            <div
+              className="w-8 h-8 rounded-full bg-opacity-40 cursor-pointer text-center truncate text-lg"
+              style={{
+                backgroundColor: "#D07D07",
+              }}
+            >
               {account.type === "trial" ? "T" : account.email[0]}
             </div>
           )

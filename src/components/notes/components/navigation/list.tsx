@@ -204,7 +204,7 @@ const List = ({
           : ""}
       </div>
 
-      {!data.length && (
+      {!loading && !date && !data.length && (
         <div
           className={`flex flex-col items-center h-full w-full absolute text-ttertiary pt-32 gap-4 `}
         >
@@ -220,7 +220,7 @@ const List = ({
       )}
       <div className="w-full flex justify-center my-2">
         {loading && <Loader className="animate-spin" />}
-        {loaded && data.length ? (
+        {loaded && (data.length || date) ? (
           <p className="text-xs text-ttertiary truncate">{data.length} items</p>
         ) : (
           ""

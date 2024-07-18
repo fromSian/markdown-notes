@@ -39,8 +39,8 @@ const Item = memo(
       <div
         className={cn(
           className,
-          "group cursor-pointer py-4 px-1 xs:px-2 sm:px-4 border-b rounded",
-          active && "bg-emphasis"
+          "group cursor-pointer py-4 px-1 xs:px-2 sm:px-4 border-b",
+          active && "bg-emphasis rounded"
         )}
         onClick={onItemClick}
       >

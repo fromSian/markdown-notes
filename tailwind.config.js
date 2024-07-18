@@ -120,6 +120,7 @@ module.exports = {
           foreground: "var(--success-foreground)",
         },
         bgBlur: "var(--bg-blur)",
+        temphasis: "var(--text-emphasis)",
       },
       borderRadius: {
         lg: "var(--radius)",

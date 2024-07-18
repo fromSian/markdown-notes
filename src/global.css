@@ -56,6 +56,8 @@
     --btn-default-foreground: #3f4a3c;
 
     --bg-blur: #8191b266;
+
+    --text-emphasis: #004cb6;
   }
 
   .dark {
@@ -107,6 +109,8 @@
     --btn-default-foreground: #97afb9;
 
     --bg-blur: #17000066;
+
+    --text-emphasis: #618aca;
   }
 }
 
