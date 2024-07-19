@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 import { NoteContentItemType } from "@/types/notes";
 import { FocusPosition } from "@tiptap/react";
 import { forwardRef, memo, useImperativeHandle, useRef, useState } from "react";
-import { EditorRef } from "../Editor";
-import ContentEditor from "./ContentEditor";
-import ItemHeader from "./ItemHeader";
+import { EditorRef } from "../editor";
+import ContentEditor from "./content-editor";
+import ItemHeader from "./item-header";
 
 interface ItemProps {
   index: number;

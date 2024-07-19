@@ -1,5 +1,5 @@
 import DeleteConfirm from "@/components/ui/delete-confirm";
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import {
   formatDistanceFromNow,
   getDateTimeInCurrentTimeZone,
@@ -7,7 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ChevronDown, Loader, Trash } from "lucide-react";
 import { memo, useState } from "react";
-import Status from "./Status";
+import Status from "./status";
 
 const CollaspeTrigger = memo(
   ({ open, toggleOpen }: { open: boolean; toggleOpen: () => void }) => {

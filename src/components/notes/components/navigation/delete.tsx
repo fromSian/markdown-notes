@@ -1,5 +1,5 @@
 import DeleteConfirm from "@/components/ui/delete-confirm";
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import { getErrorMessage } from "@/request/error";
 import { Loader } from "lucide-react";
 import { MouseEvent, useState } from "react";

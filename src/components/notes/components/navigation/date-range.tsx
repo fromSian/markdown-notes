@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction, useState, useTransition } from "react";
-import CalendarRange from "./CalendarRange";
+import CalendarRange from "./calendar-range";
 
 interface DateRangeProps {
   disabled: boolean;

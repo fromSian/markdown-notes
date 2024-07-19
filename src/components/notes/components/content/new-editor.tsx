@@ -8,9 +8,9 @@ import {
   useRef,
   useState,
 } from "react";
-import Editor, { EditorRef } from "./Editor";
-import Status from "./item/Status";
-import MaskLoader from "./MaskLoader";
+import Editor, { EditorRef } from "./editor";
+import Status from "./item/status";
+import MaskLoader from "./mask-loader";
 
 interface NewEditorProps {
   setAdding: Dispatch<SetStateAction<boolean>>;

@@ -1,6 +1,6 @@
 import Fail from "@/components/icons/fail";
 import SuccessIcon from "@/components/icons/success";
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import { cn } from "@/lib/utils";
 import { Loader, Save } from "lucide-react";
 

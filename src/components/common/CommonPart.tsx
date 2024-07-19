@@ -3,7 +3,7 @@ import { AlignJustify, Info } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Select from "../ui/select";
-import TooltipSimple from "../ui/TooltipSimple";
+import TooltipSimple from "../ui/tooltip-simple";
 import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 

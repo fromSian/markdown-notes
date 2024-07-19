@@ -1,4 +1,4 @@
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";

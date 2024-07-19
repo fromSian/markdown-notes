@@ -1,4 +1,4 @@
-import { SortInfo } from "@/components/notes/Content";
+import { SortInfo } from "@/components/notes/content";
 import SelectValue from "@/components/settings/content/select-value";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";

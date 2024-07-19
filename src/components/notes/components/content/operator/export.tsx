@@ -1,4 +1,4 @@
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import { Download } from "lucide-react";
 import { memo } from "react";
 

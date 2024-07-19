@@ -21,9 +21,9 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import { SortInfo } from "../../Content";
+import { SortInfo } from "../../content";
 import Item, { ItemRef } from "./item/index";
-import NewEditor from "./NewEditor";
+import NewEditor from "./new-editor";
 import Subline from "./subline";
 import Title from "./title";
 interface ListProps {

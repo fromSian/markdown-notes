@@ -1,6 +1,6 @@
-import Content from "@/components/notes/Content";
+import Content from "@/components/notes/content";
 import Header from "@/components/notes/header";
-import Navigation from "@/components/notes/Navigation";
+import Navigation from "@/components/notes/navigation";
 import {
   ResizableHandle,
   ResizablePanel,

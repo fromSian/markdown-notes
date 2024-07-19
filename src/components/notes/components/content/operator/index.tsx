@@ -1,9 +1,9 @@
-import { SortInfo } from "@/components/notes/Content";
 import { cn } from "@/lib/utils";
+import { SortInfo } from "@/types/notes";
 import { Dispatch, memo, SetStateAction } from "react";
-import ExpandTrigger from "./expandTrigger";
+import ExpandTrigger from "./expand-trigger";
 import Export from "./export";
-import NewTriggle from "./newTrigger";
+import NewTriggle from "./new-trigger";
 import Sort from "./sort";
 interface OperatorProps {
   sortInfo: SortInfo;

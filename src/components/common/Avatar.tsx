@@ -4,7 +4,7 @@ import { AppThunkDispatch } from "@/states/store";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "../ui/select";
-import TooltipSimple from "../ui/TooltipSimple";
+import TooltipSimple from "../ui/tooltip-simple";
 const Avatar = () => {
   const { isLogin, account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch<AppThunkDispatch>();

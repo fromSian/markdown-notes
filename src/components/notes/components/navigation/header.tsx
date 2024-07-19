@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Dispatch, memo, SetStateAction } from "react";
-import AddTrigger from "./AddTrigger";
-import DateRange from "./DateRange";
+import AddTrigger from "./add-trigger";
+import DateRange from "./date-range";
 
 interface HeaderProps {
   date: DateRange | undefined;

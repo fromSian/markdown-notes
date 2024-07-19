@@ -1,6 +1,6 @@
 import { EditorEvents } from "@tiptap/react";
 import { forwardRef } from "react";
-import Editor from "../Editor";
+import Editor from "../editor";
 
 interface ContentEditorProps {
   id: string | number;

@@ -1,6 +1,6 @@
 import { PanelLeftClose, PanelRightOpen } from "lucide-react";
 import { Dispatch, memo, SetStateAction } from "react";
-import TooltipSimple from "../ui/TooltipSimple";
+import TooltipSimple from "../ui/tooltip-simple";
 
 interface NotePartProps {
   showNavigation: boolean;

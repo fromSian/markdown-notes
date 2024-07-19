@@ -1,4 +1,4 @@
-import TooltipSimple from "@/components/ui/TooltipSimple";
+import TooltipSimple from "@/components/ui/tooltip-simple";
 import { FilePenLine } from "lucide-react";
 import { memo, MouseEvent } from "react";
 const NewTriggle = memo(({ onClick }: { onClick: (e: MouseEvent) => void }) => {
