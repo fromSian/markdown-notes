@@ -1,5 +1,11 @@
+import Header from "@/components/introduce/header";
+
 const Introduction = () => {
-  return <div>introduce</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 
 export default Introduction;

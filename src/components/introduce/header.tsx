@@ -1,9 +1,11 @@
+import { useAppSelector } from "@/states/hooks";
 import { Loader } from "lucide-react";
 import { lazy, Suspense } from "react";
 import Logo from "../icons/logo";
 const CommonParts = lazy(() => import("@/components/common/CommonPart"));
 const Sign = lazy(() => import("@/components/common/Sign"));
 const Header = () => {
+  const { isLogin } = useAppSelector((state) => state.account);
   return (
     <div className="relative">
       <div
@@ -15,14 +17,16 @@ const Header = () => {
       ></div>
 
       <div
-        className="mr-6 pt-4 flex justify-end float-right gap-2 sm:gap-6 items-center"
+        className="mr-6 pt-4 flex justify-end float-right gap-6 items-center"
         style={{
           width: "calc(100vw - 150px)",
         }}
       >
-        <Suspense fallback={<Loader className="animate-spin" />}>
-          <Sign />
-        </Suspense>
+        {!isLogin && (
+          <Suspense fallback={<Loader className="animate-spin" />}>
+            <Sign />
+          </Suspense>
+        )}
         <Suspense fallback={<Loader className="animate-spin" />}>
           <CommonParts />
         </Suspense>

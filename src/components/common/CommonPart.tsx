@@ -1,6 +1,7 @@
 import { useAppSelector } from "@/states/hooks";
 import { AlignJustify, Info } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Select from "../ui/select";
 import TooltipSimple from "../ui/tooltip-simple";
@@ -8,10 +9,11 @@ import LanguageSwitch from "./LanguageSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 
 const CommanPartContent = () => {
+  const { t } = useTranslation("header");
   const { language, theme } = useAppSelector((state) => state.account);
   return (
     <>
-      <TooltipSimple content="introduce">
+      <TooltipSimple content={t("introduce")}>
         <Link to="/introduction" target="__blank">
           <Info />
         </Link>

@@ -29,11 +29,15 @@ const DeleteConfirm = ({ handleDelete, content }: DeleteConfirmProps) => {
       setOpen={setOpen}
       content={
         content || (
-          <Trash2
-            size={16}
+          <div
+            className="p-2 hover:bg-secondary rounded-md"
             onClick={onIconClick}
-            className="cursor-pointer flex-shrink-0 transition-all text-ttertiary hover:text-tprimary active:scale-90"
-          />
+          >
+            <Trash2
+              size={16}
+              className="cursor-pointer flex-shrink-0 transition-all text-ttertiary hover:text-tprimary active:scale-90"
+            />
+          </div>
         )
       }
     >

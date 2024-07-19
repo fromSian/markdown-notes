@@ -10,7 +10,7 @@ interface SelectProps {
   children: ReactNode;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  side: "top" | "right" | "bottom" | "left" | undefined;
+  side?: "top" | "right" | "bottom" | "left";
 }
 const Select = ({ content, children, open, setOpen, side }: SelectProps) => {
   const [isPending, startTransition] = useTransition();

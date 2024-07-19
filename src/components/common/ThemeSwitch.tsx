@@ -1,6 +1,7 @@
 import { Monitor, MoonStar, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { memo, ReactNode, useEffect, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
 import Select from "../ui/select";
 type optionType = "system" | "dark" | "light";
 const Icons: Record<optionType, ReactNode> = {
@@ -10,6 +11,7 @@ const Icons: Record<optionType, ReactNode> = {
 };
 
 const ThemeSwitch = memo(({ _theme }: { _theme: string }) => {
+  const { t } = useTranslation("header");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
@@ -57,7 +59,7 @@ const ThemeSwitch = memo(({ _theme }: { _theme: string }) => {
                   changeTheme(item);
                 }}
               >
-                {Icons[item as optionType]} <p className="text-sm">{item}</p>
+                {Icons[item as optionType]} <p className="text-sm">{t(item)}</p>
               </div>
             ))}
         </div>
