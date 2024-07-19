@@ -10,8 +10,9 @@ interface SelectProps {
   children: ReactNode;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  side: "top" | "right" | "bottom" | "left" | undefined;
 }
-const Select = ({ content, children, open, setOpen }: SelectProps) => {
+const Select = ({ content, children, open, setOpen, side }: SelectProps) => {
   const [isPending, startTransition] = useTransition();
   const onOpenChange = (e: boolean) => {
     startTransition(() => {
@@ -21,7 +22,9 @@ const Select = ({ content, children, open, setOpen }: SelectProps) => {
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{content}</PopoverTrigger>
-      <PopoverContent asChild>{children}</PopoverContent>
+      <PopoverContent asChild side={side}>
+        {children}
+      </PopoverContent>
     </Popover>
   );
 };

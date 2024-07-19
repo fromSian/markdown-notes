@@ -1,3 +1,4 @@
+import DeleteConfirm from "@/components/ui/delete-confirm";
 import TooltipSimple from "@/components/ui/TooltipSimple";
 import {
   formatDistanceFromNow,
@@ -49,15 +50,17 @@ const DeleteTrigger = memo(
     return loading ? (
       <Loader className="animate-spin text-ttertiary" size={16} />
     ) : (
-      <div
-        className="group cursor-pointer px-2 rounded-sm text-center flex items-center bg-secondary border border-transparent hover:border-border hover:bg-transparent py-1"
-        onClick={onDelete}
-      >
-        <Trash
-          size={16}
-          className="text-ttertiary group-hover:text-tprimary group-active:scale-95 transition-all"
-        />
-      </div>
+      <DeleteConfirm
+        handleDelete={onDelete}
+        content={
+          <div className="group cursor-pointer px-2 rounded-sm text-center flex items-center bg-secondary border border-transparent hover:border-border hover:bg-transparent py-1">
+            <Trash
+              size={16}
+              className="text-ttertiary group-hover:text-tprimary group-active:scale-95 transition-all"
+            />
+          </div>
+        }
+      />
     );
   }
 );
