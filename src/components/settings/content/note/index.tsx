@@ -1,31 +1,33 @@
 import { sortOptions } from "@/components/notes/components/content/operator/sort";
 import { Switch } from "@/components/ui/switch";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import {
+  updateDefaultExpanded,
+  updateShowExactTime,
+  updateSortInfo,
+} from "@/states/note.slice";
+import { AppThunkDispatch } from "@/states/store";
+import { SortInfo } from "@/types/notes";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
 const Note = () => {
   const { defaultExpanded, showExactTime, sortInfo } = useAppSelector(
     (state) => state.note
   );
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch<AppThunkDispatch>();
 
   const setDefaultExpanded = (value: boolean) => {
-    dispatch({
-      type: "note/setDefaultExpanded",
-      payload: value,
-    });
+    dispatch(updateDefaultExpanded({ value }));
   };
   const setShowExactTime = (value: boolean) => {
-    dispatch({
-      type: "note/setShowExactTime",
-      payload: value,
-    });
+    dispatch(updateShowExactTime({ value }));
   };
   const setSortInfo = (value: string) => {
-    dispatch({
-      type: "note/setSortInfo",
-      payload: value,
-    });
+    dispatch(
+      updateSortInfo({ value } as {
+        value: SortInfo;
+      })
+    );
   };
   return (
     <>

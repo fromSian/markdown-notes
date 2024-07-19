@@ -1,4 +1,9 @@
+import {
+  updateDefaultLanguage,
+  updateDefaultTheme,
+} from "@/states/account.slice";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { AppThunkDispatch } from "@/states/store";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
 const languageOptions = [
@@ -17,18 +22,12 @@ const themeOptions = [
 
 const System = () => {
   const { language, theme } = useAppSelector((state) => state.account);
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch<AppThunkDispatch>();
   const setLanguage = (value: string) => {
-    dispatch({
-      type: "account/setLanguage",
-      payload: value,
-    });
+    dispatch(updateDefaultLanguage({ value }));
   };
   const setTheme = (value: string) => {
-    dispatch({
-      type: "account/setTheme",
-      payload: value,
-    });
+    dispatch(updateDefaultTheme({ value }));
   };
   return (
     <>

@@ -1,6 +1,8 @@
-import type { SortInfo } from "@/components/notes/Content";
-import { NoteNavigationType } from "@/types/notes";
+import request from "@/request/request";
+import { Settings } from "@/types/account";
+import { NoteNavigationType, SortInfo } from "@/types/notes";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 interface NoteState {
   activeId: string | number | undefined;
   activeInfo: NoteNavigationType | undefined;
@@ -19,11 +21,55 @@ const initialState: NoteState = {
   sortInfo: "-updated",
 };
 
-export const query = createAsyncThunk("notes/query", async () => {
-  try {
-    return 1;
-  } catch (error) {}
-});
+export const updateDefaultExpanded = createAsyncThunk(
+  "notes/updateDefaultExpanded",
+  async ({ value }: { value: boolean }) => {
+    try {
+      const url = "/account/settings/";
+      const { defaultExpanded }: Settings = await request.patch(url, {
+        defaultExpanded: value,
+      });
+      toast.success("updated successfully");
+      return defaultExpanded;
+    } catch (error) {
+      console.log(error);
+      toast.error("update failed");
+    }
+  }
+);
+export const updateShowExactTime = createAsyncThunk(
+  "notes/updateShowExactTime",
+  async ({ value }: { value: boolean }) => {
+    try {
+      const url = "/account/settings/";
+      const { showExactTime }: Settings = await request.patch(url, {
+        showExactTime: value,
+      });
+      toast.success("updated successfully");
+      return showExactTime;
+    } catch (error) {
+      console.log(error);
+      toast.error("update failed");
+    }
+  }
+);
+
+export const updateSortInfo = createAsyncThunk(
+  "notes/updateSortInfo",
+  async ({ value }: { value: SortInfo }) => {
+    try {
+      const url = "/account/settings/";
+      const { sortInfo }: Settings = await request.patch(url, {
+        sortInfo: value,
+      });
+      toast.success("updated successfully");
+      return sortInfo;
+    } catch (error) {
+      console.log(error);
+      toast.error("update failed");
+    }
+  }
+);
 
 export const noteSlice = createSlice({
   name: "note",
@@ -89,10 +135,34 @@ export const noteSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(query.fulfilled, (state, action) => {
-        const response = action.payload;
+      .addCase(updateDefaultExpanded.fulfilled, (state, action) => {
+        const value = action.payload === undefined ? false : action.payload;
+        return {
+          ...state,
+          defaultExpanded: value,
+        };
       })
-      .addCase(query.rejected, (state) => {});
+      .addCase(updateDefaultExpanded.rejected, (state) => {});
+
+    builder
+      .addCase(updateShowExactTime.fulfilled, (state, action) => {
+        const value = action.payload === undefined ? false : action.payload;
+        return {
+          ...state,
+          showExactTime: value,
+        };
+      })
+      .addCase(updateShowExactTime.rejected, (state) => {});
+
+    builder
+      .addCase(updateSortInfo.fulfilled, (state, action) => {
+        const value = action.payload === undefined ? "" : action.payload;
+        return {
+          ...state,
+          sortInfo: value,
+        };
+      })
+      .addCase(updateSortInfo.rejected, (state) => {});
   },
 });
 

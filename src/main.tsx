@@ -26,23 +26,30 @@ const Wrap = ({
   const navigate = useNavigate();
   const queryUserInfo = async () => {
     try {
-      const response = await fetchUserInfo();
+      const {
+        defaultExpanded,
+        showExactTime,
+        sortInfo,
+        language,
+        theme,
+        ...rest
+      } = await fetchUserInfo();
       dispatch({
         type: "account/setAccount",
-        payload: response,
+        payload: rest,
       });
       const systemConfig = {
-        language: "",
-        theme: "",
+        language: language,
+        theme: theme,
       };
       dispatch({
         type: "account/setConfig",
         payload: systemConfig,
       });
       const noteConfig = {
-        showExactTime: true,
-        defaultExpanded: false,
-        sortInfo: "created",
+        showExactTime: showExactTime,
+        defaultExpanded: defaultExpanded,
+        sortInfo: sortInfo,
       };
       dispatch({
         type: "note/setConfig",

@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/request/notes";
 import { useAppSelector } from "@/states/hooks";
+import { SortInfo } from "@/types/notes.ts";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ItemRef } from "./components/content/item/index.tsx";
 import List from "./components/content/list.tsx";
 import Operator from "./components/content/operator/index.tsx";
-
-export type SortInfo = "updated" | "-updated" | "created" | "-created";
 
 interface MainContentProps {}
 const Content = memo(({}: MainContentProps) => {

@@ -24,3 +24,5 @@ export interface PageResponse<T> {
 export type MarkdownContent = {
   content: string;
 };
+
+export type SortInfo = "updated" | "-updated" | "created" | "-created" | "";

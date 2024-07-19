@@ -27,13 +27,37 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
     if (!email || !password) {
       return;
     }
-    const response = await fetchLogin({
+    const {
+      defaultExpanded,
+      showExactTime,
+      sortInfo,
+      language,
+      theme,
+      ...rest
+    } = await fetchLogin({
       email,
       password,
     });
     dispatch({
       type: "account/setAccount",
-      payload: response,
+      payload: rest,
+    });
+    const systemConfig = {
+      language: language,
+      theme: theme,
+    };
+    dispatch({
+      type: "account/setConfig",
+      payload: systemConfig,
+    });
+    const noteConfig = {
+      showExactTime: showExactTime,
+      defaultExpanded: defaultExpanded,
+      sortInfo: sortInfo,
+    };
+    dispatch({
+      type: "note/setConfig",
+      payload: noteConfig,
     });
     toast.success("login success");
     navigate("/");

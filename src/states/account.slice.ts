@@ -1,6 +1,7 @@
 import request from "@/request/request";
-import { Account } from "@/types/account";
+import { Account, Settings } from "@/types/account";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 // Define a type for the slice state
 interface AccountState {
   isLogin: boolean;
@@ -22,6 +23,40 @@ export const logout = createAsyncThunk(
   async ({}, thunkApi) => {
     const response = await request.post("/account/logout/");
     return response;
+  }
+);
+
+export const updateDefaultLanguage = createAsyncThunk(
+  "notes/updateDefaultLanguage",
+  async ({ value }: { value: string }) => {
+    try {
+      const url = "/account/settings/";
+      const { language }: Settings = await request.patch(url, {
+        language: value,
+      });
+      toast.success("updated successfully");
+      return language;
+    } catch (error) {
+      console.log(error);
+      toast.error("update failed");
+    }
+  }
+);
+
+export const updateDefaultTheme = createAsyncThunk(
+  "notes/updateDefaultTheme",
+  async ({ value }: { value: string }) => {
+    try {
+      const url = "/account/settings/";
+      const { theme }: Settings = await request.patch(url, {
+        theme: value,
+      });
+      toast.success("updated successfully");
+      return theme;
+    } catch (error) {
+      console.log(error);
+      toast.error("update failed");
+    }
   }
 );
 
@@ -72,6 +107,26 @@ export const accountSlice = createSlice({
         };
       })
       .addCase(logout.rejected, (state) => {});
+
+    builder
+      .addCase(updateDefaultLanguage.fulfilled, (state, action) => {
+        const value = action.payload === undefined ? "" : action.payload;
+        return {
+          ...state,
+          language: value,
+        };
+      })
+      .addCase(updateDefaultLanguage.rejected, (state) => {});
+
+    builder
+      .addCase(updateDefaultTheme.fulfilled, (state, action) => {
+        const value = action.payload === undefined ? "" : action.payload;
+        return {
+          ...state,
+          theme: value,
+        };
+      })
+      .addCase(updateDefaultTheme.rejected, (state) => {});
   },
 });
 
