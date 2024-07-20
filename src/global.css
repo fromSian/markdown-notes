@@ -58,6 +58,8 @@
     --bg-blur: #8191b266;
 
     --text-emphasis: #004cb6;
+
+    --link: #0071dd;
   }
 
   .dark {
@@ -111,6 +113,7 @@
     --bg-blur: #17000066;
 
     --text-emphasis: #618aca;
+    --link: #008eff;
   }
 }
 

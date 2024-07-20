@@ -17,7 +17,7 @@ const Header = () => {
       ></div>
 
       <div
-        className="mr-6 pt-4 flex justify-end float-right gap-6 items-center"
+        className="mr-2 pt-4 flex justify-end float-right gap-4 items-center md:mr-6"
         style={{
           width: "calc(100vw - 150px)",
         }}

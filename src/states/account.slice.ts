@@ -18,13 +18,10 @@ const initialState: AccountState = {
   theme: "",
 };
 
-export const logout = createAsyncThunk(
-  "account/logout",
-  async ({}, thunkApi) => {
-    const response = await request.post("/account/logout/");
-    return response;
-  }
-);
+export const logout = createAsyncThunk("account/logout", async () => {
+  const response = await request.post("/account/logout/");
+  return response;
+});
 
 export const updateDefaultLanguage = createAsyncThunk(
   "notes/updateDefaultLanguage",
@@ -100,6 +97,7 @@ export const accountSlice = createSlice({
       .addCase(logout.fulfilled, (state, action) => {
         sessionStorage.removeItem("token");
         return {
+          ...state,
           account: undefined,
           isLogin: false,
           language: "",

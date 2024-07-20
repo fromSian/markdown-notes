@@ -5,8 +5,12 @@
   "sign-up": "sign up",
   "sign-in": "sign in",
   "sign-in-with-google": "sign in with google",
+  "trial": "trial",
   "sign-in-up": "sign in/up",
+  "sign-out": "sign out",
   "light": "light",
   "system": "system",
-  "dark": "dark"
+  "dark": "dark",
+  "settings": "settings",
+  "trial-remind": "Your data won't be saved, if you wanna keep these data, go convert to base account!"
 }

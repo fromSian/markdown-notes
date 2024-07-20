@@ -121,6 +121,7 @@ module.exports = {
         },
         bgBlur: "var(--bg-blur)",
         temphasis: "var(--text-emphasis)",
+        link: "var(--link)",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -2,18 +2,23 @@ import { logout } from "@/states/account.slice";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { AppThunkDispatch } from "@/states/store";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "../ui/select";
 import TooltipSimple from "../ui/tooltip-simple";
 const Avatar = () => {
+  const { t } = useTranslation("header");
   const { isLogin, account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch<AppThunkDispatch>();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
-    dispatch(logout());
-    navigate("/welcome");
+    try {
+      const res = await dispatch(logout()).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     isLogin && (
@@ -40,22 +45,23 @@ const Avatar = () => {
         }
       >
         <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
-          <Link to="/settings">settings</Link>
+          <Link to="/settings">{t("settings")}</Link>
           {account.type === "trial" ? (
             <TooltipSimple
               side="left"
               content={
                 <p>
-                  we will not save your data. If you feel fine about this app,
-                  go convert to formal user
-                  <Link to="/settings">settings</Link>
+                  {t("trial-remind")}
+                  <Link to="/settings" className="underline text-link">
+                    {t("settings")}
+                  </Link>
                 </p>
               }
             >
-              <button onClick={handleLogout}>log out</button>
+              <p onClick={handleLogout}>{t("sign-out")}</p>
             </TooltipSimple>
           ) : (
-            <button onClick={handleLogout}>log out</button>
+            <button onClick={handleLogout}>{t("sign-out")}</button>
           )}
         </div>
       </Select>

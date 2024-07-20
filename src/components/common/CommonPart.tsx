@@ -10,7 +10,7 @@ import ThemeSwitch from "./ThemeSwitch";
 
 const CommanPartContent = () => {
   const { t } = useTranslation("header");
-  const { language, theme } = useAppSelector((state) => state.account);
+  const { language, theme, isLogin } = useAppSelector((state) => state.account);
   return (
     <>
       <TooltipSimple content={t("introduce")}>

@@ -5,8 +5,12 @@
   "sign-up": "註冊",
   "sign-in": "登錄",
   "sign-in-with-google": "通過Google登錄",
+  "trial": "測試",
   "sign-in-up": "登錄 / 註冊",
+  "sign-out": "登出",
   "light": "淺色",
   "system": "系統",
-  "dark": "暗色"
+  "dark": "暗色",
+  "settings": "設置",
+  "trial-remind": "登出後數據將會刪除，如果想要保留數據，前往設置成為正式用戶吧！"
 }

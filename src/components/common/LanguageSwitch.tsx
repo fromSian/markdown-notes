@@ -32,7 +32,7 @@ const LanguageSwitch = memo(({ language }: { language: string }) => {
         open={open}
         setOpen={setOpen}
         content={
-          <div className="cursor-pointer flex transition-all items-center">
+          <div className="cursor-pointer flex transition-all items-center truncate">
             {currentLng}
           </div>
         }
