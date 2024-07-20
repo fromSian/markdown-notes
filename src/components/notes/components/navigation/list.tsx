@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import type { DateRange } from "react-day-picker";
+import { useTranslation } from "react-i18next";
 import Item from "./item";
 
 interface ListProps {
@@ -32,6 +33,7 @@ const List = ({
   setLoading,
   handleAddNew,
 }: ListProps) => {
+  const { t } = useTranslation("note");
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | undefined>(undefined);
@@ -185,7 +187,7 @@ const List = ({
     >
       {date?.from ? (
         <p className="text-xs italic divider w-full truncate mb-2">
-          {format(date.from, "LLL dd, y")}
+          {format(date.from, "yyyy-MM-dd")}
         </p>
       ) : (
         ""
@@ -216,22 +218,22 @@ const List = ({
             onClick={handleAddNew}
             size={36}
           />
-          <p className="italic text-center text-lg">
-            no notes exists, go write your first note!
-          </p>
+          <p className="italic text-center text-lg">{t("empty-description")}</p>
         </div>
       )}
       <div className="w-full flex justify-center my-2">
         {loading && <Loader className="animate-spin" />}
         {loaded && (data.length || date) ? (
-          <p className="text-xs text-ttertiary truncate">{data.length} items</p>
+          <p className="text-xs text-ttertiary truncate">
+            {data.length} {t("item", { count: data.length })}
+          </p>
         ) : (
           ""
         )}
       </div>
       {date?.to ? (
         <p className="text-xs italic divider w-full truncate">
-          {format(date.to, "LLL dd, y")}
+          {format(date.to, "yyyy-MM-dd")}{" "}
         </p>
       ) : (
         ""

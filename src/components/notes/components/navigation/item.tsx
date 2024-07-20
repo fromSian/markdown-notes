@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/states/hooks";
 import { NoteNavigationType } from "@/types/notes";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import Delete from "./delete";
 const Item = memo(
   ({
@@ -26,6 +27,7 @@ const Item = memo(
     handleDelete: (id: string | number) => void;
     className?: string;
   }) => {
+    const { t } = useTranslation("note");
     const dispatch = useAppDispatch();
 
     const onItemClick = () => {
@@ -58,8 +60,14 @@ const Item = memo(
           <TooltipSimple
             content={
               <>
-                <p>created at: {getDateTimeInCurrentTimeZone(item.created)}</p>
-                <p>updated at: {getDateTimeInCurrentTimeZone(item.updated)}</p>
+                <p className="flex justify-between gap-2">
+                  <span>{t("created-at")}:</span>
+                  <span>{getDateTimeInCurrentTimeZone(item.created)}</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>{t("updated-at")}:</span>
+                  <span>{getDateTimeInCurrentTimeZone(item.updated)}</span>
+                </p>
               </>
             }
           >

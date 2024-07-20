@@ -8,7 +8,11 @@ import {
   updateTitle,
 } from "@/request/notes";
 import { useAppDispatch } from "@/states/hooks";
-import { NoteContentItemType, NoteNavigationType } from "@/types/notes";
+import {
+  NoteContentItemType,
+  NoteNavigationType,
+  SortInfo,
+} from "@/types/notes";
 import { Loader } from "lucide-react";
 import {
   Dispatch,
@@ -20,8 +24,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { SortInfo } from "../../content";
 import Item, { ItemRef } from "./item/index";
 import NewEditor from "./new-editor";
 import Subline from "./subline";
@@ -47,6 +51,7 @@ const List = ({
   defaultExpanded,
   showExactTime,
 }: ListProps) => {
+  const { t } = useTranslation("note");
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
@@ -275,7 +280,11 @@ const List = ({
 
       <div className="w-full flex justify-center my-4">
         {loading && <Loader className="animate-spin" />}
-        {loaded && <p className="text-xs text-ttertiary">{info.count} items</p>}
+        {loaded && (
+          <p className="text-xs text-ttertiary">
+            {info.count} {t("item", { count: info.count })}
+          </p>
+        )}
       </div>
 
       <div ref={targetRef} className="w-full"></div>

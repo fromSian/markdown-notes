@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import Editor, { EditorRef } from "./editor";
 import Status from "./item/status";
 import MaskLoader from "./mask-loader";
@@ -18,6 +19,7 @@ interface NewEditorProps {
 }
 const NewEditor = forwardRef(
   ({ setAdding, onNewSubmit }: NewEditorProps, ref) => {
+    const { t } = useTranslation("note");
     const editorRef = useRef<EditorRef>();
     const [loading, setLoading] = useState(false);
     const parentRef = useRef<HTMLDivElement>(null);
@@ -75,7 +77,7 @@ const NewEditor = forwardRef(
       >
         <div className="flex justify-between items-center">
           <p className="text-ttertiary text-sm px-1 bg-secondary flex items-center rounded-md h-max">
-            new item
+            {t("new-one")}
           </p>
 
           <div

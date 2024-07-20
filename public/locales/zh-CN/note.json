@@ -1,0 +1,27 @@
+{
+  "empty-description": "创建你的第一条笔记！",
+  "date-picker": {
+    "current-empty": "选择一段日期区间...",
+    "cancel": "取消",
+    "reset": "重置",
+    "submit": "确认"
+  },
+  "delete": {
+    "loading": "加载中...",
+    "description": "删除",
+    "confirm": "请确认删除？",
+    "yes": "确认",
+    "no": "取消"
+  },
+  "created-at": "创建于",
+  "updated-at": "更新于",
+  "updated": "更新时间",
+  "created": "创建时间",
+  "item_one": "条",
+  "item_other": "条",
+  "toggle-expand": "展开 / 收缩全部",
+  "add-one": "新增",
+  "export": "导出为markdown文件",
+  "save": "保存",
+  "new-one": "新增"
+}

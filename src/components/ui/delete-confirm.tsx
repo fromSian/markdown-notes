@@ -1,5 +1,6 @@
 import { Trash2 } from "lucide-react";
 import { MouseEvent, ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Select from "./select";
 
 interface DeleteConfirmProps {
@@ -8,6 +9,7 @@ interface DeleteConfirmProps {
 }
 
 const DeleteConfirm = ({ handleDelete, content }: DeleteConfirmProps) => {
+  const { t } = useTranslation("note");
   const [open, setOpen] = useState(false);
   const onCancel = () => {
     setOpen(false);
@@ -41,14 +43,14 @@ const DeleteConfirm = ({ handleDelete, content }: DeleteConfirmProps) => {
         )
       }
     >
-      <div className="w-56">
-        <p className="text-sm font-bold mb-4">Are you sure to delete?</p>
+      <div className="max-w-56">
+        <p className="text-sm font-bold mb-4">{t("delete.confirm")}</p>
         <div className="flex justify-end gap-4 text-sm">
           <button className="btn px-2" onClick={onCancel}>
-            no
+            {t("delete.no")}
           </button>
           <button className="btn px-2" onClick={onOk}>
-            yes
+            {t("delete.yes")}
           </button>
         </div>
       </div>

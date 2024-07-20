@@ -1,0 +1,27 @@
+{
+  "empty-description": "No notes exists, go write your first note!",
+  "date-picker": {
+    "current-empty": "Pick a date range...",
+    "cancel": "cancel",
+    "reset": "clear",
+    "submit": "ok"
+  },
+  "delete": {
+    "loading": "loading...",
+    "description": "delete",
+    "confirm": "Are you sure you want to delete this?",
+    "yes": "yes",
+    "no": "no"
+  },
+  "created-at": "created at",
+  "updated-at": "updated at",
+  "updated": "updated",
+  "created": "created",
+  "item_one": "item",
+  "item_other": "items",
+  "toggle-expand": "expand / collapse all",
+  "add-one": "write a new one",
+  "export": "export to a markdown file",
+  "save": "save changes",
+  "new-one": "new one"
+}

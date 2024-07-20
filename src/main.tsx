@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { Toaster } from "sonner";
 import "./global.css";
+import "./i18";
 import { fetchUserInfo } from "./request/account";
 import { useAppDispatch, useAppSelector } from "./states/hooks";
 

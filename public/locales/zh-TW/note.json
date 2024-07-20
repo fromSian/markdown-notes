@@ -1,0 +1,27 @@
+{
+  "empty-description": "創建第一條筆記！",
+  "date-picker": {
+    "current-empty": "選擇一段日期區間...",
+    "cancel": "取消",
+    "reset": "清空",
+    "submit": "確認"
+  },
+  "delete": {
+    "loading": "加載中...",
+    "description": "刪除",
+    "confirm": "請確認刪除？",
+    "yes": "確認",
+    "no": "取消"
+  },
+  "created-at": "創建於",
+  "updated-at": "更新於",
+  "updated": "更新時間",
+  "created": "創建時間",
+  "item_one": "條",
+  "item_other": "條",
+  "toggle-expand": "展開 / 收縮 全部",
+  "add-one": "新增",
+  "export": "導出為markdown文件",
+  "save": "保存",
+  "new-one": "新增"
+}

@@ -3,6 +3,7 @@ import TooltipSimple from "@/components/ui/tooltip-simple";
 import { getErrorMessage } from "@/request/error";
 import { Loader } from "lucide-react";
 import { MouseEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 const Delete = ({
   loading,
@@ -11,6 +12,7 @@ const Delete = ({
   loading: boolean;
   handleDelete: () => void;
 }) => {
+  const { t } = useTranslation("note");
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const onDelete = async (e: MouseEvent) => {
@@ -27,7 +29,11 @@ const Delete = ({
     }
   };
   return (
-    <TooltipSimple content={loading || deleteLoading ? "loading" : "delete"}>
+    <TooltipSimple
+      content={
+        loading || deleteLoading ? t("delete.loading") : t("delete.description")
+      }
+    >
       <>
         {loading || deleteLoading ? (
           <Loader size={16} className="animate-spin group-hover:block hidden" />

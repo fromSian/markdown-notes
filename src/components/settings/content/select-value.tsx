@@ -1,10 +1,10 @@
 import Select from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 
 interface SelectValueProps {
   value: string;
-  setValue: (v: string) => void;
+  setValue: (v: string) => void | Dispatch<SetStateAction<string>>;
   items: Array<{ value: string; label: ReactNode }>;
   className?: string;
 }

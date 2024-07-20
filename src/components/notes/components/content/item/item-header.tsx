@@ -7,6 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ChevronDown, Loader, Trash } from "lucide-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Status from "./status";
 
 const CollaspeTrigger = memo(
@@ -83,6 +84,7 @@ const HeaderText = memo(
     showExactTime: boolean;
     sortField?: "updated" | "created";
   }) => {
+    const { t } = useTranslation("note");
     return (
       <div className="flex gap-2 items-center flex-1 overflow-hidden whitespace-nowrap">
         <p className="italic w-4 flex-shrink-0">{index + 1}.</p>
@@ -90,8 +92,14 @@ const HeaderText = memo(
         <TooltipSimple
           content={
             <>
-              <p>update at: {getDateTimeInCurrentTimeZone(updated)}</p>
-              <p>create at: {getDateTimeInCurrentTimeZone(created)}</p>
+              <p className="flex justify-between gap-2">
+                <span>{t("updated-at")}: </span>
+                <span>{getDateTimeInCurrentTimeZone(updated)}</span>
+              </p>
+              <p className="flex justify-between gap-2">
+                <span>{t("created-at")}:</span>
+                <span>{getDateTimeInCurrentTimeZone(created)}</span>
+              </p>
             </>
           }
         >

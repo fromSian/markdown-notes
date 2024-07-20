@@ -70,7 +70,6 @@ const Notes = () => {
           collapsible={true}
           defaultSize={initialPanelSize.navigation}
           minSize={2}
-          maxSize={100}
           className="transition-[flex]"
           onCollapse={() => {
             setShowNavigation(false);

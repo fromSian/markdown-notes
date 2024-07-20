@@ -3,6 +3,7 @@ import { useCallback, useState, useTransition } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { Calendar } from "@/components/ui/calendar";
+import { useTranslation } from "react-i18next";
 
 interface CalendarRangeProps {
   initialDate: DateRange | undefined;
@@ -15,6 +16,7 @@ const CalendarRange = ({
   onCancel,
   onSubmit,
 }: CalendarRangeProps) => {
+  const { t } = useTranslation("note");
   const [date, setDate] = useState<DateRange | undefined>(initialDate);
   const [isPending, startTransition] = useTransition();
 
@@ -49,7 +51,7 @@ const CalendarRange = ({
             format(date.from, "yyyy-MM-dd")
           )
         ) : (
-          <span>Pick a date</span>
+          <span>{t("date-picker.current-empty")}</span>
         )}
       </p>
       <Calendar
@@ -61,16 +63,18 @@ const CalendarRange = ({
         numberOfMonths={2}
       />
 
-      <div className="flex justify-end gap-4 mb-4 px-3">
+      <div className="flex justify-between gap-4 mb-4 px-3">
         <button onClick={handleClear} className="btn">
-          clear
+          {t("date-picker.reset")}
         </button>
-        <button onClick={handleCancel} className="btn">
-          cancel
-        </button>
-        <button onClick={handleOk} className="btn">
-          ok
-        </button>
+        <div className="flex gap-4">
+          <button onClick={handleCancel} className="btn">
+            {t("date-picker.cancel")}
+          </button>
+          <button onClick={handleOk} className="btn">
+            {t("date-picker.submit")}
+          </button>
+        </div>
       </div>
     </div>
   );
