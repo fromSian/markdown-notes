@@ -1,0 +1,43 @@
+{
+  "type": {
+    "base": "正式用戶",
+    "google": "谷歌用戶",
+    "trial": "免註冊試用用戶"
+  },
+  "avatar": {
+    "title": "更新頭像",
+    "upload": "上傳圖片",
+    "submit": "確定"
+  },
+  "change-password": "更新密碼",
+  "convert-type": "成為正式用戶",
+  "part": {
+    "note": "筆記設定",
+    "system": "系統設定"
+  },
+  "default-expand": {
+    "title": "默認展開一篇筆記的子項目",
+    "description": "默認展開一篇筆記的子項目"
+  },
+  "show-exact-time": {
+    "title": "在導航和筆記子項目中展示具體的日期和時間",
+    "description": "在導航和筆記子項目中展示具體的日期和時間，否則，將展示距離現在的大致日期/時間。"
+  },
+  "sort-info": {
+    "title": "筆記子項目默認排序方式",
+    "description": "筆記子項目默認排序方式"
+  },
+  "language": {
+    "title": "語言",
+    "description": "如果設置了語言首選項，語言切換器將被隱藏。"
+  },
+  "theme": {
+    "title": "主題",
+    "description": "如果設置了主題首選項，主題切換器將被隱藏。",
+    "light": "淺色",
+    "system": "系統",
+    "dark": "暗色"
+  },
+  "verify-code": "發送驗證碼至郵箱",
+  "re-verify-code": "重新發送驗證碼至郵箱"
+}

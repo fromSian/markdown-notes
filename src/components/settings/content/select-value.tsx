@@ -23,7 +23,7 @@ const SelectValue = ({
       content={
         <div
           className={cn(
-            "cursor-pointer border px-4 rounded-sm bg-primary-foreground",
+            "cursor-pointer border px-1 sm:px-4 rounded-sm bg-primary-foreground truncate",
             className
           )}
           onClick={() => setOpen(true)}
@@ -32,7 +32,7 @@ const SelectValue = ({
         </div>
       }
     >
-      <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2">
+      <div className="w-auto backdrop-blur-md bg-opacity-50 flex flex-col gap-2 items-center">
         {items
           .filter((item) => item.value !== value)
           .map((item) => (

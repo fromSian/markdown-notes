@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { Image as ImageIcon, Loader, Upload, User } from "lucide-react";
+import { Loader, Upload, User } from "lucide-react";
 import {
   ChangeEvent,
   Suspense,
@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { Crop } from "react-image-crop";
 import { toast } from "sonner";
 import ImageCrop from "./image";
@@ -26,12 +27,9 @@ import ImageCrop from "./image";
 const TrailToBase = lazy(() => import("./trail-to-base.tsx"));
 const PasswordChange = lazy(() => import("./password-change.tsx"));
 const GoogleToBase = lazy(() => import("./google-to-base.tsx"));
-/**
- * 只有上传的图片才可以crop
- *
- */
 
 const Info = () => {
+  const { t } = useTranslation("settings");
   const { account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
 
@@ -53,9 +51,6 @@ const Info = () => {
 
   const onOpenChange = (v: boolean) => {
     setOpen(v);
-    // if (!v) {
-    //   setSrc(undefined);
-    // }
   };
 
   const openFilePick = () => {
@@ -140,10 +135,12 @@ const Info = () => {
           />
         </div>
         <div>
-          <p className="mb-2 text-2xl font-bold truncate">
+          <p className="mb-2 text-base xs:text-2xl font-bold truncate">
             {account?.type === "trial" ? "trial user" : account?.email}
           </p>
-          <p className="text-ttertiary truncate">{account?.type}</p>
+          <p className="text-ttertiary truncate text-sm xs:text-base">
+            {t(`type.${account?.type}`)}
+          </p>
         </div>
         <input
           className="hidden"
@@ -158,7 +155,7 @@ const Info = () => {
 
           <DialogContent onInteractOutside={(e) => e.preventDefault()}>
             <DialogHeader>
-              <DialogTitle>Upload Avatar</DialogTitle>
+              <DialogTitle>{t("avatar.title")}</DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 items-center">
@@ -175,25 +172,13 @@ const Info = () => {
                 )}
               >
                 {fileLoading ? <Loader className="animate-spin" /> : ""}
-                {!src && !fileLoading ? (
-                  <>
-                    <ImageIcon
-                      className="animate-bounce cursor-pointer"
-                      size={28}
-                      onClick={openFilePick}
-                    />
-                    <p>no image please upload.</p>
-                  </>
-                ) : (
-                  <>
-                    <button className="btn" onClick={openFilePick}>
-                      upload
-                    </button>
-                    <button className="btn" onClick={onSave}>
-                      submit
-                    </button>
-                  </>
-                )}
+
+                <button className="btn" onClick={openFilePick}>
+                  {t("avatar.upload")}
+                </button>
+                <button className="btn" onClick={onSave}>
+                  {t("avatar.submit")}
+                </button>
               </div>
             </div>
           </DialogContent>

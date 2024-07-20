@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { languages } from "@/i18";
-import { memo, useEffect, useState, useTransition } from "react";
+import { memo, useEffect, useState } from "react";
 import Select from "../ui/select";
 
 const LanguageSwitch = memo(({ language }: { language: string }) => {
@@ -9,15 +9,12 @@ const LanguageSwitch = memo(({ language }: { language: string }) => {
   const [currentLng, setCurrentLng] = useState(
     localStorage.getItem("i18nextLng") || languages[0]
   );
-  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
   const changeLanguage = (item: string) => {
-    startTransition(() => {
-      i18n.changeLanguage(item);
-      setCurrentLng(item);
-      setOpen(false);
-    });
+    i18n.changeLanguage(item);
+    setCurrentLng(item);
+    setOpen(false);
   };
 
   useEffect(() => {

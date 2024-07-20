@@ -4,7 +4,7 @@ import System from "./system";
 
 const Content = () => {
   return (
-    <div className="p-4">
+    <div className="p-4 truncate">
       <Account />
       <Note />
       <System />

@@ -4,11 +4,13 @@ import Password from "@/components/welcome/sign/components/password";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import TitleKit from "../title-kit";
 
 export type Step = "email" | "code" | "password" | "success";
 const TrailToBase = () => {
+  const { t } = useTranslation("settings");
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -35,7 +37,7 @@ const TrailToBase = () => {
     <div className="flex flex-col gap-2 ">
       <TitleKit
         className="py-2 px-4 rounded-md bg-emphasis cursor-pointer"
-        title={"convert user type"}
+        title={t("convert-type")}
         onClick={() => setOpen((v) => !v)}
       />
       <div
@@ -57,7 +59,7 @@ const TrailToBase = () => {
           )}
           {step === "code" && (
             <Code
-              buttonStr="re send code"
+              buttonStr={t("re-verify-code")}
               setStep={setStep}
               email={email}
               sendVerificationCode={sendVerificationCode}

@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/states/hooks";
 import { AppThunkDispatch } from "@/states/store";
 import { Step } from "@/types/account";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import TitleKit from "../title-kit";
 
@@ -16,6 +17,7 @@ interface PasswordChangeProps {
 
 const PasswordChange = ({ email }: PasswordChangeProps) => {
   const dispatch = useAppDispatch<AppThunkDispatch>();
+  const { t } = useTranslation("settings");
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
 
@@ -42,7 +44,7 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
     <div className="flex flex-col mb-4">
       <TitleKit
         className="py-2 px-4 rounded-md bg-emphasis cursor-pointer"
-        title={"changePassword"}
+        title={t("change-password")}
         onClick={() => setOpen((v) => !v)}
       />
       <div
@@ -54,7 +56,7 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
         <div className={cn("overflow-hidden", open ? "pt-4" : "pt-0")}>
           {step === "code" && (
             <Code
-              buttonStr={"send code"}
+              buttonStr={t("verify-code")}
               email={email}
               sendVerificationCode={sendVerificationCode}
               setStep={setStep}

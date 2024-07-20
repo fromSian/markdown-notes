@@ -1,0 +1,43 @@
+{
+  "type": {
+    "base": "正式用户",
+    "google": "谷歌用户",
+    "trial": "免注册试用用户"
+  },
+  "avatar": {
+    "title": "更新头像",
+    "upload": "上传图片",
+    "submit": "确定"
+  },
+  "change-password": "更新密码",
+  "convert-type": "成为正式用户",
+  "part": {
+    "note": "笔记设定",
+    "system": "系统设定"
+  },
+  "default-expand": {
+    "title": "默认展开一篇笔记的子项目",
+    "description": "默认展开一篇笔记的子项目"
+  },
+  "show-exact-time": {
+    "title": "在导航和笔记子项目中展示具体日期和时间",
+    "description": "在导航和笔记子项目中展示具体日期和时间，否则，将展示距离现在的大致日期/时间。"
+  },
+  "sort-info": {
+    "title": "笔记子项目默认排序方式",
+    "description": "笔记子项目默认排序方式"
+  },
+  "language": {
+    "title": "语言",
+    "description": "如果设置了首选语言，语言切换器将被隐藏。"
+  },
+  "theme": {
+    "title": "主题",
+    "description": "如果设置首选主题，主题切换器将被隐藏。",
+    "light": "浅色",
+    "system": "系统",
+    "dark": "暗色"
+  },
+  "verify-code": "发送验证码至邮箱",
+  "re-verify-code": "重新发送验证至邮箱"
+}

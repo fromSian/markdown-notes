@@ -1,0 +1,43 @@
+{
+  "type": {
+    "base": "Official Account",
+    "google": "Google Account",
+    "trial": "No Signup Trial Account"
+  },
+  "avatar": {
+    "title": "update avatar",
+    "upload": "upload image",
+    "submit": "submit"
+  },
+  "change-password": "change password",
+  "convert-type": "convert to an official account",
+  "part": {
+    "note": "note",
+    "system": "system"
+  },
+  "default-expand": {
+    "title": "expand note items by default",
+    "description": "expand note items by default"
+  },
+  "show-exact-time": {
+    "title": "show the specific date and time in note navigation and note items",
+    "description": "show the specific date and time in note navigation and note items. if false, we will show the rough date/time distance from now."
+  },
+  "sort-info": {
+    "title": "default ordering in the note items",
+    "description": "default ordering in the note items"
+  },
+  "language": {
+    "title": "language",
+    "description": "Preferred language, if it is set, the language switch will be hidden."
+  },
+  "theme": {
+    "title": "theme",
+    "description": "Perffered Theme, if this option is set, the theme switch will be hidden.",
+    "light": "light",
+    "system": "system",
+    "dark": "dark"
+  },
+  "verify-code": "send email verification code",
+  "re-verify-code": "send verification code again"
+}
