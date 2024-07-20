@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import Select from "../ui/select";
 
 const SignContent = () => {
-  const { t } = useTranslation("header");
+  const { t } = useTranslation();
   return (
     <>
       <button className="btn border truncate">{t("sign-up")}</button>

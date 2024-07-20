@@ -1,5 +1,21 @@
 {
-  "en": "英文",
-  "zh-CN": "简体中文",
-  "zh-TW": "繁体中文"
+  "sign-up": "注册",
+  "sign-in": "登录",
+  "sign-in-with-google": "通过Google登录",
+  "sign-in-with-google-info": "通过Google登录，单次登录有效期为一小时。全部功能可用，使用途中可转换为正式用户。",
+  "trial": "免登录试用",
+  "trial-info": "免登录试用一小时，体验全部功能。试用途中可转换成正式用户，试用结束将清除您的数据。",
+  "email": "邮箱",
+  "password": "密码",
+  "confirm": "确认密码",
+  "verify-code": "发送验证码至邮箱",
+  "re-verify-code": "重新发送验证至邮箱",
+  "success": {
+    "title": "注册成功！",
+    "sign-in-directly": "立马登录",
+    "go-somewhere-else": "暂不登录",
+    "description": "we will get you in after {{seconds}}s, or click here dive in right now",
+    "home": "前往主页"
+  },
+  "contact": "联系方式："
 }

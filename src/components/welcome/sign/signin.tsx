@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import InputShowHide from "@/components/ui/input-show-hide";
 import InputWithLabel from "@/components/ui/input-with-label";
+import { z } from "@/i18";
 import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
 import { useAppDispatch } from "@/states/hooks";
@@ -16,20 +17,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
-  //   email: z.union([z.literal(""), z.string().email()]),
   email: z.string().email(),
-  password: z.string().regex(
-    //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,255}$/
-    /^[a-zA-Z0-9#?!@$ %^&*-]{6,255}/,
-    {
-      message: "at least eight characters required",
-    }
-  ),
+  password: z
+    .string()
+    .refine((value) => /^[a-zA-Z0-9#?!@$%^&*-]{6,255}/.test(value), {
+      params: { i18n: "password" },
+    }),
 });
 
 interface SignInProps {
@@ -37,6 +35,7 @@ interface SignInProps {
 }
 
 const SignIn = ({ open }: SignInProps) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -122,7 +121,7 @@ const SignIn = ({ open }: SignInProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <InputWithLabel placeholder="email" {...field} />
+                    <InputWithLabel placeholder={t("email")} {...field} />
                   </FormControl>
                   <FormDescription></FormDescription>
                   <FormMessage />
@@ -138,7 +137,7 @@ const SignIn = ({ open }: SignInProps) => {
                     <FormControl>
                       <InputShowHide
                         onKeyDown={onEnter}
-                        placeholder="password"
+                        placeholder={t("password")}
                         {...field}
                       />
                     </FormControl>

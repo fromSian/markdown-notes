@@ -1,6 +1,7 @@
 import { useAppSelector } from "@/states/hooks";
 import { Loader } from "lucide-react";
 import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../icons/logo";
 const CommonParts = lazy(() => import("@/components/common/CommonPart"));
 const Sign = lazy(() => import("@/components/common/Sign"));
@@ -32,7 +33,9 @@ const Header = () => {
         </Suspense>
       </div>
       <div className="clear-none px-6">
-        <Logo width={96} height={96} />
+        <Link to="/">
+          <Logo width={96} height={96} />
+        </Link>
       </div>
     </div>
   );

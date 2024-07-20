@@ -37,7 +37,5 @@
     "light": "浅色",
     "system": "系统",
     "dark": "暗色"
-  },
-  "verify-code": "发送验证码至邮箱",
-  "re-verify-code": "重新发送验证至邮箱"
+  }
 }

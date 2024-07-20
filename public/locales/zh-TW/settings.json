@@ -37,7 +37,5 @@
     "light": "淺色",
     "system": "系統",
     "dark": "暗色"
-  },
-  "verify-code": "發送驗證碼至郵箱",
-  "re-verify-code": "重新發送驗證碼至郵箱"
+  }
 }

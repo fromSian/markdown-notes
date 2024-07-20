@@ -4,6 +4,7 @@ import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";
 import { Step } from "@/types/account";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import Code from "./components/code";
@@ -17,6 +18,7 @@ interface SignUpProps {
 }
 
 const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [step, setStep] = useState<Step>("email");
@@ -110,7 +112,7 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
             setStep={setStep}
             email={email}
             sendVerificationCode={sendVerificationCode}
-            buttonStr="re send code"
+            buttonStr={t("re-verify-code", { ns: "translation" })}
           />
         )}
         {step === "password" && (

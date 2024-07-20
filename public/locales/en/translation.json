@@ -1,5 +1,21 @@
 {
-  "en": "English",
-  "zh-CN": "Simplified Chinese",
-  "zh-TW": "Traditional Chinese"
+  "sign-up": "sign up",
+  "sign-in": "sign in",
+  "sign-in-with-google": "sign in with google",
+  "sign-in-with-google-info": "Sign in with google, single login is valid for one hour. All features are available and you can upgrade to a official account along the way.",
+  "trial": "No Signup Trial",
+  "trial-info": "Free to try for one hour without signing up. All features are available and you can upgrade to a official account along the way.",
+  "email": "email",
+  "password": "password",
+  "confirm": "confirm password",
+  "verify-code": "send email verification code",
+  "re-verify-code": "send verification code again",
+  "success": {
+    "title": "Congratulations! Sign up successfully",
+    "sign-in-directly": "sign in right now",
+    "go-somewhere-else": "go somewhere else",
+    "description": "we will get you in after {{seconds}}s, or click here dive in right now",
+    "home": "go home"
+  },
+  "contact": "contact info:"
 }

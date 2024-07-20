@@ -16,7 +16,7 @@ interface GoogleToBaseProps {
 }
 
 const GoogleToBase = ({ email }: GoogleToBaseProps) => {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "translation"]);
   const dispatch = useAppDispatch<AppThunkDispatch>();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
@@ -56,7 +56,7 @@ const GoogleToBase = ({ email }: GoogleToBaseProps) => {
         <div className={cn("overflow-hidden", open ? "pt-4" : "pt-0")}>
           {step === "code" && (
             <Code
-              buttonStr={t("verify-code")}
+              buttonStr={t("verify-code", { ns: "translation" })}
               email={email}
               sendVerificationCode={sendVerificationCode}
               setStep={setStep}

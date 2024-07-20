@@ -4,12 +4,14 @@ import request from "@/request/request";
 import { useAppDispatch } from "@/states/hooks";
 import { Account } from "@/types/account";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import SignIn from "./signin";
 import SignUp from "./signup";
 
 const Sign = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState<"signin" | "signup" | undefined>("signin");
@@ -48,7 +50,7 @@ const Sign = () => {
         )}
         onClick={() => setOpen("signin")}
       >
-        sign in
+        {t("sign-in")}
       </button>
       <SignIn open={open === "signin"} />
       <button
@@ -58,10 +60,10 @@ const Sign = () => {
         )}
         onClick={() => setOpen("signup")}
       >
-        sign up
+        {t("sign-up")}
       </button>
       <SignUp open={open === "signup"} goSomeWhereElse={goSomeWhereElse} />
-      <TooltipSimple content={"132"}>
+      <TooltipSimple content={t("sign-in-with-google-info")}>
         <p
           className={cn(
             "btn-overlap w-full transition-all mb-4 opacity-50 hover:opacity-100",
@@ -69,10 +71,10 @@ const Sign = () => {
           )}
           onClick={handleGoogleAuth}
         >
-          sign in with google
+          {t("sign-in-with-google")}
         </p>
       </TooltipSimple>
-      <TooltipSimple content={"132"}>
+      <TooltipSimple content={t("trial-info")}>
         <p
           className={cn(
             "btn-overlap w-full transition-all mb-4 opacity-50 hover:opacity-100",
@@ -80,7 +82,7 @@ const Sign = () => {
           )}
           onClick={handleTrial}
         >
-          trial
+          {t("trial")}
         </p>
       </TooltipSimple>
     </div>

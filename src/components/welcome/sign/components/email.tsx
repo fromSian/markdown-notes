@@ -7,14 +7,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import InputWithLabel from "@/components/ui/input-with-label";
+import { z } from "@/i18";
 import { cn } from "@/lib/utils";
 import { Step } from "@/types/account";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { Dispatch, KeyboardEvent, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { z } from "zod";
 
 interface EmailProps {
   setEmail: Dispatch<SetStateAction<string>>;
@@ -32,6 +33,7 @@ const Email = ({
   setStep,
   sendVerificationCode,
 }: EmailProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,7 +77,7 @@ const Email = ({
               <FormItem>
                 <FormControl>
                   <InputWithLabel
-                    placeholder="email"
+                    placeholder={t("email")}
                     {...field}
                     onChange={(event) => {
                       const { onChange } = field;

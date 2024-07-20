@@ -37,7 +37,5 @@
     "light": "light",
     "system": "system",
     "dark": "dark"
-  },
-  "verify-code": "send email verification code",
-  "re-verify-code": "send verification code again"
+  }
 }

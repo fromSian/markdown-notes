@@ -4,10 +4,12 @@ import { fetchUserInfo } from "@/request/account";
 import { useAppDispatch } from "@/states/hooks";
 import { Loader } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 
 const GoogleSuccess = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
@@ -79,13 +81,12 @@ const GoogleSuccess = () => {
       ) : (
         <div className="mt-8 flex flex-col gap-4 justify-center text-center items-center">
           <SuccessIcon className="w-16 h-16 mb-4" size={40} />
-          <p>Congratulations! Log in successfully</p>
+          <p>{t("success.title")}</p>
           <p>
-            we will get you in after {seconds} seconds, or click here dive in
-            right now
+            <Trans seconds={seconds}>{t("success.description")}</Trans>
           </p>
           <button className="underline italic" onClick={goHome}>
-            go to home page
+            {t("success.home")}
           </button>
         </div>
       )}

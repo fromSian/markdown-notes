@@ -14,7 +14,7 @@ const CommanPartContent = () => {
   return (
     <>
       <TooltipSimple content={t("introduce")}>
-        <Link to="/introduction" target="__blank">
+        <Link to="/introduce" target="__blank">
           <Info />
         </Link>
       </TooltipSimple>

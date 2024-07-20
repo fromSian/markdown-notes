@@ -10,7 +10,7 @@ import TitleKit from "../title-kit";
 
 export type Step = "email" | "code" | "password" | "success";
 const TrailToBase = () => {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "translation"]);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -59,7 +59,7 @@ const TrailToBase = () => {
           )}
           {step === "code" && (
             <Code
-              buttonStr={t("re-verify-code")}
+              buttonStr={t("re-verify-code", { ns: "translation" })}
               setStep={setStep}
               email={email}
               sendVerificationCode={sendVerificationCode}

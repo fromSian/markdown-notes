@@ -2,7 +2,8 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
-
+import { z } from "zod";
+import { makeZodI18nMap } from "zod-i18n-map";
 export const languages = ["en", "zh-CN", "zh-TW"];
 
 i18n
@@ -17,7 +18,15 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    ns: ["translation", "header", "note", "settings"],
+    ns: [
+      "translation",
+      "header",
+      "note",
+      "settings",
+      "zod",
+      "custom",
+      "introduce",
+    ],
     defaultNS: "translation",
     fallbackLng: "en",
     debug: true,
@@ -25,5 +34,6 @@ i18n
       caches: ["localStorage"],
     },
   });
-
+z.setErrorMap(makeZodI18nMap({ ns: ["zod", "custom"] }));
+export { z };
 export default i18n;

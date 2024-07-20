@@ -1,0 +1,4 @@
+{
+  "password": "at least six characters required",
+  "confirm": "passwords don't match"
+}

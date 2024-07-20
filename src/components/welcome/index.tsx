@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
 import Feature from "./feature";
 import Sign from "./sign";
 
 const Index = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div
@@ -10,11 +12,11 @@ const Index = () => {
           minHeight: "calc(100vh - 200px)",
         }}
       >
-        <div className="block sm:hidden w-full">
+        <div className="block sm:hidden w-full transition-all">
           <Feature />
         </div>
         <div
-          className="hidden sm:block h-full rounded-md bg-welcome flex-1"
+          className="hidden sm:block h-full rounded-md bg-welcome flex-1 transition-all"
           style={{
             minHeight: "calc(100vh - 200px)",
           }}
@@ -23,9 +25,12 @@ const Index = () => {
         </div>
         <Sign />
       </div>
-      <div className="mt-4 text-center text-ttertiary opacity-50">
-        contact info:
-        <a href="mailto:notetodos@163.com" className=" underline mx-2">
+      <div className="mt-4 text-center text-ttertiary opacity-75">
+        {t("contact")}
+        <a
+          href="mailto:notetodos@163.com"
+          className=" underline mx-2 hover:text-tprimary transition-all"
+        >
           notetodos@163.com
         </a>
       </div>

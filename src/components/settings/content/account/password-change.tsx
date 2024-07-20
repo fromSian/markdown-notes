@@ -17,7 +17,7 @@ interface PasswordChangeProps {
 
 const PasswordChange = ({ email }: PasswordChangeProps) => {
   const dispatch = useAppDispatch<AppThunkDispatch>();
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "translation"]);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
 
@@ -56,7 +56,7 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
         <div className={cn("overflow-hidden", open ? "pt-4" : "pt-0")}>
           {step === "code" && (
             <Code
-              buttonStr={t("verify-code")}
+              buttonStr={t("verify-code", { ns: "translation" })}
               email={email}
               sendVerificationCode={sendVerificationCode}
               setStep={setStep}

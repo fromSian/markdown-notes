@@ -8,34 +8,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import InputShowHide from "@/components/ui/input-show-hide";
+import { z } from "@/i18";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { KeyboardEvent, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z
   .object({
-    password: z.string().regex(
-      //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,255}$/
-      /^[a-zA-Z0-9#?!@$ %^&*-]{6,255}/,
-      {
-        message: "at least eight characters required",
-      }
-    ),
-    confirm: z.string().regex(/^[a-zA-Z0-9#?!@$ %^&*-]{6,255}/, {
-      message: "at least eight characters required",
-    }),
+    password: z
+      .string()
+      .refine((value) => /^[a-zA-Z0-9#?!@$%^&*-]{6,255}/.test(value), {
+        params: { i18n: "password" },
+      }),
+    confirm: z
+      .string()
+      .refine((value) => /^[a-zA-Z0-9#?!@$%^&*-]{6,255}/.test(value), {
+        params: { i18n: "password" },
+      }),
   })
   .refine((data) => data.password === data.confirm, {
-    message: "Passwords don't match",
-    path: ["confirm"], // path of error
+    params: { i18n: "confirm" },
+    path: ["confirm"],
   });
 
 interface PasswordProps {
   handlePasswordSubmit: (password: string) => void;
 }
 const Password = ({ handlePasswordSubmit }: PasswordProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
 
@@ -87,7 +89,7 @@ const Password = ({ handlePasswordSubmit }: PasswordProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputShowHide placeholder="password" {...field} />
+                  <InputShowHide placeholder={t("password")} {...field} />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -101,7 +103,7 @@ const Password = ({ handlePasswordSubmit }: PasswordProps) => {
               <FormItem>
                 <FormControl>
                   <InputShowHide
-                    placeholder="confirm password"
+                    placeholder={t("confirm")}
                     {...field}
                     onKeyDown={onEnter}
                   />
