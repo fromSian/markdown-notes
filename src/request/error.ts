@@ -49,10 +49,10 @@ export const httpErrorHandler = (error: unknown) => {
       if (response.status === 401) {
         toast.error("not valid log in, will sign out soon");
         // 401 Unauthorized
-        setTimeout(() => {
-          sessionStorage.removeItem("token");
-          window.location.href = "/welcome";
-        }, 3000);
+        // setTimeout(() => {
+        //   sessionStorage.removeItem("token");
+        //   window.location.href = "/welcome";
+        // }, 3000);
       } else {
         toast.error(response.data.message);
       }

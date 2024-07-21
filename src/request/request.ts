@@ -1,3 +1,4 @@
+import { handleRSAEncrypt } from "@/lib/encryption";
 import axios, { AxiosResponse } from "axios";
 import { httpErrorHandler } from "./error";
 const request = axios.create({
@@ -6,6 +7,10 @@ const request = axios.create({
 
 request.interceptors.request.use(
   (config) => {
+    config.params = {
+      ...config.params,
+      action_time: handleRSAEncrypt(new Date().getTime() + ""),
+    };
     if (sessionStorage.getItem("token")) {
       config.headers.Authorization = `Bearer ${sessionStorage.getItem(
         "token"

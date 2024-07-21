@@ -3,13 +3,12 @@ import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { AppThunkDispatch } from "@/states/store";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Select from "../ui/select";
 const Avatar = () => {
   const { t } = useTranslation("header");
   const { isLogin, account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch<AppThunkDispatch>();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleLogout = async () => {
