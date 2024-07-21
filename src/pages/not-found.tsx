@@ -16,7 +16,10 @@ const NotFound = () => {
         </Link>
         <p className="text-ttertiary flex gap-2">
           {t("not-found.description")}
-          <a href="mailto:notetodos@163.com" className=" underline">
+          <a
+            href="mailto:notetodos@163.com"
+            className=" underline hover:text-tprimary"
+          >
             notetodos@163.com
           </a>
           <SmilePlus />
