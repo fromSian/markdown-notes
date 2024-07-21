@@ -17,5 +17,10 @@
     "description": "we will get you in after {{seconds}}s, or click here dive in right now",
     "home": "go home"
   },
-  "contact": "contact info:"
+  "contact": "contact info:",
+  "not-found": {
+    "title": "Sorry, no content here.",
+    "home": "home",
+    "description": "if you think there must be something here, please send email to us"
+  }
 }

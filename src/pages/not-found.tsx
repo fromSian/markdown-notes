@@ -1,19 +1,21 @@
 import Header from "@/components/welcome/header";
 import { Bot, SmilePlus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Header />
       <div className="w-full flex flex-col gap-4 pt-20 px-2 sm:px-4 justify-center items-center">
         <Bot size={60} className="text-ttertiary" />
-        <p className="text-3xl">Sorry, no content here.</p>
+        <p className="text-3xl">{t("not-found.title")}</p>
         <Link to="/" className="text-xl btn-mask-circle">
-          home
+          {t("not-found.home")}
         </Link>
         <p className="text-ttertiary flex gap-2">
-          if you think there must be something here, please send email to us
+          {t("not-found.description")}
           <a href="mailto:notetodos@163.com" className=" underline">
             notetodos@163.com
           </a>

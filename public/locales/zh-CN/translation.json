@@ -17,5 +17,10 @@
     "description": "we will get you in after {{seconds}}s, or click here dive in right now",
     "home": "前往主页"
   },
-  "contact": "联系方式："
+  "contact": "联系方式：",
+  "not-found": {
+    "title": "对不起，这里没有内容",
+    "home": "主页",
+    "description": "如果您认为这里应该有些内容的，请通过邮箱告知我们"
+  }
 }

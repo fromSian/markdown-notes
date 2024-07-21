@@ -17,5 +17,10 @@
     "description": "we will get you in after {{seconds}}s, or click here dive in right now",
     "home": "前往主頁"
   },
-  "contact": "聯絡方式："
+  "contact": "聯絡方式：",
+  "not-found": {
+    "title": "抱歉，這裡沒有內容",
+    "home": "首頁",
+    "description": "如果您認為這裡應當有些內容，請寄信告知我們"
+  }
 }
