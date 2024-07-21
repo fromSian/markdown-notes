@@ -1,12 +1,13 @@
 import SuccessIcon from "@/components/icons/success";
 import Header from "@/components/welcome/header";
-import { fetchUserInfo } from "@/request/account";
 import { useAppDispatch } from "@/states/hooks";
+import axios from "axios";
 import { Loader } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const GoogleSuccess = () => {
   const { t } = useTranslation();
@@ -21,13 +22,51 @@ const GoogleSuccess = () => {
   const checkToken = async (token: string) => {
     try {
       setLoading(true);
-      const response = await fetchUserInfo(token);
-      dispatch({
-        type: "account/setAccount",
-        payload: response,
+      const response = await axios.get("/api/account/info/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      sessionStorage.setItem("token", token);
+      if (response.data && response.data.success) {
+        console.log(response);
+
+        const {
+          success,
+          defaultExpanded,
+          showExactTime,
+          sortInfo,
+          language,
+          theme,
+          ...rest
+        } = response.data;
+        dispatch({
+          type: "account/setAccount",
+          payload: rest,
+        });
+        const systemConfig = {
+          language: language,
+          theme: theme,
+        };
+        dispatch({
+          type: "account/setConfig",
+          payload: systemConfig,
+        });
+        const noteConfig = {
+          showExactTime: showExactTime,
+          defaultExpanded: defaultExpanded,
+          sortInfo: sortInfo,
+        };
+        dispatch({
+          type: "note/setConfig",
+          payload: noteConfig,
+        });
+        sessionStorage.setItem("token", token);
+        toast.success("sign in with google successfully");
+      } else {
+        throw new Error("token not valid");
+      }
     } catch (error) {
+      toast("token not valid");
       navigate("/google/fail");
     } finally {
       setLoading(false);
@@ -70,7 +109,7 @@ const GoogleSuccess = () => {
   return (
     <>
       <Header />
-      {false ? (
+      {loading ? (
         <Loader
           className="animate-spin absolute"
           style={{
@@ -81,11 +120,14 @@ const GoogleSuccess = () => {
       ) : (
         <div className="mt-8 flex flex-col gap-4 justify-center text-center items-center">
           <SuccessIcon className="w-16 h-16 mb-4" size={40} />
-          <p>{t("success.title")}</p>
+          <p className="text-xl font-bold">{t("success.title")}</p>
           <p>
-            <Trans seconds={seconds}>{t("success.description")}</Trans>
+            <Trans i18nKey={"success.description"} seconds={seconds}>
+              we will get you in after {{ seconds }}s, or click here dive in
+              right now
+            </Trans>
           </p>
-          <button className="underline italic" onClick={goHome}>
+          <button className="btn" onClick={goHome}>
             {t("success.home")}
           </button>
         </div>

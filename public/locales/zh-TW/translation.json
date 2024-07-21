@@ -14,8 +14,8 @@
     "title": "註冊成功！",
     "sign-in-directly": "立馬登錄",
     "go-somewhere-else": "暫不登錄",
-    "description": "we will get you in after {{seconds}}s, or click here dive in right now",
-    "home": "前往主頁"
+    "description": "將在 {{seconds}}s 後前往首頁，或點擊按鈕立刻前往首頁",
+    "home": "首頁"
   },
   "contact": "聯絡方式：",
   "not-found": {

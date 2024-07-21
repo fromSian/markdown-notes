@@ -14,13 +14,19 @@
     "title": "Congratulations! Sign up successfully",
     "sign-in-directly": "sign in right now",
     "go-somewhere-else": "go somewhere else",
-    "description": "we will get you in after {{seconds}}s, or click here dive in right now",
-    "home": "go home"
+    "description": "we will get you in after {{seconds}}s, or click button go home right now",
+    "home": "home"
   },
   "contact": "contact info:",
   "not-found": {
     "title": "Sorry, no content here.",
     "home": "home",
     "description": "if you think there must be something here, please send email to us"
+  },
+  "google": {
+    "fail": {
+      "title": "Sorry, sign in with Google failed.",
+      "description": "Please try again or sign in using a different method."
+    }
   }
 }

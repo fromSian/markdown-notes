@@ -14,8 +14,8 @@
     "title": "注册成功！",
     "sign-in-directly": "立马登录",
     "go-somewhere-else": "暂不登录",
-    "description": "we will get you in after {{seconds}}s, or click here dive in right now",
-    "home": "前往主页"
+    "description": "将在 {{seconds}}s 后跳转至主页，或者点击按钮立即前往主页",
+    "home": "主页"
   },
   "contact": "联系方式：",
   "not-found": {
