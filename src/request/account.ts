@@ -21,3 +21,15 @@ export const fetchUserInfo = async (token = "") => {
   );
   return response;
 };
+
+export const goGoogleAuth = () => {
+  const url = "http://localhost:8000/account/google/access/";
+  window.open(url, "_self");
+};
+
+export const fetchTrial = async () => {
+  const url = "/account/trial/";
+  const response: Account & Settings = await request.post(url);
+  sessionStorage.setItem("token", response?.token);
+  return response;
+};

@@ -1,29 +1,37 @@
 import TooltipSimple from "@/components/ui/tooltip-simple";
 import { cn } from "@/lib/utils";
-import request from "@/request/request";
+import { fetchTrial, goGoogleAuth } from "@/request/account";
 import { useAppDispatch } from "@/states/hooks";
-import { Account } from "@/types/account";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import SignIn from "./signin";
 import SignUp from "./signup";
 
 const Sign = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState<"signin" | "signup" | undefined>("signin");
 
+  useEffect(() => {
+    const _open = searchParams.get("open");
+    if (_open && ["signin", "signup"].includes(_open)) {
+      setOpen(_open as "signin" | "signup");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    setSearchParams({});
+  }, [open]);
+
   const goSomeWhereElse = () => {
     setOpen(undefined);
   };
 
-  const goGoogleAuth = () => {
-    const url = "http://localhost:8000/account/google/access/";
-    window.open(url, "_self");
-  };
   const handleGoogleAuth = () => {
     goGoogleAuth();
     setOpen(undefined);
@@ -31,13 +39,35 @@ const Sign = () => {
 
   const handleTrial = async () => {
     setOpen(undefined);
-    const url = "/account/trial/";
-    const response: Account = await request.post(url);
+    const {
+      defaultExpanded,
+      showExactTime,
+      sortInfo,
+      language,
+      theme,
+      ...rest
+    } = await fetchTrial();
     dispatch({
       type: "account/setAccount",
-      payload: response,
+      payload: rest,
     });
-    sessionStorage.setItem("token", response?.token);
+    const systemConfig = {
+      language: language,
+      theme: theme,
+    };
+    dispatch({
+      type: "account/setConfig",
+      payload: systemConfig,
+    });
+    const noteConfig = {
+      showExactTime: showExactTime,
+      defaultExpanded: defaultExpanded,
+      sortInfo: sortInfo,
+    };
+    dispatch({
+      type: "note/setConfig",
+      payload: noteConfig,
+    });
     toast.success("trial successfully");
     navigate("/");
   };
