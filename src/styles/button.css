@@ -29,11 +29,10 @@
   color: var(--btn-default-foreground);
   background-color: var(--btn-default);
   outline-color: var(--btn-default-foreground);
-  transform: translateY(-0.1rem);
 }
 
 .btn:active {
-  transform: translateY(0.1rem);
+  transform: scale(0.95);
 }
 
 .btn-mask-circle {
@@ -124,8 +123,8 @@
 
 .btn-overlap:active {
   box-shadow: 0px 0px 0px 0px;
-  top: 5px;
-  left: 5px;
+  transform: scale(0.95);
+  transition: 0.3s;
 }
 
 @media (min-width: 768px) {
