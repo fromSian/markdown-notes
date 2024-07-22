@@ -52,7 +52,7 @@ interface StatusProps {
 }
 const Status = ({ isChanged, status, handleSave }: StatusProps) => {
   return (
-    <div>
+    <div className="flex gap-2 items-center">
       {status === "fail" && <FailIcon handleSave={handleSave} />}
       {status === "success" && <Success />}
       {status === "loading" && <LoadingIcon />}
