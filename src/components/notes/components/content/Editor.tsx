@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useMemo } from "react";
 
 import Placeholder from "@tiptap/extension-placeholder";
 import {
@@ -32,21 +32,11 @@ const FocusHandler = forwardRef((props, ref) => {
   return <></>;
 });
 
-const extensions = [
-  Placeholder.configure({
-    placeholder: "Write something …",
-  }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-  }),
-];
+const placeholderDict = {
+  en: "Write something...",
+  "zh-CN": "写下您的想法...",
+  "zh-TW": "寫下您的想法...",
+};
 
 interface EditorProps {
   content: string;
@@ -54,6 +44,30 @@ interface EditorProps {
   onBlur?: (props: EditorEvents["blur"]) => void;
 }
 const Editor = forwardRef(({ content, onBlur, onUpdate }: EditorProps, ref) => {
+  const extensions = useMemo(
+    () => [
+      Placeholder.configure({
+        placeholder:
+          placeholderDict[
+            (localStorage.getItem("i18nextLng") || "en") as
+              | "zh-CN"
+              | "zh-TW"
+              | "en"
+          ],
+      }),
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+      }),
+    ],
+    [localStorage.getItem("i18nextLng")]
+  );
   const onBlurEvent = (props: EditorEvents["blur"]) => {
     if (onBlur) onBlur(props);
   };

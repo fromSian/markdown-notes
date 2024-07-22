@@ -49,7 +49,7 @@ const Item = memo(
         onClick={onItemClick}
       >
         <div className="flex justify-between items-center mb-2">
-          <p className="text-tprimary truncate">{item.title || "no title"}</p>
+          <p className="text-tprimary truncate">{item.title || "-"}</p>
           <Delete
             handleDelete={() => handleDelete(item.id)}
             loading={loading}

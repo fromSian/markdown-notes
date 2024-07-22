@@ -1,7 +1,6 @@
 import request from "@/request/request";
 import { Account, Settings } from "@/types/account";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "sonner";
 // Define a type for the slice state
 interface AccountState {
   isLogin: boolean;
@@ -26,34 +25,22 @@ export const logout = createAsyncThunk("account/logout", async () => {
 export const updateDefaultLanguage = createAsyncThunk(
   "notes/updateDefaultLanguage",
   async ({ value }: { value: string }) => {
-    try {
-      const url = "/account/settings/";
-      const { language }: Settings = await request.patch(url, {
-        language: value,
-      });
-      toast.success("updated successfully");
-      return language;
-    } catch (error) {
-      console.log(error);
-      toast.error("update failed");
-    }
+    const url = "/account/settings/";
+    const { language }: Settings = await request.patch(url, {
+      language: value,
+    });
+    return language;
   }
 );
 
 export const updateDefaultTheme = createAsyncThunk(
   "notes/updateDefaultTheme",
   async ({ value }: { value: string }) => {
-    try {
-      const url = "/account/settings/";
-      const { theme }: Settings = await request.patch(url, {
-        theme: value,
-      });
-      toast.success("updated successfully");
-      return theme;
-    } catch (error) {
-      console.log(error);
-      toast.error("update failed");
-    }
+    const url = "/account/settings/";
+    const { theme }: Settings = await request.patch(url, {
+      theme: value,
+    });
+    return theme;
   }
 );
 

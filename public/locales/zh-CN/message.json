@@ -1,0 +1,18 @@
+{
+  "save title successfully": "标题保存成功",
+  "delete successfully": "删除成功",
+  "google-password-success": "转换成正式用户成功，将在3s后登出",
+  "change-password-success": "密码更新成功，将在3s后登出",
+  "trial-password-success": "转换成正式用户成功，将在3s后登出",
+  "trial-success": "免登录试用成功",
+  "signin-success": "登录成功",
+  "signin-google-success": "通过谷歌登录成功",
+  "signup-success": "注册成功",
+  "verify-code-success": "验证成功",
+  "send-code-success": "发送验证码成功",
+  "update-language-success": "更新首选语言成功",
+  "update-theme-success": "更新首选主题成功",
+  "update-expand-success": "更新是否默认展开成功",
+  "update-time-success": "更新是否展示具体日期时间成功",
+  "update-sort-success": "更新默认排序方式成功"
+}

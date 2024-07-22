@@ -12,7 +12,7 @@ const Delete = ({
   loading: boolean;
   handleDelete: () => void;
 }) => {
-  const { t } = useTranslation("note");
+  const { t } = useTranslation(["note", "message"]);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const onDelete = async (e: MouseEvent) => {
@@ -20,7 +20,7 @@ const Delete = ({
       e.stopPropagation();
       setDeleteLoading(true);
       await handleDelete();
-      toast.success("delete successfully");
+      toast.success(t("delete successfully", { ns: "message" }));
       setDeleteLoading(false);
     } catch (error) {
       setDeleteLoading(false);

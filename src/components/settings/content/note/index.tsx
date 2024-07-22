@@ -9,27 +9,43 @@ import {
 import { AppThunkDispatch } from "@/states/store";
 import { SortInfo } from "@/types/notes";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
 const Note = () => {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "message"]);
   const { defaultExpanded, showExactTime, sortInfo } = useAppSelector(
     (state) => state.note
   );
   const dispatch = useAppDispatch<AppThunkDispatch>();
 
-  const setDefaultExpanded = (value: boolean) => {
-    dispatch(updateDefaultExpanded({ value }));
+  const setDefaultExpanded = async (value: boolean) => {
+    try {
+      await dispatch(updateDefaultExpanded({ value })).unwrap();
+      toast.success(t("update-expand-success", { ns: "message" }));
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const setShowExactTime = (value: boolean) => {
-    dispatch(updateShowExactTime({ value }));
+  const setShowExactTime = async (value: boolean) => {
+    try {
+      await dispatch(updateShowExactTime({ value })).unwrap();
+      toast.success(t("update-time-success", { ns: "message" }));
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const setSortInfo = (value: string) => {
-    dispatch(
-      updateSortInfo({ value } as {
-        value: SortInfo;
-      })
-    );
+  const setSortInfo = async (value: string) => {
+    try {
+      await dispatch(
+        updateSortInfo({ value } as {
+          value: SortInfo;
+        })
+      ).unwrap();
+      toast.success(t("update-sort-success", { ns: "message" }));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>

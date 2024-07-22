@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const GoogleSuccess = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "message"]);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
@@ -28,8 +28,6 @@ const GoogleSuccess = () => {
         },
       });
       if (response.data && response.data.success) {
-        console.log(response);
-
         const {
           success,
           defaultExpanded,
@@ -61,12 +59,11 @@ const GoogleSuccess = () => {
           payload: noteConfig,
         });
         sessionStorage.setItem("token", token);
-        toast.success("sign in with google successfully");
+        toast.success(t("signin-google-success", { ns: "message" }));
       } else {
         throw new Error("token not valid");
       }
     } catch (error) {
-      toast("token not valid");
       navigate("/google/fail");
     } finally {
       setLoading(false);

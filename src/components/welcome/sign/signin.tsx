@@ -36,7 +36,7 @@ interface SignInProps {
 }
 
 const SignIn = ({ open }: SignInProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "message"]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,7 @@ const SignIn = ({ open }: SignInProps) => {
         type: "note/setConfig",
         payload: noteConfig,
       });
-      toast.success("loggin successfully");
+      toast.success(t("signin-success", { ns: "message" }));
       navigate("/");
     } catch (error) {
       setFail(true);

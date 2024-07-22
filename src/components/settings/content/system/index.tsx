@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { AppThunkDispatch } from "@/states/store";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import SelectValue from "../select-value";
 import TitleKit from "../title-kit";
 const languageOptions = [
@@ -16,14 +17,32 @@ const languageOptions = [
 ];
 
 const System = () => {
-  const { t } = useTranslation("settings");
+  const { t } = useTranslation(["settings", "message"]);
   const { language, theme } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch<AppThunkDispatch>();
-  const setLanguage = (value: string) => {
-    dispatch(updateDefaultLanguage({ value }));
+  const setLanguage = async (value: string) => {
+    try {
+      await dispatch(updateDefaultLanguage({ value })).unwrap();
+      toast.success(
+        t("update-language-success", {
+          ns: "message",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const setTheme = (value: string) => {
-    dispatch(updateDefaultTheme({ value }));
+  const setTheme = async (value: string) => {
+    try {
+      await dispatch(updateDefaultTheme({ value })).unwrap();
+      toast.success(
+        t("update-theme-success", {
+          ns: "message",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const themeOptions = useMemo(

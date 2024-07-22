@@ -11,7 +11,7 @@ import TitleKit from "../title-kit";
 
 export type Step = "email" | "code" | "password" | "success";
 const TrailToBase = () => {
-  const { t } = useTranslation(["settings", "translation"]);
+  const { t } = useTranslation(["settings", "translation", "message"]);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ const TrailToBase = () => {
         email,
         password: handleRSAEncrypt(_password),
       });
-      toast.success("trial user to base success");
+      toast.success(t("trial-password-success", { ns: "message" }));
     },
     [email]
   );

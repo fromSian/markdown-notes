@@ -26,6 +26,7 @@ i18n
       "zod",
       "custom",
       "introduce",
+      "message",
     ],
     defaultNS: "translation",
     fallbackLng: "en",

@@ -12,7 +12,7 @@ import SignUp from "./signup";
 
 const Sign = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "message"]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState<"signin" | "signup" | undefined>("signin");
@@ -68,7 +68,7 @@ const Sign = () => {
       type: "note/setConfig",
       payload: noteConfig,
     });
-    toast.success("trial successfully");
+    toast.success(t("trial-success", { ns: "message" }));
     navigate("/");
   };
   return (

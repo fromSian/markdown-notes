@@ -2,7 +2,6 @@ import request from "@/request/request";
 import { Settings } from "@/types/account";
 import { NoteNavigationType, SortInfo } from "@/types/notes";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "sonner";
 interface NoteState {
   activeId: string | number | undefined;
   activeInfo: NoteNavigationType | undefined;
@@ -24,50 +23,32 @@ const initialState: NoteState = {
 export const updateDefaultExpanded = createAsyncThunk(
   "notes/updateDefaultExpanded",
   async ({ value }: { value: boolean }) => {
-    try {
-      const url = "/account/settings/";
-      const { defaultExpanded }: Settings = await request.patch(url, {
-        defaultExpanded: value,
-      });
-      toast.success("updated successfully");
-      return defaultExpanded;
-    } catch (error) {
-      console.log(error);
-      toast.error("update failed");
-    }
+    const url = "/account/settings/";
+    const { defaultExpanded }: Settings = await request.patch(url, {
+      defaultExpanded: value,
+    });
+    return defaultExpanded;
   }
 );
 export const updateShowExactTime = createAsyncThunk(
   "notes/updateShowExactTime",
   async ({ value }: { value: boolean }) => {
-    try {
-      const url = "/account/settings/";
-      const { showExactTime }: Settings = await request.patch(url, {
-        showExactTime: value,
-      });
-      toast.success("updated successfully");
-      return showExactTime;
-    } catch (error) {
-      console.log(error);
-      toast.error("update failed");
-    }
+    const url = "/account/settings/";
+    const { showExactTime }: Settings = await request.patch(url, {
+      showExactTime: value,
+    });
+    return showExactTime;
   }
 );
 
 export const updateSortInfo = createAsyncThunk(
   "notes/updateSortInfo",
   async ({ value }: { value: SortInfo }) => {
-    try {
-      const url = "/account/settings/";
-      const { sortInfo }: Settings = await request.patch(url, {
-        sortInfo: value,
-      });
-      toast.success("updated successfully");
-      return sortInfo;
-    } catch (error) {
-      console.log(error);
-      toast.error("update failed");
-    }
+    const url = "/account/settings/";
+    const { sortInfo }: Settings = await request.patch(url, {
+      sortInfo: value,
+    });
+    return sortInfo;
   }
 );
 

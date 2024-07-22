@@ -17,6 +17,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 interface CodeProps {
@@ -34,6 +35,7 @@ const Code = ({
   buttonStr,
   initialSended = true,
 }: CodeProps) => {
+  const { t } = useTranslation("message");
   const [time, setTime] = useState(0);
   const timeRef = useRef<ReturnType<typeof setInterval>>();
   const [loading, setLoading] = useState(false);
@@ -102,7 +104,7 @@ const Code = ({
         code,
       });
 
-      toast.success("verify verification code successfully");
+      toast.success(t("verify-code-success", { ns: "message" }));
       setStep("password");
     } catch (error) {
       setFail(true);

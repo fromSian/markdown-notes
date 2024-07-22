@@ -3,6 +3,7 @@ import { useCallback, useState, useTransition } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { Calendar } from "@/components/ui/calendar";
+import { getLocaleObj } from "@/lib/timezone";
 import { useTranslation } from "react-i18next";
 
 interface CalendarRangeProps {
@@ -61,6 +62,7 @@ const CalendarRange = ({
         selected={date}
         onSelect={setDate}
         numberOfMonths={2}
+        locale={getLocaleObj(localStorage.getItem("i18nextLng") || "en")}
       />
 
       <div className="flex justify-between gap-4 mb-4 px-3">

@@ -23,7 +23,7 @@ const TooltipSimple = forwardRef(
           <TooltipTrigger className={className} ref={ref}>
             {children}
           </TooltipTrigger>
-          <TooltipContent side={side} className="max-w-52">
+          <TooltipContent side={side} className="max-w-96">
             {content}
           </TooltipContent>
         </Tooltip>

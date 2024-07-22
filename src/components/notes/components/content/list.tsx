@@ -51,7 +51,7 @@ const List = ({
   defaultExpanded,
   showExactTime,
 }: ListProps) => {
-  const { t } = useTranslation("note");
+  const { t } = useTranslation(["note", "message"]);
   const dispatch = useAppDispatch();
   const scrollRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
@@ -182,7 +182,7 @@ const List = ({
         type: "note/setUpdateInfo",
         payload: response,
       });
-      toast.success("update title successfully");
+      toast.success(t("save title successfully", { ns: "message" }));
       setTitleLoading(false);
     } catch (error) {
       toast.error(getErrorMessage(error));

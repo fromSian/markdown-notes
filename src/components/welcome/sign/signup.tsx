@@ -19,7 +19,7 @@ interface SignUpProps {
 }
 
 const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "message"]);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [step, setStep] = useState<Step>("email");
@@ -62,7 +62,7 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
       type: "note/setConfig",
       payload: noteConfig,
     });
-    toast.success("login success");
+    toast.success(t("signin-success", { ns: "message" }));
     navigate("/");
   }, [email, password]);
 
@@ -85,7 +85,7 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
       });
       setPassword(_password);
       setStep("success");
-      toast.success("Registration success");
+      toast.success(t("signup-success", { ns: "message" }));
     },
     [email]
   );

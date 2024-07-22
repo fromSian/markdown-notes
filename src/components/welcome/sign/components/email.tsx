@@ -33,7 +33,7 @@ const Email = ({
   setStep,
   sendVerificationCode,
 }: EmailProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "message"]);
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,7 +49,7 @@ const Email = ({
       setEmail(data.email);
       await sendVerificationCode(data.email);
       setStep("code");
-      toast.success("Successfully sent verification code");
+      toast.success(t("send-code-success", { ns: "message" }));
     } finally {
       setLoading(false);
     }

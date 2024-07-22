@@ -18,7 +18,7 @@ interface PasswordChangeProps {
 
 const PasswordChange = ({ email }: PasswordChangeProps) => {
   const dispatch = useAppDispatch<AppThunkDispatch>();
-  const { t } = useTranslation(["settings", "translation"]);
+  const { t } = useTranslation(["settings", "translation", "message"]);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
 
@@ -36,7 +36,7 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
     const response = await request.put(url, {
       password: handleRSAEncrypt(password),
     });
-    toast.success("change password successfully, we will sign out in 3s.");
+    toast.success(t("change-password-success", { ns: "message" }));
     setTimeout(() => {
       dispatch(logout());
     }, 3000);

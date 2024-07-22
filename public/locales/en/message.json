@@ -1,0 +1,18 @@
+{
+  "save title successfully": "save title successfully",
+  "delete successfully": "delete successfully",
+  "google-password-success": "convert to official account successfully, we will sign out in 3s.",
+  "change-password-success": "change password successfully, we will sign out in 3s.",
+  "trial-password-success": "convert to official successfully, we will sign out in 3s.",
+  "trial-success": "trial successfully",
+  "signin-success": "sign in successfully",
+  "signin-google-success": "sign in with google successfully",
+  "signup-success": "sign up successfully",
+  "verify-code-success": "verify code successfully",
+  "send-code-success": "send code successfully",
+  "update-language-success": "update default language successfully",
+  "update-theme-success": "update default theme successfully",
+  "update-expand-success": "update default expand successfully",
+  "update-time-success": "update show detail datetime successfully",
+  "update-sort-success": "update default sort ordering successfully"
+}

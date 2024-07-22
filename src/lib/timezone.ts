@@ -11,8 +11,7 @@ export const getDateTimeInCurrentTimeZone = (_date: string) => {
   return date_str;
 };
 
-export const formatDistanceFromNow = (_date: string, locale: string) => {
-  const date = new Date(_date);
+export const getLocaleObj = (locale: string) => {
   let localeObject;
   switch (locale) {
     case "zh-CN":
@@ -24,6 +23,12 @@ export const formatDistanceFromNow = (_date: string, locale: string) => {
     default:
       localeObject = enUS;
   }
+  return localeObject;
+};
+
+export const formatDistanceFromNow = (_date: string, locale: string) => {
+  const date = new Date(_date);
+  const localeObject = getLocaleObj(locale);
   let str = formatDistanceToNowStrict(date, {
     locale: localeObject,
   });

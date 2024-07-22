@@ -17,7 +17,7 @@ interface GoogleToBaseProps {
 }
 
 const GoogleToBase = ({ email }: GoogleToBaseProps) => {
-  const { t } = useTranslation(["settings", "translation"]);
+  const { t } = useTranslation(["settings", "translation", "message"]);
   const dispatch = useAppDispatch<AppThunkDispatch>();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("code");
@@ -36,7 +36,7 @@ const GoogleToBase = ({ email }: GoogleToBaseProps) => {
     const response = await request.post(url, {
       password: handleRSAEncrypt(password),
     });
-    toast.success("change password successfully, we will sign out in 3s.");
+    toast.success(t("google-password-success", { ns: "message" }));
     setTimeout(() => {
       dispatch(logout());
     }, 3000);
