@@ -9,7 +9,6 @@ export class RSAEncrypt extends JSEncrypt {
 }
 
 export const handleRSAEncrypt = (text: string) => {
-  console.log(text);
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(import.meta.env.VITE_PUBLIC_KEY);
   return encrypt.encrypt(encodeURI(text));
