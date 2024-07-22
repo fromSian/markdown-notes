@@ -1,4 +1,5 @@
 import Fail from "@/components/icons/fail";
+import SuccessIcon from "@/components/icons/success";
 import {
   Form,
   FormControl,
@@ -40,6 +41,7 @@ const Password = ({ handlePasswordSubmit }: PasswordProps) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +57,7 @@ const Password = ({ handlePasswordSubmit }: PasswordProps) => {
       try {
         setLoading(false);
         setFail(false);
-
+        setSuccess(true);
         handlePasswordSubmit(data.password);
       } catch (error) {
         setFail(true);
@@ -119,7 +121,13 @@ const Password = ({ handlePasswordSubmit }: PasswordProps) => {
               className="p-2 rounded-full border"
               disabled={loading}
             >
-              {loading ? <Loader className="animate-spin" /> : <ArrowRight />}
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : success ? (
+                <SuccessIcon />
+              ) : (
+                <ArrowRight />
+              )}
             </button>
             {fail && <Fail className="w-5 h-5 text-sm" />}
           </div>

@@ -11,6 +11,11 @@ request.interceptors.request.use(
       ...config.params,
       action_time: handleRSAEncrypt(new Date().getTime() + ""),
     };
+    config.headers["Accept-Language"] =
+      localStorage.getItem("i18nextLng") === "zh-TW"
+        ? "zh-hant"
+        : localStorage.getItem("i18nextLng");
+
     if (sessionStorage.getItem("token")) {
       config.headers.Authorization = `Bearer ${sessionStorage.getItem(
         "token"

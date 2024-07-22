@@ -1,5 +1,6 @@
 import Code from "@/components/welcome/sign/components/code";
 import Password from "@/components/welcome/sign/components/password";
+import { handleRSAEncrypt } from "@/lib/encryption";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { logout } from "@/states/account.slice";
@@ -33,7 +34,7 @@ const GoogleToBase = ({ email }: GoogleToBaseProps) => {
   const handlePasswordSubmit = async (password: string) => {
     const url = "/account/google-base/";
     const response = await request.post(url, {
-      password: password,
+      password: handleRSAEncrypt(password),
     });
     toast.success("change password successfully, we will sign out in 3s.");
     setTimeout(() => {

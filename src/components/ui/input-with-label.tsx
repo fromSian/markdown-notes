@@ -38,6 +38,7 @@ const InputWithLabel = forwardRef(
           {placeholder}
         </p>
         <Input
+          autoComplete="on"
           className={cn(
             "outline-none focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 text-base focus-visible:border-primary",
             className

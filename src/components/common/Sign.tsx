@@ -3,7 +3,6 @@ import { useAppDispatch } from "@/states/hooks";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
 import Select from "../ui/select";
 
 const SignContent = () => {
@@ -49,7 +48,6 @@ const SignContent = () => {
       type: "note/setConfig",
       payload: noteConfig,
     });
-    toast.success("trial successfully");
     navigate("/");
   };
 

@@ -29,7 +29,7 @@ i18n
     ],
     defaultNS: "translation",
     fallbackLng: "en",
-    debug: true,
+    debug: false,
     detection: {
       caches: ["localStorage"],
     },

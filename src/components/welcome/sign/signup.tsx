@@ -1,3 +1,4 @@
+import { handleRSAEncrypt } from "@/lib/encryption";
 import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
 import request from "@/request/request";
@@ -38,7 +39,7 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
       ...rest
     } = await fetchLogin({
       email,
-      password,
+      password: handleRSAEncrypt(password) || "",
     });
     dispatch({
       type: "account/setAccount",
@@ -80,7 +81,7 @@ const SignUp = ({ open, goSomeWhereElse }: SignUpProps) => {
       const url = "/account/register/";
       const response = await request.post(url, {
         email,
-        password: _password,
+        password: handleRSAEncrypt(_password),
       });
       setPassword(_password);
       setStep("success");

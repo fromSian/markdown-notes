@@ -1,6 +1,7 @@
 import Code from "@/components/welcome/sign/components/code";
 import Email from "@/components/welcome/sign/components/email";
 import Password from "@/components/welcome/sign/components/password";
+import { handleRSAEncrypt } from "@/lib/encryption";
 import { cn } from "@/lib/utils";
 import request from "@/request/request";
 import { useCallback, useState } from "react";
@@ -26,7 +27,7 @@ const TrailToBase = () => {
       const url = "/account/trial-base/";
       const response = await request.post(url, {
         email,
-        password: _password,
+        password: handleRSAEncrypt(_password),
       });
       toast.success("trial user to base success");
     },

@@ -10,6 +10,7 @@ import {
 import InputShowHide from "@/components/ui/input-show-hide";
 import InputWithLabel from "@/components/ui/input-with-label";
 import { z } from "@/i18";
+import { handleRSAEncrypt } from "@/lib/encryption";
 import { cn } from "@/lib/utils";
 import { fetchLogin } from "@/request/account";
 import { useAppDispatch } from "@/states/hooks";
@@ -54,6 +55,11 @@ const SignIn = ({ open }: SignInProps) => {
     try {
       setFail(false);
       setLoading(true);
+
+      const _data = {
+        ...data,
+        password: handleRSAEncrypt(data.password) || "",
+      };
       const {
         defaultExpanded,
         showExactTime,
@@ -61,7 +67,7 @@ const SignIn = ({ open }: SignInProps) => {
         language,
         theme,
         ...rest
-      } = await fetchLogin(data);
+      } = await fetchLogin(_data);
       dispatch({
         type: "account/setAccount",
         payload: rest,
@@ -83,7 +89,7 @@ const SignIn = ({ open }: SignInProps) => {
         type: "note/setConfig",
         payload: noteConfig,
       });
-      toast.success("login success");
+      toast.success("loggin successfully");
       navigate("/");
     } catch (error) {
       setFail(true);

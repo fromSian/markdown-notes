@@ -37,7 +37,11 @@ const Avatar = () => {
                 backgroundColor: "#D07D07",
               }}
             >
-              {account.type === "trial" ? "T" : account.email[0]}
+              {account.type === "trial"
+                ? "T"
+                : account.email?.length
+                ? account.email[0]
+                : "N"}
             </div>
           )
         }

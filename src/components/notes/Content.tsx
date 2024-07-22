@@ -3,7 +3,6 @@ import { downloadFile } from "@/request/notes";
 import { useAppSelector } from "@/states/hooks";
 import { SortInfo } from "@/types/notes.ts";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { ItemRef } from "./components/content/item/index.tsx";
 import List from "./components/content/list.tsx";
 import Operator from "./components/content/operator/index.tsx";
@@ -45,7 +44,6 @@ const Content = memo(({}: MainContentProps) => {
 
   const handleExport = useCallback(async () => {
     await downloadFile(activeId);
-    toast.success("export successfully");
   }, [activeId]);
 
   return (

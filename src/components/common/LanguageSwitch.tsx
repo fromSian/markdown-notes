@@ -6,9 +6,7 @@ import Select from "../ui/select";
 
 const LanguageSwitch = memo(({ language }: { language: string }) => {
   const { t, i18n } = useTranslation();
-  const [currentLng, setCurrentLng] = useState(
-    localStorage.getItem("i18nextLng") || languages[0]
-  );
+  const [currentLng, setCurrentLng] = useState(languages[0]);
   const [open, setOpen] = useState(false);
 
   const changeLanguage = (item: string) => {
@@ -22,6 +20,13 @@ const LanguageSwitch = memo(({ language }: { language: string }) => {
       setCurrentLng(language);
     }
   }, [language]);
+
+  useEffect(() => {
+    const cache = localStorage.getItem("i18nextLng");
+    if (cache && languages.includes(cache)) {
+      setCurrentLng(cache);
+    }
+  }, []);
 
   return (
     !language && (

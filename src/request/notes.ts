@@ -42,7 +42,10 @@ export const queryNoteInfo = async (id: string | number) => {
 
 export const addNote = async () => {
   const url = "/note/navigation/";
-  const response: NoteNavigationType = await request.post(url);
+  const response: NoteNavigationType = await request.post(url, {
+    title: "",
+    summary: "",
+  });
 
   return response;
 };

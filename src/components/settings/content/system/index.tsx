@@ -11,8 +11,8 @@ import TitleKit from "../title-kit";
 const languageOptions = [
   { label: "-", value: "" },
   { label: "en", value: "en" },
-  { label: "zh-tw", value: "zh-tw" },
-  { label: "zh-cn", value: "zh-cn" },
+  { label: "zh-TW", value: "zh-TW" },
+  { label: "zh-CN", value: "zh-CN" },
 ];
 
 const System = () => {
