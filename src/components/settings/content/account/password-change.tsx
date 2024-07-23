@@ -39,6 +39,12 @@ const PasswordChange = ({ email }: PasswordChangeProps) => {
     toast.success(t("change-password-success", { ns: "message" }));
     setTimeout(() => {
       dispatch(logout());
+      dispatch({
+        type: "note/setActive",
+        payload: {
+          info: undefined,
+        },
+      });
     }, 3000);
   };
   return (

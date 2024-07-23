@@ -15,7 +15,7 @@ const GoogleSuccess = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(60);
 
   const timeRef = useRef<ReturnType<typeof setInterval>>();
 

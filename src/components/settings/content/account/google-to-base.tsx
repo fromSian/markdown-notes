@@ -39,6 +39,12 @@ const GoogleToBase = ({ email }: GoogleToBaseProps) => {
     toast.success(t("google-password-success", { ns: "message" }));
     setTimeout(() => {
       dispatch(logout());
+      dispatch({
+        type: "note/setActive",
+        payload: {
+          info: undefined,
+        },
+      });
     }, 3000);
   };
   return (

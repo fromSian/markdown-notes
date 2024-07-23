@@ -44,7 +44,7 @@ const Code = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const mount = () => {
-    setTime(5);
+    setTime(60);
     countDown();
     inputRef.current?.focus();
     setValue("");

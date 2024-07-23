@@ -59,7 +59,7 @@ export const noteSlice = createSlice({
     setActive(
       state,
       action: PayloadAction<{
-        info: NoteNavigationType;
+        info: NoteNavigationType | undefined;
       }>
     ) {
       const { info } = action.payload;

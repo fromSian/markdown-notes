@@ -14,6 +14,12 @@ const Avatar = () => {
   const handleLogout = async () => {
     try {
       const res = await dispatch(logout()).unwrap();
+      dispatch({
+        type: "note/setActive",
+        payload: {
+          info: undefined,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
