@@ -4,7 +4,7 @@ import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 
 interface SelectValueProps {
   value: string;
-  setValue: (v: string) => void | Dispatch<SetStateAction<string>>;
+  setValue: ((v: string) => Promise<void>) | Dispatch<SetStateAction<string>>;
   items: Array<{ value: string; label: ReactNode }>;
   className?: string;
 }
