@@ -84,10 +84,7 @@ const Wrap = ({
 };
 
 const lazyLoad = (path: string, needAuth: boolean = true) => {
-  if (path.startsWith("@/")) {
-    path = path.replace("@/", "");
-  }
-  const Module = lazy(async () => import(/* @vite-ignore */ `/src/${path}`));
+  const Module = lazy(async () => import(`./pages/${path}.tsx`));
   return (
     <Suspense
       fallback={
@@ -105,27 +102,27 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: lazyLoad("@/pages/notes"),
-    errorElement: lazyLoad("@/pages/not-found", false),
+    errorElement: lazyLoad("not-found", false),
   },
   {
     path: "/welcome",
-    element: lazyLoad("@/pages/welcome", false),
+    element: lazyLoad("welcome", false),
   },
   {
     path: "/introduce",
-    element: lazyLoad("@/pages/introduce", false),
+    element: lazyLoad("introduce", false),
   },
   {
     path: "/google/fail",
-    element: lazyLoad("@/pages/google/fail", false),
+    element: lazyLoad("google/fail", false),
   },
   {
     path: "/google/success",
-    element: lazyLoad("@/pages/google/success", false),
+    element: lazyLoad("google/success", false),
   },
   {
     path: "/settings",
-    element: lazyLoad("@/pages/settings"),
+    element: lazyLoad("settings"),
   },
 ]);
 
